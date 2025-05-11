@@ -69,7 +69,7 @@ export const alchemyResources = {
     name: "Cardinality",
     symbol: "α",
     isBaseResource: false,
-    effect: amount => Decimal.div(0.2, amount.div(20000).add(1)).add(1),
+    effect: amount => Decimal.div(2, amount.div(20000).add(1)).add(1),
     tier: 2,
     uiOrder: 3,
     unlockedAt: 8,

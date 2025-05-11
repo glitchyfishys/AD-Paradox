@@ -2,6 +2,7 @@
 import HeaderCenterContainer from "./prestige-header/HeaderCenterContainer";
 import HeaderEternityContainer from "./prestige-header/HeaderEternityContainer";
 import HeaderInfinityContainer from "./prestige-header/HeaderInfinityContainer";
+import HeaderParadoxContainer from "./prestige-header/HeaderParadoxContainer";
 
 export default {
   name: "HeaderPrestigeGroup",
@@ -9,6 +10,7 @@ export default {
     HeaderCenterContainer,
     HeaderEternityContainer,
     HeaderInfinityContainer,
+    HeaderParadoxContainer
   },
 };
 </script>
@@ -18,6 +20,7 @@ export default {
     <HeaderEternityContainer class="l-game-header__eternity" />
     <HeaderCenterContainer class="l-game-header__center" />
     <HeaderInfinityContainer class="l-game-header__infinity" />
+    <HeaderParadoxContainer class="l-game-header__paradox" />
   </div>
 </template>
 
@@ -46,5 +49,12 @@ export default {
   position: absolute;
   right: calc(25% - 22rem);
   width: 22rem;
+}
+
+.l-game-header__paradox {
+  position: absolute;
+  right: calc(25% - 22rem);
+  width: 22rem;
+  top: 9rem;
 }
 </style>

@@ -167,7 +167,7 @@ export const Achievements = {
   _power: new Lazy(() => {
     const unlockedRows = Achievements.allRows
       .countWhere(row => row.every(ach => ach.isUnlocked));
-    const basePower = Decimal.pow(1.25, unlockedRows).mul(Decimal.pow(1.03, Achievements.effectiveCount));
+    const basePower = Decimal.pow(ParadoxUpgrade.Ach_1.isEffectActive ? 3 : 1, unlockedRows).mul(Decimal.pow(ParadoxUpgrade.Ach_1.effectOrDefault(1), Achievements.effectiveCount));
     const exponent = getAdjustedGlyphEffect("effarigachievement").mul(Ra.unlocks.achievementPower.effectOrDefault(1));
     return basePower.pow(exponent);
   }),
@@ -177,11 +177,6 @@ export const Achievements = {
     return Achievements._power.value;
   },
 
-  updateSteamStatus() {
-    for (const achievement of Achievements.all.filter(x => x.isUnlocked)) {
-      SteamRuntime.activateAchievement(achievement.id);
-    }
-  }
 };
 
 EventHub.logic.on(GAME_EVENT.PERK_BOUGHT, () => {

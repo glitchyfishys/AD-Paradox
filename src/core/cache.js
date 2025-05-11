@@ -109,6 +109,9 @@ export const GameCache = {
 
   infinityDimensionCommonMultiplier: new Lazy(() => infinityDimensionCommonMultiplier()),
 
+  prismDimensionCommonMultiplier: new Lazy(() => prismDimensionCommonMultiplier()),
+
+
   timeDimensionCommonMultiplier: new Lazy(() => timeDimensionCommonMultiplier()),
 
   glyphInventorySpace: new Lazy(() => Glyphs.freeInventorySpace),

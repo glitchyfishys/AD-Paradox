@@ -90,3 +90,12 @@ export * from "./tab-notifications";
 export * from "./speedrun";
 
 export * from "./automator/script-templates";
+
+// mod
+
+export * from "./dimensions/prism-dimension";
+
+export * from "./paradox";
+export * from "./paradox-upgrades";
+export * from "./achievements/paradox-achievement";
+

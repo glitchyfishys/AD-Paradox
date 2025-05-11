@@ -20,13 +20,14 @@ export class DimBoost {
     }
 
     let boost = new Decimal(Effects.max(
-      2,
-      InfinityUpgrade.dimboostMult,
-      InfinityChallenge(7).reward,
+      1,
+      ParadoxUpgrade.Dimboost_1,
       InfinityChallenge(7),
       TimeStudy(81)
     ))
       .timesEffectsOf(
+        InfinityUpgrade.dimboostMult,
+        InfinityChallenge(7).reward,
         TimeStudy(83),
         TimeStudy(231),
         Achievement(117),
@@ -99,8 +100,9 @@ export class DimBoost {
   static bulkRequirement(bulk) {
     const targetResets = DimBoost.purchasedBoosts.add(bulk);
     const tier = Decimal.min(targetResets.add(3), this.maxDimensionsUnlockable).toNumber();
-    let amount = DC.D20;
+    let amount = DC.D10;
     const discount = Effects.sum(
+      ParadoxUpgrade.DBandAGScaleLess_1,
       TimeStudy(211),
       TimeStudy(222)
     );
@@ -167,10 +169,10 @@ export class DimBoost {
   }
 
   static get startingDimensionBoosts() {
-    if (InfinityUpgrade.skipResetGalaxy.isBought) return DC.D4;
-    if (InfinityUpgrade.skipReset3.isBought) return DC.D3;
-    if (InfinityUpgrade.skipReset2.isBought) return DC.D2;
-    if (InfinityUpgrade.skipReset1.isBought) return DC.D1;
+    if (InfinityUpgrade.skipReset4.isBought) return DC.D10;
+    if (InfinityUpgrade.skipReset3.isBought) return DC.D10;
+    if (InfinityUpgrade.skipReset2.isBought) return DC.D7;
+    if (InfinityUpgrade.skipReset1.isBought) return DC.D5;
     return DC.D0;
   }
 }
@@ -204,12 +206,12 @@ export function softReset(tempBulk, forcedADReset = false, forcedAMReset = false
 
 export function skipResetsIfPossible(enteringAntimatterChallenge) {
   if (enteringAntimatterChallenge || Player.isInAntimatterChallenge) return;
-  if (InfinityUpgrade.skipResetGalaxy.isBought && player.dimensionBoosts.lt(4)) {
-    player.dimensionBoosts = DC.D4;
-    if (player.galaxies.lt(1)) player.galaxies = DC.D1;
-  } else if (InfinityUpgrade.skipReset3.isBought && player.dimensionBoosts.lt(3)) player.dimensionBoosts = DC.D3;
-  else if (InfinityUpgrade.skipReset2.isBought && player.dimensionBoosts.lt(2)) player.dimensionBoosts = DC.D2;
-  else if (InfinityUpgrade.skipReset1.isBought && player.dimensionBoosts.lt(1)) player.dimensionBoosts = DC.D1;
+  if (InfinityUpgrade.skipReset4.isBought && player.galaxies.lt(5)) player.galaxies = DC.D5;
+  else if (InfinityUpgrade.skipReset3.isBought && player.galaxies.lt(3)) player.galaxies = DC.D3;
+  else if (InfinityUpgrade.skipReset2.isBought && player.galaxies.lt(1)) player.galaxies = DC.D1;
+  if (InfinityUpgrade.skipReset3.isBought && player.dimensionBoosts.lt(10)) player.dimensionBoosts = DC.D10;
+  else if (InfinityUpgrade.skipReset2.isBought && player.dimensionBoosts.lt(7)) player.dimensionBoosts = DC.D7;
+  else if (InfinityUpgrade.skipReset1.isBought && player.dimensionBoosts.lt(5)) player.dimensionBoosts = DC.D5;
 }
 
 export function manualRequestDimensionBoost(bulk) {
@@ -248,6 +250,7 @@ function maxBuyDimBoosts() {
   const tier = DimBoost.maxDimensionsUnlockable;
   let amount = DC.D20;
   const discount = Effects.sum(
+    ParadoxUpgrade.DBandAGScaleLess_1,
     TimeStudy(211),
     TimeStudy(222)
   );

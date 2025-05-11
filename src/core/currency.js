@@ -480,3 +480,13 @@ Currency.galaxyGeneratorGalaxies = new class extends DecimalCurrency {
       player.celestials.pelle.galaxyGenerator.spentGalaxies.add(spent);
   }
 }();
+
+Currency.paradoxPower = new class extends DecimalCurrency {
+  get value() { return player.paradox.paradoxPower; }
+  set value(value) { player.paradox.paradoxPower = value; }
+}();
+
+Currency.prismEnergy = new class extends DecimalCurrency {
+  get value() { return player.paradox.prismEnergy; }
+  set value(value) { player.paradox.prismEnergy = value; }
+}();

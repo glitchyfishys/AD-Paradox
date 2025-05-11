@@ -1,3 +1,5 @@
+import { off } from "codemirror";
+
 export class DimensionState {
   constructor(getData, tier) {
     this._tier = tier;
@@ -37,7 +39,7 @@ export class DimensionState {
   }
 
   produceCurrency(currency, diff) {
-    currency.add(this.productionForDiff(diff));
+    currency.add(this.productionPerSecond.times(diff.div(1000)));
   }
 
   produceDimensions(dimension, diff) {

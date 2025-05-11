@@ -33,7 +33,7 @@ export class AntimatterDimensionAutobuyerState extends UpgradeableAutobuyerState
   }
 
   get antimatterCost() {
-    return DC.E10.pow(this.tier - 1).times(DC.E40);
+    return DC.E5.pow(this.tier - 1).times(DC.E20);
   }
 
   get canBeBought() {

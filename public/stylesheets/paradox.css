@@ -1,0 +1,104 @@
+:root {
+  --color-paradox: #ff00ff;
+  --color-pergatory: #b69838;
+  --color-pandemonium: #37228a;
+
+  --color-prism--bg: #6c006c;
+  --color-prism: #930093;
+}
+
+.o-tab-btn--paradox {
+  color: var(--color-paradox);
+  background-color: var(--color-prestige--accent);
+  border-color: var(--color-paradox);
+}
+
+.o-tab-btn--paradox:hover {
+  background: var(--color-paradox);
+}
+
+.o-paradox-upgrade-btn {
+  width: 19rem;
+  height: 9rem;
+  font-family: Typewriter, serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: blue;
+  border: 0.1rem solid black;
+  border-radius: var(--var-border-radius, 0.4rem);
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+.o-paradox-upgrade-btn:hover {
+  color: var(--color-text-inverted);
+}
+
+.o-paradox-upgrade-btn--bought{
+  background-color: var(--color-paradox);
+}
+
+.o-paradox-upgrade-btn--available {
+  background-color: #65265e;
+}
+
+.o-paradox-upgrade-btn--available:hover {
+  background-color: #812f77;
+}
+
+.o-paradox-upgrade-btn--unavailable {
+  color: white;
+  background: #525252;
+  border: 0.1rem solid var(--color-accent);
+  cursor: default;
+}
+
+.o-paradox-upgrade-btn--unavailable:hover {
+  color: var(--color-text-inverted);
+  background: #525252;
+}
+
+.o-paradox-button {
+  font-weight: bold;
+  color: var(--color-paradox);
+  background-color: var(--color-prestige--accent);
+  border-color: var(--color-paradox);
+  height: 2rem;
+}
+
+.o-paradox-button:hover {
+  color: black;
+  background-color: var(--color-paradox);
+}
+
+.o-paradox-button span {
+  transition-duration: 0.2s;
+}
+
+.o-paradox-button:hover span {
+  color: black;
+}
+
+.t-metro .o-paradox-button {
+  box-shadow: 0.1rem 0.1rem 0.1rem 0 #9e9e9e;
+}
+
+.o-paradox-button--unavailable {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.o-achievement--paradox {
+  background-image: url("../images/paradox achievements.png");
+}
+
+.l-dimension-row-prism-dim:nth-child(even) {
+  background-color: var(--color-prism--bg);
+}
+
+.c-prism-dim-description__accent {
+  font-size: 3.5rem;
+  color: var(--color-prism);
+}
+

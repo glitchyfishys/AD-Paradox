@@ -13,6 +13,9 @@ export function antimatterDimensionCommonMultiplier() {
     multiplier = multiplier.times(Currency.infinityPower.value.pow(InfinityDimensions.powerConversionRate).max(1));
   }
   multiplier = multiplier.timesEffectsOf(
+    ParadoxUpgrade.BaseAD_1,
+    ParadoxUpgrade.BaseAD_2,
+    PrismUpgrade.PPBoostAD_1,
     BreakInfinityUpgrade.totalAMMult,
     BreakInfinityUpgrade.currentAMMult,
     BreakInfinityUpgrade.achievementMult,
@@ -83,6 +86,12 @@ export function getDimensionFinalMultiplierUncached(tier) {
     multiplier = multiplier.pow(1.05);
   }
 
+  if(multiplier.gt(1e50)) multiplier = multiplier.div(multiplier.div(1e50).pow(0.15));
+
+  multiplier = multiplier.pow(0.2) // paradox power
+
+  multiplier = multiplier.mul(Currency.prismEnergy.value.pow(PrismDimensions.conversionRate).max(1));
+
   return multiplier;
 }
 
@@ -118,8 +127,8 @@ function applyNDMultipliers(mult, tier) {
         TimeStudy(234)
       );
   }
-  if (tier === 8) {
-    multiplier = multiplier.times(Sacrifice.totalBoost);
+  if (ParadoxUpgrade.DimSacAllADs_1.isEffectActive || tier === 8) {
+    multiplier = multiplier.mul(Sacrifice.totalBoost);
   }
 
   multiplier = multiplier.timesEffectsOf(
@@ -160,7 +169,8 @@ function applyNDPowers(mult, tier) {
       InfinityUpgrade.thisInfinityTimeMult.chargedEffect,
       AlchemyResource.power,
       Achievement(183),
-      PelleRifts.paradox
+      PelleRifts.paradox,
+      ParadoxUpgrade.BaseAD_3
     );
 
   multiplier = multiplier.pow(getAdjustedGlyphEffect("curseddimensions"));
@@ -204,7 +214,7 @@ export function buyOneDimension(tier) {
 
   if (tier === 8 && Enslaved.isRunning && AntimatterDimension(8).bought.gte(1)) return false;
 
-  dimension.currencyAmount = dimension.currencyAmount.minus(cost).max(0);
+  if(!ParadoxAchievement(18).isUnlocked) dimension.currencyAmount = dimension.currencyAmount.minus(cost).max(0);
 
   if (dimension.boughtBefore10.eq(9)) {
     dimension.challengeCostBump();
@@ -229,7 +239,7 @@ export function buyManyDimension(tier) {
 
   if (tier === 8 && Enslaved.isRunning) return buyOneDimension(8);
 
-  dimension.currencyAmount = dimension.currencyAmount.minus(cost).max(0);
+  if(!ParadoxAchievement(18).isUnlocked) dimension.currencyAmount = dimension.currencyAmount.minus(cost).max(0);
   dimension.challengeCostBump();
   dimension.amount = dimension.amount.plus(dimension.remainingUntil10);
   dimension.bought = dimension.bought.add(dimension.remainingUntil10);
@@ -247,7 +257,7 @@ export function buyAsManyAsYouCanBuy(tier) {
 
   if (tier === 8 && Enslaved.isRunning) return buyOneDimension(8);
 
-  dimension.currencyAmount = dimension.currencyAmount.minus(cost).max(0);
+  if(!ParadoxAchievement(18).isUnlocked) dimension.currencyAmount = dimension.currencyAmount.minus(cost).max(0);
   dimension.challengeCostBump();
   dimension.amount = dimension.amount.plus(howMany);
   dimension.bought = dimension.bought.add(howMany);
@@ -296,7 +306,7 @@ export function buyMaxDimension(tier, bulk = Infinity) {
 
   // Buy any remaining until 10 before attempting to bulk-buy
   if (dimension.currencyAmount.gte(cost)) {
-    dimension.currencyAmount = dimension.currencyAmount.minus(cost).max(0);
+    if(!ParadoxAchievement(18).isUnlocked)dimension.currencyAmount = dimension.currencyAmount.minus(cost).max(0);
     buyUntilTen(tier);
     bulkLeft = bulkLeft.sub(1);
   }
@@ -308,7 +318,7 @@ export function buyMaxDimension(tier, bulk = Infinity) {
     while (dimension.isAffordableUntil10 && dimension.cost.lt(goal) && bulkLeft.gt(0)) {
       // We can use dimension.currencyAmount or Currency.antimatter here, they're the same,
       // but it seems safest to use dimension.currencyAmount for consistency.
-      dimension.currencyAmount = dimension.currencyAmount.minus(dimension.costUntil10).max(0);
+      if(!ParadoxAchievement(18).isUnlocked) dimension.currencyAmount = dimension.currencyAmount.minus(dimension.costUntil10).max(0);
       buyUntilTen(tier);
       bulkLeft = bulkLeft.sub(1);
     }
@@ -324,9 +334,9 @@ export function buyMaxDimension(tier, bulk = Infinity) {
   }
   let buying = maxBought.quantity;
   if (buying.gt(bulkLeft)) buying = new Decimal(bulkLeft);
-  dimension.amount = dimension.amount.plus(buying.times(10));
-  dimension.bought = dimension.bought.add(buying.times(10));
-  dimension.currencyAmount = dimension.currencyAmount.minus(Decimal.pow10(maxBought.logPrice)).max(0);
+  dimension.amount = dimension.amount.plus(buying);
+  dimension.bought = dimension.bought.add(buying);
+  if(!ParadoxAchievement(18).isUnlocked) dimension.currencyAmount = dimension.currencyAmount.minus(Decimal.pow10(maxBought.logPrice)).max(0);
 }
 
 class AntimatterDimensionState extends DimensionState {
@@ -349,8 +359,8 @@ class AntimatterDimensionState extends DimensionState {
    */
   get costScale() {
     return new ExponentialCostScaling({
-      baseCost: NormalChallenge(6).isRunning ? this._c6BaseCost : this._baseCost,
-      baseIncrease: NormalChallenge(6).isRunning ? this._c6BaseCostMultiplier : this._baseCostMultiplier,
+      baseCost: (NormalChallenge(6).isRunning ? this._c6BaseCost : this._baseCost).div(ParadoxUpgrade.ADCheaper_1.effectOrDefault(1)),
+      baseIncrease: (NormalChallenge(6).isRunning ? this._c6BaseCostMultiplier : this._baseCostMultiplier).mul(ParadoxUpgrade.ADScaleLess_1.effectOrDefault(1)),
       costScale: new Decimal(Player.dimensionMultDecrease),
       scalingCostThreshold: DC.NUMMAX
     });
@@ -526,7 +536,7 @@ class AntimatterDimensionState extends DimensionState {
   }
 
   get isAvailableForPurchase() {
-    if (!EternityMilestone.unlockAllND.isReached && DimBoost.totalBoosts.add(4).lt(this.tier)) return false;
+    if (!EternityMilestone.unlockAllND.isReached && (!ParadoxUpgrade.AllADsAreUnlocked_1.isEffectActive && DimBoost.totalBoosts.add(4).lt(this.tier))) return false;
     const hasPrevTier = this.tier === 1 || AntimatterDimension(this.tier - 1).totalAmount.gt(0);
     if (!EternityMilestone.unlockAllND.isReached && !hasPrevTier) return false;
     return this.tier < 7 || !NormalChallenge(10).isRunning;
@@ -553,7 +563,7 @@ class AntimatterDimensionState extends DimensionState {
         dimension.costBumps = dimension.costBumps.add(1);
       }
     }
-    if (Tickspeed.cost.e === this.cost.e) chall9TickspeedCostBumps = chall9TickspeedCostBumps.add(1);
+    if (Tickspeed.cost.e === this.cost.e) player.chall9TickspeedCostBumps = player.chall9TickspeedCostBumps.add(1);
   }
 
   multiplyIC5Costs() {
@@ -576,7 +586,7 @@ class AntimatterDimensionState extends DimensionState {
       InfinityChallenge.isRunning ||
       Enslaved.isRunning;
     if (postBI && postBreak) return DC.BEMAX;
-    return postBreak ? DC.BIMAX : DC.E315;
+    return postBreak ? DC.BIMAX : DC.E330;
   }
 
   get productionPerSecond() {
@@ -600,7 +610,9 @@ class AntimatterDimensionState extends DimensionState {
         const log10 = production.max(1).log10();
         production = Decimal.pow10(Decimal.pow(log10, getAdjustedGlyphEffect("effarigantimatter")));
       }
+      if(production.gt(1e200)) production = production.div(production.div(1e200).pow(0.1));
     }
+
     production = production.min(this.cappedProductionInNormalChallenges);
     return production;
   }
@@ -635,12 +647,13 @@ export const AntimatterDimensions = {
   get buyTenMultiplier() {
     if (NormalChallenge(7).isRunning) return DC.D2.min(DimBoost.totalBoosts.div(5).add(1));
 
-    let mult = DC.D2.plusEffectsOf(
+    let mult = DC.D1.plusEffectsOf(
       Achievement(141).effects.buyTenMult,
       EternityChallenge(3).reward
     );
 
     mult = mult.timesEffectsOf(
+      ParadoxUpgrade.ADbuy10_1,
       InfinityUpgrade.buy10Mult,
       Achievement(58)
     ).times(getAdjustedGlyphEffect("powerbuy10"));

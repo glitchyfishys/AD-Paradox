@@ -132,15 +132,7 @@ export default {
         <span v-if="showIPRate"> IP</span>
         <span v-else> Infinity {{ pluralize("Point", gainedIP) }}</span>
       </b>
-      <template v-if="showIPRate">
-        <br>
-        Current: {{ format(currentIPRate, 2) }} IP/min
-        <br>
-        Peak: {{ format(peakIPRate, 2) }} IP/min
-        <br>
-        at {{ format(peakIPRateVal, 2) }} IP
-      </template>
-      <div v-else />
+      <div />
     </template>
   </button>
 

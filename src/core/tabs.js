@@ -206,11 +206,13 @@ export const Tabs = (function() {
       Tab.eternity,
       Tab.reality,
       Tab.celestials,
+      Tab.paradox,
     ],
     newUI: [
       Tab.dimensions,
       Tab.automation,
       Tab.challenges,
+      Tab.paradox,
       Tab.infinity,
       Tab.eternity,
       Tab.reality,

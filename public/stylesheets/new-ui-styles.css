@@ -180,6 +180,10 @@ body.t-s12 {
   border-left-color: var(--color-celestials);
 }
 
+.o-tab-btn--paradox::after {
+  border-left-color: var(--color-paradox);
+}
+
 .tab-button.shop {
   background-color: #d9bb26;
 }

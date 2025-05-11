@@ -140,11 +140,11 @@ export class Galaxy {
   }
 
   static get costMult() {
-    return new Decimal(Effects.min(NormalChallenge(10).isRunning ? 90 : 60, TimeStudy(42)));
+    return new Decimal(Effects.min(NormalChallenge(10).isRunning ? 25 : 20, TimeStudy(42))).sub(ParadoxUpgrade.DBandAGScaleLess_1.isEffectActive ? 10 : 0);
   }
 
   static get baseCost() {
-    return NormalChallenge(10).isRunning ? DC.D99 : DC.D80;
+    return NormalChallenge(10).isRunning ? DC.D69 : DC.D40;
   }
 
   static get requiredTier() {
@@ -174,8 +174,8 @@ export class Galaxy {
       TimeStudy(223),
       TimeStudy(224),
       TimeStudy(302),
-      EternityChallenge(5).reward
-    ).add(GlyphInfo.power.sacrificeInfo.effect());
+      EternityChallenge(5).reward,
+    ).add(GlyphInfo.power.sacrificeInfo.effect()).add(InfinityChallenge(7).isCompleted ? 10 : 0);
   }
 
   static get type() {
@@ -191,6 +191,14 @@ export class Galaxy {
     }
     return GALAXY_TYPE.NORMAL;
   }
+
+  static get startingGalaxies() {
+    if (InfinityUpgrade.skipReset4.isBought) return DC.D5;
+    if (InfinityUpgrade.skipReset3.isBought) return DC.D3;
+    if (InfinityUpgrade.skipReset2.isBought) return DC.D1;
+    return DC.D0;
+  }
+
 }
 
 export function galaxyReset() {

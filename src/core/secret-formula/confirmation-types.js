@@ -1,5 +1,9 @@
 export const confirmationTypes = [
   {
+    name: "Paradox",
+    option: "paradox",
+    isUnlocked: () => true,
+  }, {
     name: "Dimension Boost",
     option: "dimensionBoost",
     isUnlocked: () => PlayerProgress.infinityUnlocked() || player.galaxies.gt(0) || player.dimensionBoosts.gt(0),

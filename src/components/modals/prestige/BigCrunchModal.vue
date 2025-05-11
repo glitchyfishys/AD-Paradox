@@ -1,5 +1,5 @@
 <script>
-import ResetModal from "@/components/modals/prestige/ResetModal";
+import ResetModal from "./ResetModal";
 
 export default {
   name: "BigCrunchModal",
@@ -35,7 +35,7 @@ export default {
       const gainedResources = [];
       if (this.startingAM.gte(10)) gainedResources.push(`${quantify("Antimatter", this.startingAM, 2, 1)}`);
       if (this.startingBoosts.gte(0)) gainedResources.push(`${quantify("Dimension Boost", this.startingBoosts)}`);
-      if (this.willStartWithGalaxy) gainedResources.push(`${quantify("Galaxy", 1)}`);
+      if (this.startinghGalaxies.gte(0)) gainedResources.push(`${quantify("Galaxy", this.startinghGalaxies)}`);
 
       return `You will start your next Infinity with ${makeEnumeration(gainedResources)}.`;
     }
@@ -46,7 +46,7 @@ export default {
       this.gainedInfinityPoints = gainedInfinityPoints().round();
       this.startingBoosts = DimBoost.startingDimensionBoosts;
       this.startingAM = Currency.antimatter.startingValue;
-      this.willStartWithGalaxy = InfinityUpgrade.skipResetGalaxy.isBought;
+      this.startinghGalaxies = Galaxy.startingGalaxies;
     },
     handleYesClick() {
       bigCrunchResetRequest();

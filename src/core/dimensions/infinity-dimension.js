@@ -5,11 +5,11 @@ import { DimensionState } from "./dimension";
 export function infinityDimensionCommonMultiplier() {
   let mult = new Decimal(1)
     .timesEffectsOf(
+      PrismUpgrade.PEBoostID,
       Achievement(75),
       TimeStudy(82),
       TimeStudy(92),
       TimeStudy(162),
-      InfinityChallenge(1).reward,
       InfinityChallenge(6).reward,
       EternityChallenge(4).reward,
       EternityChallenge(9).reward,
@@ -40,27 +40,30 @@ class InfinityDimensionState extends DimensionState {
     super(() => player.dimensions.infinity, tier);
     const UNLOCK_REQUIREMENTS = [
       undefined,
-      DC.E1100,
-      DC.E1900,
-      DC.E2400,
-      DC.E10500,
-      DC.E30000,
-      DC.E45000,
-      DC.E54000,
-      DC.E60000,
+      DC.E2100,
+      DC.E3400,
+      DC.E4200,
+      DC.E5500,
+      DC.E6500,
+      DC.E8700,
+      DC.E22000,
+      DC.E36000,
     ];
     this._unlockRequirement = UNLOCK_REQUIREMENTS[tier];
-    const COST_MULTS = [null, 1e3, 1e6, 1e8, 1e10, 1e15, 1e20, 1e25, 1e30];
+    const COST_MULTS = [null, 1e3, 1e6, 1e8, 1e10, 1e15, 1e20, 1e24, 1e27];
     this._costMultiplier = COST_MULTS[tier];
-    const POWER_MULTS = [null, 50, 30, 10, 5, 5, 5, 5, 5];
+    const POWER_MULTS = [null, 50, 30, 10, 5, 5, 5, 10, 250];
     this._powerMultiplier = POWER_MULTS[tier];
-    const BASE_COSTS = [null, 1e8, 1e9, 1e10, 1e20, 1e140, 1e200, 1e250, 1e280];
+    const BASE_COSTS = [null, 1e8, 1e9, 1e10, 1e20, 1e33, 1e40, 1e100, 1e160];
     this._baseCost = new Decimal(BASE_COSTS[tier]);
     this.ipRequirement = BASE_COSTS[1];
   }
 
   /** @returns {Decimal} */
-  get cost() { return this.data.cost; }
+  get cost() {
+    return Decimal.mul(this._baseCost, this.costMultiplier.pow(this.purchases));
+  }
+
   /** @param {Decimal} value */
   set cost(value) { this.data.cost = value; }
 
@@ -162,6 +165,7 @@ class InfinityDimensionState extends DimensionState {
     mult = mult.powEffectOf(AlchemyResource.infinity);
     mult = mult.pow(Ra.momentumValue);
     mult = mult.powEffectOf(PelleRifts.paradox);
+    mult = mult.pow(InfinityChallenge(1).reward.effectOrDefault(1));
 
     if (player.dilation.active || PelleStrikes.dilation.hasStrike) {
       mult = dilatedValueOf(mult);
@@ -176,6 +180,8 @@ class InfinityDimensionState extends DimensionState {
     if (PelleStrikes.powerGalaxies.hasStrike) {
       mult = mult.pow(0.5);
     }
+
+    mult = mult.pow(0.2);
 
     return mult;
   }

@@ -31,6 +31,10 @@ window.player = {
       cost: [DC.E8, DC.E9, DC.E10, DC.E20, DC.E140, DC.E200, DC.E250, DC.E280][tier],
       baseAmount: DC.D0
     })),
+    prism: Array.range(0, 8).map(tier => ({
+      bought: DC.D0,
+      amount: DC.D0,
+    })),
     time: Array.range(0, 8).map(tier => ({
       cost: [DC.D1, DC.D5, DC.E2, DC.E3, DC.E2350, DC.E2650, DC.E3000, DC.E3350][tier],
       amount: DC.D0,
@@ -134,6 +138,13 @@ window.player = {
         isActive: true,
         lastTick: 0,
         isBought: false
+      })),
+      isActive: true,
+    },
+    prismDims: {
+      all: Array.range(0, 8).map(() => ({
+        isActive: false,
+        lastTick: 0,
       })),
       isActive: true,
     },
@@ -878,7 +889,8 @@ window.player = {
       antimatterGalaxy: true,
       dimensionBoost: true,
       switchAutomatorMode: true,
-      respecIAP: true
+      respecIAP: true,
+      paradox: true,
     },
     awayProgress: {
       antimatter: true,
@@ -928,6 +940,14 @@ window.player = {
       id: false,
     }
   },
+  paradox: {
+    upgrades: new Set(),
+    charged: new Set(),
+    prismUpgrades: new Set(),
+    paradoxPower: DC.D0,
+    prismEnergy: DC.D0,
+    achievementBits: Array.repeat(0, 17),
+  }
 };
 
 export const Player = {
@@ -953,6 +973,14 @@ export const Player = {
     return this.antimatterChallenge || EternityChallenge.current;
   },
 
+  get canParadox() {
+    return AntimatterDimension(1).totalAmount.gte(1e9);
+  },
+
+  get canEternity() {
+    return player.records.thisEternity.maxIP.gte(Player.eternityGoal);
+  },
+  
   get canCrunch() {
     if (Enslaved.isRunning && Enslaved.BROKEN_CHALLENGES.includes(NormalChallenge.current?.id)) return false;
     const challenge = NormalChallenge.current || InfinityChallenge.current;

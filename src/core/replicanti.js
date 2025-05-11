@@ -7,8 +7,8 @@ export const ReplicantiGrowth = {
     return Math.log10(Number.MAX_VALUE);
   },
   get scaleFactor() {
-    if (PelleStrikes.eternity.hasStrike && Replicanti.amount.gte(DC.E2000)) return 10;
-    if (Pelle.isDoomed) return 2;
+    if (PelleStrikes.eternity.hasStrike && Replicanti.amount.gte(DC.E2000)) return 1000;
+    if (Pelle.isDoomed) return 25;
     return AlchemyResource.cardinality.effectValue;
   }
 };
@@ -19,6 +19,7 @@ function addReplicantiGalaxies(newGalaxies) {
   if (newGalaxies.gte(0)) {
     player.replicanti.galaxies = player.replicanti.galaxies.add(newGalaxies);
     player.requirementChecks.eternity.noRG = false;
+    ParadoxAchievement(27).tryUnlock();
     const keepResources = Pelle.isDoomed
       ? PelleUpgrade.replicantiGalaxyEM40.canBeApplied
       : EternityMilestone.replicantiNoReset.isReached;
@@ -158,7 +159,7 @@ export function totalReplicantiSpeedMult(overCap) {
   }
   totalMult = totalMult.timesEffectsOf(AlchemyResource.replication, Ra.unlocks.continuousTTBoost.effects.replicanti);
 
-  return totalMult.clampMin(1);
+  return totalMult.pow(0.8).mul(5).clampMin(1);
 }
 
 export function replicantiCap() {
@@ -263,7 +264,7 @@ export function replicantiLoop(diff) {
 }
 
 export function replicantiMult() {
-  return Decimal.pow(Decimal.log2(Replicanti.amount.clampMin(1)), 2)
+  return Decimal.pow(Decimal.log2(Replicanti.amount.clampMin(1)), 5)
     .plusEffectOf(TimeStudy(21))
     .timesEffectOf(TimeStudy(102))
     .clampMin(1)

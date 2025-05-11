@@ -15,6 +15,16 @@ export const tabs = [
         hidable: true,
       },
       {
+        key: "prism",
+        name: "Prism Dimensions",
+        hideAt: 2.8,
+        symbol: "⨒",
+        component: "PrismDimensionsTab",
+        condition: () => player.break || PlayerProgress.eternityUnlocked(),
+        id: 1,
+        hidable: true,
+      },
+      {
         key: "infinity",
         name: "Infinity Dimensions",
         hideAt: 2.7,
@@ -24,7 +34,7 @@ export const tabs = [
           PlayerProgress.realityUnlocked() ||
           PlayerProgress.eternityUnlocked() ||
           InfinityDimension(1).isUnlocked,
-        id: 1,
+        id: 2,
         hidable: true,
       },
       {
@@ -34,7 +44,7 @@ export const tabs = [
         symbol: "Δ",
         component: "TimeDimensionsTab",
         condition: () => PlayerProgress.eternityUnlocked(),
-        id: 2,
+        id: 3,
         hidable: true,
       },
     ]
@@ -497,5 +507,40 @@ export const tabs = [
         hidable: true
       }
     ]
-  }
+  },
+  {
+    key: "paradox",
+    name: "Paradox",
+    UIClass: "o-tab-btn--paradox",
+    hideAt: 2.2,
+    id: 11,
+    hidable: true,
+    subtabs: [
+      {
+        key: "paradoxUpgrades",
+        name: "Paradox Upgrades",
+        symbol: "⨕",
+        component: "ParadoxUpgradesTab",
+        id: 0,
+        hidable: true,
+      },
+      {
+        key: "prismUpgrades",
+        name: "Prism Upgrades",
+        symbol: "⨓",
+        condition: () => player.break,
+        component: "PrismUpgradesTab",
+        id: 1,
+        hidable: true,
+      },
+      {
+        key: "achievements",
+        name: "Paradox Achievements",
+        symbol: "<i class='fas fa-trophy'></i>",
+        component: "ParadoxAchievementTab",
+        id: 2,
+        hidable: true,
+      },
+    ]
+  },
 ];

@@ -168,11 +168,18 @@ export function secondSoftReset(enteringAntimatterChallenge) {
   player.records.thisInfinity.realTime = DC.D0;
   Player.resetRequirements("infinity");
   AchievementTimers.marathon2.reset();
+  
+  if (!PrismUpgrade.KeepRow2_1.isEffectActive) {
+    player.paradox.upgrades.clear();
+    if (ParadoxAchievement(23).isEffectActive) player.paradox.upgrades = new Set(["ADbuy10_1", "BaseAD_1", "Dimboost_1", "Tickspeed_1", "Ach_1"]);
+  }
+  
+  if(!PrismUpgrade.KeepPP_1.isEffectActive) Currency.paradoxPower.reset();
 }
 
 export function preProductionGenerateIP(diff) {
   if (InfinityUpgrade.ipGen.isBought) {
-    const genPeriod = Time.bestInfinity.totalMilliseconds.clampMin(1e-100).times(10);
+    const genPeriod = Time.bestInfinity.totalMilliseconds.clampMin(1e-100);
     let genCount;
     if (diff.gte(1e100)) {
       genCount = Decimal.div(diff, genPeriod);

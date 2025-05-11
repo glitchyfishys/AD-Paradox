@@ -1,4 +1,4 @@
-import TWEEN from "tween.js";
+import TWEEN from "@tweenjs/tween.js";
 
 import { ElectronRuntime, SteamRuntime } from "@/steam";
 
@@ -20,7 +20,7 @@ export function playerInfinityUpgradesOnReset() {
       "skipReset1", "skipReset2", "unspentBonus",
       "27Mult", "18Mult", "36Mult", "resetMult",
       "skipReset3", "passiveGen", "45Mult",
-      "resetBoost", "galaxyBoost", "skipResetGalaxy",
+      "resetBoost", "galaxyBoost", "skipReset4",
       "ipOffline"]
   );
 
@@ -29,7 +29,7 @@ export function playerInfinityUpgradesOnReset() {
       "skipReset1", "skipReset2", "unspentBonus",
       "27Mult", "18Mult", "36Mult", "resetMult",
       "skipReset3", "passiveGen", "45Mult",
-      "resetBoost", "galaxyBoost", "skipResetGalaxy",
+      "resetBoost", "galaxyBoost", "skipReset4",
       "totalMult", "currentMult", "postGalaxy",
       "challengeMult", "achievementMult", "infinitiedMult",
       "infinitiedGeneration", "autoBuyerUpgrade", "autobuyMaxDimboosts",
@@ -102,6 +102,11 @@ export function gainedInfinityPoints() {
     ip = ip.min(DC.E200);
   }
   ip = ip.times(GameCache.totalIPMult.value);
+
+  ip = ip.timesEffectsOf(
+    PrismUpgrade.PPBoostIP_1,
+  )
+
   if (Teresa.isRunning) {
     ip = ip.pow(0.55);
   } else if (V.isRunning) {
@@ -113,7 +118,7 @@ export function gainedInfinityPoints() {
     ip = ip.pow(getSecondaryGlyphEffect("infinityIP"));
   }
 
-  return ip.floor();
+  return ip.pow(0.25).floor();
 }
 
 function totalEPMult() {
@@ -147,12 +152,12 @@ export function gainedEternityPoints() {
     ep = ep.pow(getSecondaryGlyphEffect("timeEP"));
   }
 
-  return ep.floor();
+  return ep.pow(0.25).floor();
 }
 
 export function requiredIPForEP(epAmount) {
-  return Decimal.pow10((Decimal.log10(Decimal.divide(epAmount, totalEPMult()), 5).times(308).plus(0.7)))
-    .clampMin(Number.MAX_VALUE);
+  return Decimal.pow10((Decimal.log(Decimal.divide(epAmount, totalEPMult()), 5).times(1000).plus(0.7)))
+    .clampMin('ee3');
 }
 
 export function gainedGlyphLevel() {
@@ -573,11 +578,11 @@ export function gameLoop(passedDiff, options = {}) {
 
   TimeDimensions.tick(diff);
   InfinityDimensions.tick(diff);
+  PrismDimensions.tick(diff);
   AntimatterDimensions.tick(diff);
 
-  const gain = Decimal.clampMin(FreeTickspeed.fromShards(Currency.timeShards.value).newAmount
-    .sub(player.totalTickGained), 0);
-  player.totalTickGained = player.totalTickGained.add(gain);
+  const gain = Decimal.clampMin(FreeTickspeed.fromShards(Currency.timeShards.value).newAmount, 0);
+  player.totalTickGained = Decimal.add(gain, ParadoxUpgrade.TickspeedFree_1.effectOrDefault(0));
 
   updatePrestigeRates();
   tryCompleteInfinityChallenges();

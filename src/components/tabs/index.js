@@ -42,6 +42,12 @@ import TimeDimensionsTab from "./time-dimensions/TimeDimensionsTab";
 import TimeStudiesTab from "./time-studies/TimeStudiesTab";
 import VTab from "./celestial-v/VTab";
 
+import ParadoxUpgradesTab from "./paradox-upgrades/ParadoxUpgradesTab.vue";
+import PrismUpgradesTab from "./prism-upgrades/PrismUpgradesTab.vue";
+import ParadoxAchievementTab from "./paradox-achievements/ParadoxAchievementTab.vue";
+import PrismDimensionsTab from "./prism-dimensions/PrismDimensionsTab.vue";
+
+
 const TabComponents = {
   AntimatterDimensionsTab,
   InfinityDimensionsTab,
@@ -84,7 +90,11 @@ const TabComponents = {
   AlchemyTab,
   CelestialNavigationTab,
   ShopTab,
-  MultiplierBreakdownTab
+  MultiplierBreakdownTab,
+  ParadoxUpgradesTab,
+  ParadoxAchievementTab,
+  PrismUpgradesTab,
+  PrismDimensionsTab,
 };
 
 export default TabComponents;

@@ -1,5 +1,5 @@
 <script>
-import ResetModal from "@/components/modals/prestige/ResetModal";
+import ResetModal from "./ResetModal";
 
 export default {
   name: "EternityModal",

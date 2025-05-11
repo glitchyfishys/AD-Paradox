@@ -22,7 +22,7 @@ import { GameKeyboard } from "./keyboard";
 // for the other modifier keys (#3093).
 
 // Free keys:
-// i, j, k, l, n, o, p, q, v, w, x
+// i, j, k, n, o, q, v, w, x
 
 
 export const shortcuts = [
@@ -51,6 +51,12 @@ export const shortcuts = [
     function: () => maxAll(),
     visible: true
   }, {
+    name: "Paradox",
+    keys: ["p"],
+    type: "bindRepeatableHotkey",
+    function: () => manualParadoxResetRequest(),
+    visible: true
+  },{
     name: "Dimensional Sacrifice",
     keys: ["s"],
     type: "bindRepeatableHotkey",

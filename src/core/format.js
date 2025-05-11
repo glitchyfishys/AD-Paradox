@@ -8,11 +8,32 @@ function isEND() {
   return player.celestials.pelle.doomed && Math.random() < threshold;
 }
 
+function invertOOM(x){
+  let e = x.log10().floor();
+  let m = x.div(Decimal.pow(10, e));
+  e = e.neg();
+  x = new Decimal(10).pow(e).times(m);
+
+  return x
+}
+
+window.formatSmall = function formatSmall(value, places = 2, placesUnder1000 = 3) {
+  if (isEND()) return "END";
+  // eslint-disable-next-line no-param-reassign 
+  if (!isDecimal(value)) value = new Decimal(value);
+  if(value.gte(1)) return format(value, places, placesUnder1000);
+
+  if(value.gte(0.01)) return format(value, 3, 3);
+  value = invertOOM(value);
+  const val = Notation.scientific.format(value, places, placesUnder1000);
+  return val.replace(/([^(?:e|F| )]*)$/, '-$1');
+};
+
 window.format = function format(value, places = 0, placesUnder1000 = 0) {
   if (isEND()) return "END";
   // eslint-disable-next-line no-param-reassign
   if (!isDecimal(value)) value = new Decimal(value);
-  if (value.lt("e9e15")) return Notations.current.format(value, places, placesUnder1000, 3);
+  if (value.lt("ee100")) return Notations.current.format(value, places, placesUnder1000, 3);
   return LNotations.current.formatLDecimal(value, places);
 };
 
@@ -89,6 +110,7 @@ window.formatPercents = function formatPercents(value, places) {
 window.formatRarity = function formatRarity(value) {
   // We can, annoyingly, have rounding error here, so even though only rarities
   // are passed in, we can't trust our input to always be some integer divided by 10.
+  if(!isDecimal(value)) value = new Decimal(value);
   const places = value.mod(1).eq(0) ? 0 : 1;
   return `${format(value, 2, places)}%`;
 };
@@ -192,6 +214,8 @@ const PLURAL_HELPER = new Map([
 const pluralDatabase = new Map([
   ["Antimatter", "Antimatter"],
   ["Dilated Time", "Dilated Time"],
+  ["Paradox Power", "Paradox Power"],
+  ["Prism Energy", "Prism Energy"],
 ]);
 
 /**
@@ -271,4 +295,13 @@ window.makeEnumeration = function makeEnumeration(items) {
   const commaSeparated = items.slice(0, items.length - 1).join(", ");
   const last = items[items.length - 1];
   return `${commaSeparated}, and ${last}`;
+};
+
+window.makeEnumerationOR = function makeEnumeration(items) {
+  if (items.length === 0) return "";
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} or ${items[1]}`;
+  const commaSeparated = items.slice(0, items.length - 1).join(", ");
+  const last = items[items.length - 1];
+  return `${commaSeparated}, or ${last}`;
 };

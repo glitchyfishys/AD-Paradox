@@ -49,7 +49,7 @@ export default {
           InfinityUpgrade.skipReset1,
           InfinityUpgrade.skipReset2,
           InfinityUpgrade.skipReset3,
-          InfinityUpgrade.skipResetGalaxy
+          InfinityUpgrade.skipReset4
         ]
       ];
     },

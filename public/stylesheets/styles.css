@@ -1987,15 +1987,14 @@ br {
 .c-prestige-button-container {
   display: flex;
   flex-direction: column;
-  height: 14rem;
-  justify-content: space-around;
+  height: 10rem;
   align-items: center;
   padding: 1rem;
 }
 
 .o-prestige-button {
   width: 22rem;
-  height: 7rem;
+  height: 5rem;
   font-family: Typewriter, serif;
   font-size: 1.1rem;
   border: var(--var-border-width, 0.2rem) solid;

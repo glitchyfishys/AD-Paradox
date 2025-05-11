@@ -44,8 +44,8 @@ export const breakInfinityUpgrades = {
   galaxyBoost: {
     id: "postGalaxy",
     cost: new Decimal(5e11),
-    description: () => `All Galaxies are ${formatPercents(0.5)} stronger`,
-    effect: 1.5
+    description: () => `All Galaxies are ${formatPercents(0.25)} stronger`,
+    effect: 1.25
   },
   infinitiedMult: {
     id: "infinitiedMult",
