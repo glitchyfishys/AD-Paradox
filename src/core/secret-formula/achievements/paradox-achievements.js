@@ -78,7 +78,7 @@ export const paradoxAchievements = [
     id: 23,
     name: "That was challenging",
     get description() { return "Complete a Normal challenge."; },
-    checkRequirement: () => NormalChallenges.all.some(c => c.isCompleted),
+    checkRequirement: () => {let x = 0; NormalChallenges.all.forEach(c => c.isCompleted ? x++ : false); return x > 1},
     checkEvent: GAME_EVENT.BIG_CRUNCH_AFTER,
     reward: "Keep the first row of paradox upgrades on Infinity"
   },

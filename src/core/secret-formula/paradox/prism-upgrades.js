@@ -53,7 +53,6 @@ export const prismUpgrades = {
     cost: 5e8,
     description: () => `Triple the rebuyable IP muliplier`,
     effect: () => 3,
-    formatEffect: value => formatX(value, 2, 2),
   },
   PPBoostGal: {
     id: "PPBoostGal",

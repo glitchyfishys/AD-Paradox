@@ -87,7 +87,7 @@ export default {
       v-if="!isBought"
       br
       :config="config"
-      name="Paradox Power"
+      name="Prism Energyr"
     />
     <slot />
   </button>

@@ -264,7 +264,7 @@ export function replicantiLoop(diff) {
 }
 
 export function replicantiMult() {
-  return Decimal.pow(Decimal.log2(Replicanti.amount.clampMin(1)), 5)
+  return Decimal.pow(Decimal.log2(Replicanti.amount.clampMin(1)), player.replicanti.galaxies.add(5))
     .plusEffectOf(TimeStudy(21))
     .timesEffectOf(TimeStudy(102))
     .clampMin(1)
@@ -394,7 +394,7 @@ export const ReplicantiUpgrade = {
     get costIncrease() { return 1e10; }
 
     get cap() {
-      return Effects.min(50, TimeStudy(22));
+      return Effects.min(10, TimeStudy(22));
     }
 
     get isCapped() {

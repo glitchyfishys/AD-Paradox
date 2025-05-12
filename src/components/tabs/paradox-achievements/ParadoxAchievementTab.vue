@@ -16,7 +16,7 @@ export default {
   <div class="l-achievements-tab">
     <div class="c-achievements-tab__header">
       <span>
-        Paradox Achievements are special and give a bonus.
+        There is a {{ formatPow(0.2,1,1) }} Nerf to most things
       </span>
     </div>
     <div class="l-achievement-grid">
