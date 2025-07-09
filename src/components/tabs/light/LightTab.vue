@@ -1,5 +1,5 @@
 <script>
-import LightSlot from "./lightSlot";
+import LightSlot from "./LightSlot";
 
 export default {
   name: "LightTab",
