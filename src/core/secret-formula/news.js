@@ -2594,6 +2594,16 @@ export const news = [
       fast. Update, just 5 hours.`
   },
   {
+    id: "a391",
+    text:'You can click here play my other mod AD:Vis',
+    onClick() { window.open("https://glitchyfishys.github.io/AD-V/"); SecretAchievement(33).unlock(); }
+  },
+  {
+    id: "a392",
+    text:'You can click here play my other mod AD:Vis (when clicked you get Rickroll)',
+    onClick() { window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ");  }
+  },
+  {
     id: "l1",
     text: "You just made your 1,000,000,000,000,000th antimatter. This one tastes like chicken.",
     get unlocked() { return Currency.antimatter.value.max(1).log10().eq(15); }
@@ -7315,5 +7325,10 @@ export const news = [
   {
     id: "ai997",
     get text() { return `The intergalactic antimatter trade has been severely disrupted, trading entire galaxies for the occasional paperclip. Cargo stands are no longer used. Oddly enough, the entire dimension has become a dumping ground for discarded plastic and other useless garbage. It's almost as if the rest of the multiverse isn't producing enough good  antiparticles to feed the growing population. Unfortunately, the situation is forcing the entire multiverse to scramble to find ways to meet the growing needs of the antimatter-eating  dev, who claims to have over ${format(Number.MAX_VALUE, 2)} specimens left to collect.`; }
+  },
+  {
+    id: "px1",
+    get text() {return `Nothing happend`},
+    get unlocked() { return PlayerProgress.eternityUnlocked(); }
   }
 ];

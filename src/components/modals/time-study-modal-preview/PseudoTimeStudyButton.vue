@@ -52,6 +52,7 @@ export default {
         case TIME_STUDY_TYPE.NORMAL:
           switch (this.setup.path) {
             case TIME_STUDY_PATH.ANTIMATTER_DIM: return "o-time-study-antimatter-dim";
+            case TIME_STUDY_PATH.PRISM_DIM: return "o-time-study-prism-dim";
             case TIME_STUDY_PATH.INFINITY_DIM: return "o-time-study-infinity-dim";
             case TIME_STUDY_PATH.TIME_DIM: return "o-time-study-time-dim";
             case TIME_STUDY_PATH.ACTIVE: return "o-time-study-active";

@@ -99,6 +99,10 @@ window.formatX = function formatX(value, places, placesUnder1000) {
   return `×${format(value, places, placesUnder1000)}`;
 };
 
+window.formatAdd = function formatAdd(value, places, placesUnder1000) {
+  return `+${format(value, places, placesUnder1000)}`;
+};
+
 window.formatPow = function formatPow(value, places, placesUnder1000) {
   return `^${format(value, places, placesUnder1000)}`;
 };
@@ -216,6 +220,9 @@ const pluralDatabase = new Map([
   ["Dilated Time", "Dilated Time"],
   ["Paradox Power", "Paradox Power"],
   ["Prism Energy", "Prism Energy"],
+  ["Absurdity Energy", "Absurdity Energy"],
+  ["Chromatic Energy", "Chromatic Energy"],
+  ["Nitronic Energy", "Nitronic Energy"],
 ]);
 
 /**

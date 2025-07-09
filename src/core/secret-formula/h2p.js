@@ -366,7 +366,7 @@ the 3rd Dimension ${formatX(2)}, and all other Dimensions are unaffected.
       name: "Antimatter Galaxies",
       info: () => `
 Purchasing an Antimatter Galaxy will reset your game back to the point where only ${formatInt(4)} Dimensions are
-available, but will increase the effect of your Tickspeed Upgrades by +${format(0.02, 0, 2)} for your first two
+available, but will increase the effect of your Tickspeed Upgrades by ${formatAdd(0.02, 0, 2)} for your first two
 Galaxies. As you get more Galaxies, the multiplier will continue becoming stronger and stronger.
 <br>
 <br>
@@ -1183,7 +1183,7 @@ the Black Hole tab.
 <b>Duration</b> - Base cost of ${formatInt(10)} RM and increase of ${formatX(4)} per upgrade.
 <br>
 <b>Increased cost scaling:</b> Above ${format(1e30)} RM, the cost multiplier between purchases increases by an additive
-+${format(0.2, 0, 1)} per upgrade. Above ${format(Number.MAX_VALUE, 1)} RM, a new scaling occurs which ignores all the
+${formatAdd(0.2, 0, 1)} per upgrade. Above ${format(Number.MAX_VALUE, 1)} RM, a new scaling occurs which ignores all the
 previous behavior. From this point, all upgrades instead behave as if they had an initial cost of ${format(DC.E310)}
 and further upgrade costs increase by ${format(1e6)}, ${format(1e7)}, and so on (${formatX(10)} between upgrades).
 <br>

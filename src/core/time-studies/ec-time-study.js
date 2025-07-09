@@ -37,7 +37,7 @@ export class ECTimeStudyState extends TimeStudyState {
       }
       player.challenge.eternity.requirementBits |= 1 << this.id;
       Currency.timeTheorems.subtract(this.cost);
-      TimeStudyTree.commitToGameState([TimeStudy.eternityChallenge(this.id)]);
+      TimeStudyTree.commitToGameState([TimeStudy.eternityChallenge(this.id)]); 
       return true;
     }
     return false;
@@ -46,10 +46,10 @@ export class ECTimeStudyState extends TimeStudyState {
   purchaseUntil() {
     const studiesToBuy = [
       undefined,
-      171, 171, 171,
+      171, 171, 171, 171,
       143, 42, 121,
       111, 123, 151,
-      181, 181, 181
+      181, 181, 181,
     ];
     // If the player shift clicks an EC study that is immediately buyable, we try to
     // buy it first - in case buying studies up to that point renders it unaffordable.
@@ -57,9 +57,9 @@ export class ECTimeStudyState extends TimeStudyState {
     TimeStudyTree.commitToGameState(buyStudiesUntil(studiesToBuy[this.id], this.id));
     // For EC 11 and 12, we can't choose between light and dark,
     // but we can buy the 191/193
-    if (this.id === 11) {
+    if (this.id === 12) {
       TimeStudy(191).purchase();
-    } else if (this.id === 12) {
+    } else if (this.id === 13) {
       TimeStudy(193).purchase();
     }
     this.purchase();
@@ -118,7 +118,7 @@ export class ECTimeStudyState extends TimeStudyState {
   }
 
   get wasRequirementPreviouslyMet() {
-    if (this.id === 11 || this.id === 12) return false;
+    if (this.id === 12 || this.id === 13) return false;
     return (player.challenge.eternity.requirementBits & (1 << this.id)) !== 0;
   }
 

@@ -119,7 +119,7 @@ export default {
         {{ costDisplay }}
       </PrimaryButton>
       <PrimaryToggleButton
-        v-if="isAutobuyerUnlocked && !isEC8Running"
+        v-if="isAutobuyerUnlocked"
         v-model="isAutobuyerOn"
         class="o-primary-btn--id-auto"
         label="Auto:"

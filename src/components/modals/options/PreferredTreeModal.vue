@@ -16,6 +16,7 @@ export default {
     dimensionOptions() {
       return {
         "Antimatter": TIME_STUDY_PATH.ANTIMATTER_DIM,
+        "Prism": TIME_STUDY_PATH.PRISM_DIM,
         "Infinity": TIME_STUDY_PATH.INFINITY_DIM,
         "Time": TIME_STUDY_PATH.TIME_DIM,
       };
@@ -41,7 +42,10 @@ export default {
     },
     select(name) {
       if (this.dimensionOptions[name]) {
-        if (!this.usePriority || this.dimensionPath.length > 1) this.dimensionPath.shift();
+        if (!this.usePriority || this.dimensionPath.length > 2) {
+          this.dimensionPath.shift();
+          this.dimensionPath.push(this.dimensionOptions[name]);
+        }
         if (!this.dimensionPath.includes(this.dimensionOptions[name]))
           this.dimensionPath.push(this.dimensionOptions[name]);
       }
@@ -55,6 +59,7 @@ export default {
       const pref = this.isPreferred(name);
       const types = {
         "Antimatter": "antimatter-dim",
+        "Prism": "prism-dim",
         "Infinity": "infinity-dim",
         "Time": "time-dim",
         "Active": "active",

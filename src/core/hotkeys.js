@@ -22,7 +22,7 @@ import { GameKeyboard } from "./keyboard";
 // for the other modifier keys (#3093).
 
 // Free keys:
-// i, j, k, n, o, q, v, w, x
+// i, j, k, n, q, v, w, x
 
 
 export const shortcuts = [
@@ -56,7 +56,7 @@ export const shortcuts = [
     type: "bindRepeatableHotkey",
     function: () => manualParadoxResetRequest(),
     visible: true
-  },{
+  }, {
     name: "Dimensional Sacrifice",
     keys: ["s"],
     type: "bindRepeatableHotkey",
@@ -116,6 +116,12 @@ export const shortcuts = [
       GameUI.notify.info(`Time Study respec is now ${player.respec ? "active" : "inactive"}`);
     },
     visible: () => PlayerProgress.eternityUnlocked()
+  },  {
+    name: "Absurdity",
+    keys: ["o"],
+    type: "bindRepeatableHotkey",
+    function: () => manualAbsurdityResetRequest(),
+    visible: true
   }, {
     name: "Enter/Exit Dilation",
     keys: ["l"],
@@ -374,6 +380,7 @@ GameKeyboard.bindHotkey("alt+g", () => toggleAutobuyer(Autobuyer.galaxy));
 GameKeyboard.bindHotkey("alt+r", () => toggleAutobuyer(Autobuyer.replicantiGalaxy));
 
 GameKeyboard.bindHotkey("alt+c", () => toggleAutobuyer(Autobuyer.bigCrunch));
+GameKeyboard.bindHotkey("alt+p", () => toggleAutobuyer(Autobuyer.paradox));
 GameKeyboard.bindHotkey("alt+e", () => toggleAutobuyer(Autobuyer.eternity));
 GameKeyboard.bindHotkey("alt+y", () => toggleAutobuyer(Autobuyer.reality));
 

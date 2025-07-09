@@ -159,8 +159,8 @@ export const infinityUpgrades = {
     cost: 5,
     checkRequirement: () => InfinityUpgrade.dimboostMult.isBought,
     description: () => `Passively generate Infinity Points equal to your fastest Infinity`,
-    // Cutting corners: this is not actual effect, but it is totalIPMult that is displyed on upgrade
-    effect: () => (Teresa.isRunning || V.isRunning || Pelle.isDoomed ? DC.D0 : GameCache.totalIPMult.value.pow(PrismUpgrade.TripleIPBoost.isBought ? (1/3) : 1)),
+    // Cutting corners: this is not actual effect, but it is totalIPMult that is displayed on upgrade
+    effect: () => (Teresa.isRunning || V.isRunning || Pelle.isDoomed ? DC.D0 : InfinityUpgrade.ipMult.effectOrDefault(1).pow( PrismUpgrade.TripleIPBoost.isEffectActive ? 0.33 : 1)),
     formatEffect: value => {
       if (Teresa.isRunning || V.isRunning) return "Disabled in this reality";
       if (Pelle.isDoomed) return "Disabled";

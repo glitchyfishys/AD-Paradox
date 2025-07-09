@@ -5,7 +5,7 @@ const rebuyable = props => {
   const { effect } = props;
   if (props.isDecimal) props.effect = () => Decimal.pow(effect, player.reality.imaginaryRebuyables[props.id]);
   else props.effect = () => player.reality.imaginaryRebuyables[props.id].times(effect);
-  if (!props.formatEffect) props.formatEffect = value => `+${format(value, 2, 2)}`;
+  if (!props.formatEffect) props.formatEffect = value => `${formatAdd(value, 2, 2)}`;
   props.formatCost = value => format(value, 2, 0);
   return props;
 };
@@ -16,7 +16,7 @@ export const imaginaryUpgrades = [
     id: 1,
     initialCost: 3,
     costMult: 60,
-    description: () => `Increase Temporal Amplifier multiplier by +${format(0.15, 2, 2)}`,
+    description: () => `Increase Temporal Amplifier multiplier by ${formatAdd(0.15, 2, 2)}`,
     effect: 0.15
   }),
   rebuyable({
@@ -24,7 +24,7 @@ export const imaginaryUpgrades = [
     id: 2,
     initialCost: 4,
     costMult: 60,
-    description: () => `Increase Replicative Amplifier multiplier by +${format(0.15, 2, 2)}`,
+    description: () => `Increase Replicative Amplifier multiplier by ${formatAdd(0.15, 2, 2)}`,
     effect: 0.15
   }),
   rebuyable({
@@ -32,7 +32,7 @@ export const imaginaryUpgrades = [
     id: 3,
     initialCost: 1,
     costMult: 40,
-    description: () => `Increase Eternal Amplifier multiplier by +${format(0.4, 2, 2)}`,
+    description: () => `Increase Eternal Amplifier multiplier by ${formatAdd(0.4, 2, 2)}`,
     effect: 0.4
   }),
   rebuyable({
@@ -40,7 +40,7 @@ export const imaginaryUpgrades = [
     id: 4,
     initialCost: 5,
     costMult: 80,
-    description: () => `Increase Superluminal Amplifier multiplier by +${format(0.15, 2, 2)}`,
+    description: () => `Increase Superluminal Amplifier multiplier by ${formatAdd(0.15, 2, 2)}`,
     effect: 0.15
   }),
   rebuyable({
@@ -48,7 +48,7 @@ export const imaginaryUpgrades = [
     id: 5,
     initialCost: 1,
     costMult: 30,
-    description: () => `Increase Boundless Amplifier multiplier by +${format(0.6, 2, 2)}`,
+    description: () => `Increase Boundless Amplifier multiplier by ${formatAdd(0.6, 2, 2)}`,
     effect: 0.6
   }),
   rebuyable({

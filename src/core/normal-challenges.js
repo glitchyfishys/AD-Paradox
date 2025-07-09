@@ -85,7 +85,7 @@ class NormalChallengeState extends GameMechanicState {
     bigCrunchReset(true, true);
     player.challenge.normal.current = this.id;
     player.challenge.infinity.current = 0;
-    if (Enslaved.isRunning && EternityChallenge(6).isRunning && this.id === 10) {
+    if (Enslaved.isRunning && EternityChallenge(7).isRunning && this.id === 10) {
       EnslavedProgress.challengeCombo.giveProgress();
       Enslaved.quotes.ec6C10.show();
     }

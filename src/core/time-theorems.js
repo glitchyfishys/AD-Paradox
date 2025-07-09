@@ -78,7 +78,7 @@ export class TimeTheoremPurchaseType {
   }
 
   get canAfford() {
-    return this.currency.gte(this.cost) && !player.eternities.eq(0);
+    return this.currency.gte(this.cost) && (!player.eternities.eq(0) || player.absurdity.absurdities.neq(0));
   }
 
   reset() {
@@ -120,7 +120,7 @@ TimeTheoremPurchaseType.ep = new class extends TimeTheoremPurchaseType {
 
 export const TimeTheorems = {
   checkForBuying(auto) {
-    if (PlayerProgress.realityUnlocked() || TimeDimension(1).bought.neq(0)) return true;
+    if (PlayerProgress.realityUnlocked() || TimeDimension(1).bought.neq(0) || player.absurdity.absurdities.gt(0)) return true;
     if (!auto) Modal.message.show(`You need to buy at least ${formatInt(1)} Time Dimension before you can purchase
       Time Theorems.`, { closeEvent: GAME_EVENT.REALITY_RESET_AFTER });
     return false;

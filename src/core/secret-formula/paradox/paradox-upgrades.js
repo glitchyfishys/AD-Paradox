@@ -145,7 +145,7 @@ export const paradoxUpgrades = {
     checkRequirement: () => ParadoxUpgrade.TickspeedCheaper_1.isBought,
     description: () => `Gain ${formatPercents(0.25)} more Tickspeed upgrades as free upgrades`,
     effect: () => player.totalTickBought.mul(0.25),
-    formatEffect: value => `+${format(value, 2, 2)}`,
+    formatEffect: value => `${formatAdd(value, 2, 2)}`,
     charged: {
       description: () => `Tickspeed gain a buy 10 multiplier based on Teresa level`,
       effect: () =>

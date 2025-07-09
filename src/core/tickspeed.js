@@ -12,11 +12,11 @@ export function effectiveBaseGalaxies() {
   // Effects.sum is intentional here - if EC8 is not completed,
   // this value should not be contributed to total replicanti galaxies
   replicantiGalaxies = replicantiGalaxies.add(nonActivePathReplicantiGalaxies
-    .times(Effects.sum(EternityChallenge(8).reward)));
+    .times(Effects.sum(EternityChallenge(9).reward)));
   let freeGalaxies = player.dilation.totalTachyonGalaxies;
   freeGalaxies = freeGalaxies.mul(DC.D1.add(Decimal.max(0, Replicanti.amount.max(1).log10().div(1e6))
     .times(AlchemyResource.alternation.effectValue)));
-  return Decimal.max(player.galaxies.add(GalaxyGenerator.galaxies).add(replicantiGalaxies.mul(20)).add(freeGalaxies), 0);
+  return Decimal.max(player.galaxies.add(GalaxyGenerator.galaxies).add(replicantiGalaxies.mul(20)).add(freeGalaxies.mul(30)), 0);
 }
 
 export function getTickSpeedMultiplier() {
@@ -35,8 +35,9 @@ export function getTickSpeedMultiplier() {
     Achievement(86),
     Achievement(178),
     InfinityChallenge(5).reward,
+    QuasmaUpgrade.galaxyStrength,
     PelleUpgrade.galaxyPower,
-    PelleRifts.decay.milestones[1]
+    PelleRifts.decay.milestones[1],
   );
   if (galaxies.lt(3)) {
     // Magic numbers are to retain balancing from before while displaying
@@ -136,7 +137,7 @@ export const Tickspeed = {
 
   get isAvailableForPurchase() {
     return this.isUnlocked &&
-      !EternityChallenge(9).isRunning &&
+      !EternityChallenge(10).isRunning &&
       !Laitela.continuumActive &&
       (player.break || this.cost.lt(DC.NUMMAX));
   },
@@ -150,9 +151,16 @@ export const Tickspeed = {
   },
 
   get current() {
-    const tickspeed = Effarig.isRunning ? Effarig.tickspeed :
+    let tickspeed = Effarig.isRunning ? Effarig.tickspeed :
       this.baseValue.powEffectOf(DilationUpgrade.tickspeedPower);
-    return player.dilation.active || PelleStrikes.dilation.hasStrike ? dilatedValueOf(tickspeed.recip()).recip() : tickspeed;
+      if (player.dilation.active || PelleStrikes.dilation.hasStrike) {
+        tickspeed = dilatedValueOf(tickspeed.recip()).recip();
+      }
+      if (player.absurdity.quasma.active) {
+        tickspeed = quasmaValueOf(tickspeed.recip()).recip();
+      }
+
+    return tickspeed;
   },
 
   get cost() {
@@ -188,11 +196,15 @@ export const Tickspeed = {
     return multiplier.recip().mul(1000);
   },
 
+  get bonusUpgrades() {
+    return player.totalTickBonus;
+  },
+
   get totalUpgrades() {
     let boughtTickspeed;
     if (Laitela.continuumActive) boughtTickspeed = new Decimal(this.continuumValue);
     else boughtTickspeed = new Decimal(player.totalTickBought);
-    return boughtTickspeed.plus(player.totalTickGained);
+    return boughtTickspeed.plus(player.totalTickGained).plus(this.bonusUpgrades);
   },
 
   get perSecond() {
@@ -211,7 +223,7 @@ export const FreeTickspeed = {
   BASE_SOFTCAP: new Decimal(1e4),
   GROWTH_RATE: new Decimal(1e-4).add(1),
   GROWTH_EXP: DC.D2,
-  tickmult: () => DC.D1.add(Effects.min(3.33, TimeStudy(171)).sub(1)).mul(
+  tickmult: () => DC.D1.add(Effects.min(3.33, TimeStudy(171)).sub(1)).div(QuasmaUpgrade.AEMulNE.isEffectActive ? 1.1 : 1).mul(
     Decimal.max(getAdjustedGlyphEffect("cursedtickspeed"), 1)),
 
   get amount() {

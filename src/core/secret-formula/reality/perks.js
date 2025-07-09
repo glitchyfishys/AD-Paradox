@@ -24,7 +24,7 @@ function vectorToNum(v) {
  * To make a new preset layout, define vectorToNum in the console, move all the nodes around in-game and then run
  *    Object.values(PerkNetwork.network.body.nodes).filter(n => n.edges.length !== 0).map(v => vectorToNum(v))
  * in the console to get all the current node positions. Then, append the resulting numbers to each layoutPosList
- * array below and make the appripriate entry in PerkLayouts.
+ * array below and make the appropriate entry in PerkLayouts.
  *
  * Note: This encoding/decoding only works properly for coordinates with values between -1000 and 1000, and will
  * be slightly off for vectors whose coordinates aren't divisible by 5
@@ -248,11 +248,18 @@ export const perks = {
     description: "Remove the Eternity Challenge 3 requirement from Time Study 181.",
     layoutPosList: [75475, 79001, 81400, 80203, 78997, 47822],
   },
-  bypassEC5Lock: {
+  bypassEC4Lock: {
     id: 57,
-    label: "EC5R",
+    label: "EC4R",
     family: PERK_FAMILY.ETERNITY,
-    description: "Remove the Eternity Challenge 5 requirement from Time Study 62.",
+    description: "Remove the Eternity Challenge 4 requirement from Time Study 181.",
+    layoutPosList: [62714, 78600, 81398, 80604, 78600, 40599]
+  },
+  bypassEC6Lock: {
+    id: 58,
+    label: "EC6R",
+    family: PERK_FAMILY.ETERNITY,
+    description: "Remove the Eternity Challenge 6 requirement from Time Study 62.",
     layoutPosList: [70626, 79800, 81000, 80201, 78591, 62607],
   },
   autocompleteEC1: {
@@ -317,7 +324,7 @@ export const perks = {
     description: "Remove non-Time Theorem requirements for unlocking Eternity Challenges.",
     automatorPoints: 10,
     shortDescription: () => "Remove EC secondary requirements",
-    layoutPosList: [62714, 78600, 81398, 80604, 78600, 40599],
+    layoutPosList: [62741, 78200, 81397, 81004, 78603, 41435],
   },
   studyECBulk: {
     id: 73,
@@ -328,7 +335,7 @@ export const perks = {
       you reach the goal for a higher completion of that challenge.`,
     automatorPoints: 15,
     shortDescription: () => "Bulk EC Completion",
-    layoutPosList: [62741, 78200, 81397, 81004, 78603, 41435],
+    layoutPosList: [64365, 77800, 81396, 81005, 78606, 40599],
   },
   retroactiveTP1: {
     id: 80,
@@ -526,7 +533,7 @@ export const perkConnections = (function() {
   const p = perks;
   // First item is the start, other items are the ends
   const groups = [
-    [p.firstPerk, p.achievementGroup1, p.startAM, p.autounlockEU1, p.bypassEC5Lock],
+    [p.firstPerk, p.achievementGroup1, p.startAM, p.autounlockEU1, p.bypassEC6Lock],
     [p.startAM, p.antimatterNoReset, p.startIP1],
     [p.antimatterNoReset, p.startEP1],
     [p.startIP1, p.startIP2, p.startEP1, p.autobuyerFasterID],
@@ -541,10 +548,11 @@ export const perkConnections = (function() {
     [p.autounlockDilation3, p.autobuyerFasterDilation, p.autounlockTD],
     [p.autounlockTD, p.autounlockReality],
     [p.bypassTGReset, p.autobuyerDilation, p.retroactiveTP1],
-    [p.bypassEC1Lock, p.bypassEC2Lock, p.bypassEC3Lock, p.studyECRequirement],
+    [p.bypassEC1Lock, p.bypassEC2Lock, p.bypassEC3Lock, p.bypassEC4Lock],
+    [p.bypassEC4Lock, p.studyECRequirement],
     [p.bypassEC2Lock, p.studyActiveEP, p.bypassEC1Lock],
     [p.bypassEC3Lock, p.studyIdleEP, p.bypassEC1Lock],
-    [p.bypassEC5Lock, p.studyActiveEP, p.studyIdleEP, p.studyPassive],
+    [p.bypassEC6Lock, p.studyActiveEP, p.studyIdleEP, p.studyPassive],
     [p.studyPassive, p.bypassEC1Lock],
     [p.autocompleteEC1, p.autocompleteEC2],
     [p.autocompleteEC2, p.autocompleteEC3],

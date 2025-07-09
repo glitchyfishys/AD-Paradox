@@ -87,7 +87,7 @@ export default {
       return this.infinityUnlocked || this.activeChallengeNames.length > 0;
     },
     isInFailableEC() {
-      return this.activeChallengeNames.some(str => str.match(/Eternity Challenge (4|12)/gu));
+      return this.activeChallengeNames.some(str => str.match(/Eternity Challenge (5|13)/gu));
     },
     challengeDisplay() {
       if (this.inPelle && this.activeChallengeNames.length > 0) {

@@ -7,12 +7,12 @@ export function infinityDimensionCommonMultiplier() {
     .timesEffectsOf(
       PrismUpgrade.PEBoostID,
       Achievement(75),
-      TimeStudy(82),
-      TimeStudy(92),
-      TimeStudy(162),
+      TimeStudy(83),
+      TimeStudy(93),
+      TimeStudy(163),
       InfinityChallenge(6).reward,
-      EternityChallenge(4).reward,
-      EternityChallenge(9).reward,
+      EternityChallenge(5).reward,
+      EternityChallenge(10).reward,
       EternityUpgrade.idMultEP,
       EternityUpgrade.idMultEternities,
       EternityUpgrade.idMultICRecords,
@@ -118,8 +118,8 @@ class InfinityDimensionState extends DimensionState {
     if (tier === 8) {
       // We need a extra 10x here (since ID8 production is per-second and
       // other ID production is per-10-seconds).
-      EternityChallenge(7).reward.applyEffect(v => toGain = v.times(10));
-      if (EternityChallenge(7).isRunning) EternityChallenge(7).applyEffect(v => toGain = v.times(10));
+      EternityChallenge(8).reward.applyEffect(v => toGain = v.times(10));
+      if (EternityChallenge(8).isRunning) EternityChallenge(8).applyEffect(v => toGain = v.times(10));
     } else {
       toGain = InfinityDimension(tier + 1).productionPerSecond;
     }
@@ -128,30 +128,32 @@ class InfinityDimensionState extends DimensionState {
   }
 
   get productionPerSecond() {
-    if (EternityChallenge(2).isRunning || EternityChallenge(10).isRunning ||
+    if (EternityChallenge(3).isRunning || EternityChallenge(11).isRunning ||
       (Laitela.isRunning && this.tier > Laitela.maxAllowedDimension)) {
       return DC.D0;
     }
     let production = this.amount;
-    if (EternityChallenge(11).isRunning) {
-      return production;
+    if (EternityChallenge(12).isRunning) {
+      return production.mul(this.multiplier);
     }
-    if (EternityChallenge(7).isRunning) {
+    if (EternityChallenge(8).isRunning) {
       production = production.times(Tickspeed.perSecond);
     }
+
     return production.times(this.multiplier);
   }
 
   get multiplier() {
     const tier = this.tier;
-    if (EternityChallenge(11).isRunning) return DC.D1;
+    if (EternityChallenge(12).isRunning) return DC.D1.mul(Currency.prismEnergy.value.pow(PrismDimensions.conversionRate).max(1));
     let mult = GameCache.infinityDimensionCommonMultiplier.value
       .timesEffectsOf(
         tier === 1 ? Achievement(94) : null,
-        tier === 4 ? TimeStudy(72) : null,
-        tier === 1 ? EternityChallenge(2).reward : null
+        tier === 4 ? TimeStudy(73) : null,
+        tier === 8 ? TimeStudy(234) : null,
+        QuasmaUpgrade.IDMul
       );
-    mult = mult.times(Decimal.pow(this.powerMultiplier, Decimal.floor(this.baseAmount.div(DC.E1))));
+    mult = mult.times(Decimal.pow(Decimal.mul(this.powerMultiplier, QuasmaUpgrade.buy10Dim.effectOrDefault(1)), Decimal.floor(this.baseAmount.div(DC.E1))));
 
 
     if (tier === 1) {
@@ -171,6 +173,9 @@ class InfinityDimensionState extends DimensionState {
       mult = dilatedValueOf(mult);
     }
 
+    if (player.absurdity.quasma.active) mult = quasmaValueOf(mult);
+
+
     if (Effarig.isRunning) {
       mult = Effarig.multiplier(mult);
     } else if (V.isRunning) {
@@ -181,15 +186,15 @@ class InfinityDimensionState extends DimensionState {
       mult = mult.pow(0.5);
     }
 
-    mult = mult.pow(0.2);
+    mult = mult.pow([0.2, AbsurdityUpgrade.IDNerf.isBought ? 0.01 : 0, QuasmaUpgrade.dimNerf.isBought ? 0.01 : 0].sum());
 
     return mult;
   }
 
   get isProducing() {
     const tier = this.tier;
-    if (EternityChallenge(2).isRunning ||
-      EternityChallenge(10).isRunning ||
+    if (EternityChallenge(3).isRunning ||
+      EternityChallenge(11).isRunning ||
       (Laitela.isRunning && tier > Laitela.maxAllowedDimension)) {
       return false;
     }
@@ -202,7 +207,7 @@ class InfinityDimensionState extends DimensionState {
 
   get costMultiplier() {
     let costMult = new Decimal(this._costMultiplier);
-    EternityChallenge(12).reward.applyEffect(v => costMult = Decimal.pow(costMult, v));
+    EternityChallenge(13).reward.applyEffect(v => costMult = Decimal.pow(costMult, v));
     return costMult;
   }
 
@@ -275,7 +280,7 @@ class InfinityDimensionState extends DimensionState {
     this.amount = this.amount.plus(10);
     this.baseAmount = this.baseAmount.add(10);
 
-    if (EternityChallenge(8).isRunning) {
+    if (EternityChallenge(9).isRunning) {
       player.eterc8ids -= 1;
     }
 
@@ -293,7 +298,7 @@ class InfinityDimensionState extends DimensionState {
     }
 
     let purchasesUntilHardcap = this.purchaseCap.sub(this.purchases);
-    if (EternityChallenge(8).isRunning) {
+    if (EternityChallenge(9).isRunning) {
       purchasesUntilHardcap = Decimal.clampMax(purchasesUntilHardcap, player.eterc8ids);
     }
 
@@ -313,7 +318,7 @@ class InfinityDimensionState extends DimensionState {
     this.amount = this.amount.plus(costScaling.purchases.times(10));
     this.baseAmount = DC.E1.times(costScaling.purchases).add(this.baseAmount);
 
-    if (EternityChallenge(8).isRunning) {
+    if (EternityChallenge(9).isRunning) {
       player.eterc8ids -= costScaling.purchases.toNumber();
     }
     return true;
@@ -367,13 +372,13 @@ export const InfinityDimensions = {
   },
 
   canBuy() {
-    return !EternityChallenge(2).isRunning &&
-      !EternityChallenge(10).isRunning &&
-      (!EternityChallenge(8).isRunning || player.eterc8ids > 0);
+    return !EternityChallenge(3).isRunning &&
+      !EternityChallenge(11).isRunning &&
+      (!EternityChallenge(9).isRunning || player.eterc8ids > 0);
   },
 
   canAutobuy() {
-    return this.canBuy() && !EternityChallenge(8).isRunning;
+    return this.canBuy() && !EternityChallenge(9).isRunning;
   },
 
   tick(diff) {
@@ -381,9 +386,9 @@ export const InfinityDimensions = {
       InfinityDimension(tier).produceDimensions(InfinityDimension(tier - 1), diff.div(10));
     }
 
-    if (EternityChallenge(7).isRunning) {
+    if (EternityChallenge(8).isRunning) {
       if (!NormalChallenge(10).isRunning) {
-        InfinityDimension(1).produceDimensions(AntimatterDimension(7), diff);
+        InfinityDimension(1).produceDimensions(PrismDimension(8), diff);
       }
     } else {
       InfinityDimension(1).produceCurrency(Currency.infinityPower, diff);
@@ -416,7 +421,7 @@ export const InfinityDimensions = {
   },
 
   get powerConversionRate() {
-    return getAdjustedGlyphEffect("infinityrate").add(7)
+    return getAdjustedGlyphEffect("infinityrate").add(7).add(QuasmaUpgrade.infinityConversion.effectOrDefault(0))
       .add(PelleUpgrade.infConversion.effectOrDefault(0)).mul(PelleRifts.paradox.milestones[2].effectOrDefault(1));
   }
 };

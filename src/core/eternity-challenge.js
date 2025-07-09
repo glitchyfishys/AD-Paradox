@@ -92,7 +92,7 @@ export class EternityChallengeState extends GameMechanicState {
   }
 
   get maxValidCompletions() {
-    if (this.id !== 4 && this.id !== 12) return this.maxCompletions;
+    if (this.id !== 5 && this.id !== 13) return this.maxCompletions;
     let completions = this.completions;
     while (completions < this.maxCompletions && this.isWithinRestrictionAtCompletions(completions)) {
       completions++;
@@ -168,13 +168,13 @@ export class EternityChallengeState extends GameMechanicState {
 
   addCompletion(auto = false) {
     this.completions++;
-    if ((this.id === 4 || this.id === 12) && auto) {
+    if ((this.id === 5 || this.id === 13) && auto) {
       this.tryFail(true);
     }
-    if (this.id === 6) {
+    if (this.id === 7) {
       GameCache.dimensionMultDecrease.invalidate();
     }
-    if (this.id === 11) {
+    if (this.id === 12) {
       GameCache.tickSpeedMultDecrease.invalidate();
     }
   }
@@ -208,12 +208,12 @@ export class EternityChallengeState extends GameMechanicState {
     const enteringGamespeed = getGameSpeedupFactor();
     if (Player.canEternity) eternity(false, auto, { enteringEC: true });
     player.challenge.eternity.current = this.id;
-    if (this.id === 12) {
+    if (this.id === 13) {
       if (enteringGamespeed.lt(1e-3)) SecretAchievement(42).unlock();
       player.requirementChecks.reality.slowestBH = DC.D1;
     }
     if (Enslaved.isRunning) {
-      if (this.id === 6 && this.completions === 5) EnslavedProgress.ec6.giveProgress();
+      if (this.id === 7 && this.completions === 5) EnslavedProgress.ec6.giveProgress();
       if (!auto && EnslavedProgress.challengeCombo.hasProgress) Tab.challenges.normal.show();
     }
     startEternityChallenge();
@@ -249,21 +249,21 @@ export class EternityChallengeState extends GameMechanicState {
     this.exit(false);
     let reason;
     if (auto) {
-      if (this.id === 4) {
+      if (this.id === 5) {
         reason = restriction => `Auto Eternity Challenge completion completed ` +
         `Eternity Challenge ${this.id} and made the next tier ` +
         `require having less Infinities (${quantifyInt("Infinity", restriction)} ` +
         `or less) than you had`;
-      } else if (this.id === 12) {
+      } else if (this.id === 13) {
         reason = restriction => `Auto Eternity Challenge completion completed ` +
         `Eternity Challenge ${this.id} and made the next tier ` +
         `require spending less time in it (${quantify("in-game second", restriction, 0, 1)} ` +
         `or less) than you had spent`;
       }
-    } else if (this.id === 4) {
+    } else if (this.id === 5) {
       reason = restriction => `You failed Eternity Challenge ${this.id} due to ` +
       `having more than ${quantifyInt("Infinity", restriction)}`;
-    } else if (this.id === 12) {
+    } else if (this.id === 13) {
       reason = restriction => `You failed Eternity Challenge ${this.id} due to ` +
       `spending more than ${quantify("in-game second", restriction, 0, 1)} in it`;
     }
@@ -327,9 +327,9 @@ export const EternityChallenges = {
 
   autoComplete: {
     tick() {
-      const shouldPreventEC7 = TimeDimension(1).amount.gt(0);
+      const shouldPreventEC8 = TimeDimension(1).amount.gt(0);
       const hasUpgradeLock = RealityUpgrade(12).isLockingMechanics ||
-        (ImaginaryUpgrade(15).isLockingMechanics && shouldPreventEC7 &&
+        (ImaginaryUpgrade(15).isLockingMechanics && shouldPreventEC8 &&
           !Array.range(1, 6).some(ec => !EternityChallenge(ec).isFullyCompleted));
       if (!player.reality.autoEC || Pelle.isDisabled("autoec") || hasUpgradeLock) {
         player.reality.lastAutoEC = Decimal.clampMax(player.reality.lastAutoEC, this.interval);
@@ -342,7 +342,7 @@ export const EternityChallenges = {
             next.addCompletion(true);
           }
           next = this.nextChallenge;
-          if (ImaginaryUpgrade(15).isLockingMechanics && next?.id === 7 && shouldPreventEC7) break;
+          if (ImaginaryUpgrade(15).isLockingMechanics && next?.id === 8 && shouldPreventEC8) break;
         }
         return;
       }

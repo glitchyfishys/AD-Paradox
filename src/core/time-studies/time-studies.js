@@ -7,6 +7,14 @@ function showSecondPreferredWarning(currTree) {
     GameUI.notify.error("You haven't selected a second preferred Dimension path.");
     return true;
   }
+
+  const canPickThird = currTree.allowedDimPathCount === 3 && currTree.currDimPathCount < 3;
+  // Show a warning if the player can choose the second preferred dimension path and hasn't yet done so.
+  if (canPickThird && TimeStudy.preferredPaths.dimension.path.length < 3) {
+    GameUI.notify.error("You haven't selected a third preferred Dimension path.");
+    return true;
+  }
+
   return false;
 }
 
@@ -35,7 +43,7 @@ export function buyStudiesUntil(id, ec = -1) {
   // Priority for behavior when buying in the Dimension split; we follow only the first applicable entry below:
   // - If we're buying a study within the split, we first buy just the requested path up to the requested study.
   //   (stops buying)
-  // - If we want to buy EC11 or EC12 we only buy the required dimension path unless we have the EC requirement perk
+  // - If we want to buy EC12 or EC13 we only buy the required dimension path unless we have the EC requirement perk
   //   (continues onward)
   // - If we can't buy any additional paths or have 3 paths available, we attempt to buy everything here, prioritizing
   //   preferred paths. With less than 3 paths available, this only purchases the rest of any unfinished paths
@@ -48,9 +56,9 @@ export function buyStudiesUntil(id, ec = -1) {
     return studyArray;
   }
 
-  if (ec === 11 && ecHasRequirement) {
+  if (ec === 12 && ecHasRequirement) {
     studyArray.push(...NormalTimeStudies.paths[TIME_STUDY_PATH.ANTIMATTER_DIM].filter(s => (s <= id)));
-  } else if (ec === 12 && ecHasRequirement) {
+  } else if (ec === 13 && ecHasRequirement) {
     studyArray.push(...NormalTimeStudies.paths[TIME_STUDY_PATH.TIME_DIM].filter(s => (s <= id)));
   } else if (currTree.currDimPathCount === currTree.allowedDimPathCount || currTree.allowedDimPathCount === 3) {
     studyArray.push(...TimeStudy.preferredPaths.dimension.studies);
@@ -63,7 +71,10 @@ export function buyStudiesUntil(id, ec = -1) {
   }
 
   // Explicitly purchase 111 here if it's included and stop if applicable, as it isn't covered by logic in either split.
-  if (id >= 111) studyArray.push(111);
+  if (id >= 111) {
+    studyArray.push(111);
+    studyArray.push(112);
+  }
 
   const secondPreferredWarningShown = showSecondPreferredWarning(currTree);
 
@@ -104,8 +115,8 @@ export function buyStudiesUntil(id, ec = -1) {
   studyArray.push(...range(151, Math.min(id, 201)));
   if (id < 201) return studyArray;
 
-  // If we want to buy EC11 or EC12 we don't want 201 unless we have the EC study requirement perk
-  if (!(ecHasRequirement && (ec === 11 || ec === 12))) {
+  // If we want to buy EC12 or EC13 we don't want 201 unless we have the EC study requirement perk
+  if (!(ecHasRequirement && (ec === 12 || ec === 13))) {
     // We need to commit what we have to the game state, because the check for priorityRequirement
     // requires us knowing if we have actually purchased 201.
     TimeStudyTree.commitToGameState(studyArray);

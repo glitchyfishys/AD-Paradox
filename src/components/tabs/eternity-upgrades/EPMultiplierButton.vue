@@ -70,7 +70,7 @@ export default {
       @click="purchaseUpgrade"
     >
       <div :class="{ 'o-pelle-disabled': isDoomed }">
-        Multiply Eternity Points from all sources by {{ formatX(5) }}
+        Multiply Eternity Points from all sources by {{ formatX(15) }}
         <br>
         Currently: {{ formatX(multiplier, 2, 0) }}
       </div>

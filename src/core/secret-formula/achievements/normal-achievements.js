@@ -713,9 +713,9 @@ export const normalAchievements = [
     checkRequirement: () => Currency.infinityPoints.gte(new Decimal("1e1000")),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() {
-      return `Make the Infinity Point formula better. log(x)/${formatInt(308)} ➜ log(x)/${formatFloat(307.8, 1)}`;
+      return `Make the Infinity Point formula better. log(x)/${formatInt(308)} ➜ log(x)/${formatFloat(307.2, 1)}`;
     },
-    effect: 307.8
+    effect: 307.2
   },
   {
     id: 104,
@@ -723,8 +723,8 @@ export const normalAchievements = [
     get description() { return `Eternity in under ${formatInt(30)} seconds.`; },
     checkRequirement: () => Time.thisEternity.totalSeconds.lte(30),
     checkEvent: GAME_EVENT.ETERNITY_RESET_BEFORE,
-    get reward() { return `Start Eternities with ${format(5e25)} Infinity Points.`; },
-    effect: 5e25
+    get reward() { return `Start Eternities with ${format(Number.MAX_VALUE,2,2)} Infinity Points.`; },
+    effect: Number.MAX_VALUE
   },
   {
     id: 105,
@@ -733,7 +733,7 @@ export const normalAchievements = [
     checkRequirement: () => player.totalTickGained.gte(308),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "Time Dimensions gain a multiplier based on tickspeed.",
-    effect: () => Tickspeed.perSecond.pow(0.000005),
+    effect: () => Tickspeed.perSecond.pow(0.00001).max(1),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {
@@ -873,7 +873,7 @@ export const normalAchievements = [
     },
     checkRequirement: () => AchievementTimers.marathon2
       .check(
-        !EternityChallenge(7).isRunning &&
+        !EternityChallenge(8).isRunning &&
         InfinityDimension(1).productionPerSecond.gt(Currency.infinityPower.value),
         60
       ),
@@ -892,7 +892,7 @@ export const normalAchievements = [
     reward: "Infinity Point multiplier based on time spent this Infinity.",
     effect() {
       const thisInfinity = Time.thisInfinity.totalSeconds.times(10).add(1).max(1);
-      return DC.D2.pow(Decimal.log(thisInfinity, Math.E).times(Decimal.min(Decimal.pow(thisInfinity, 0.11), 500)));
+      return DC.D2.pow(Decimal.log(thisInfinity, Math.E).times(Decimal.min(Decimal.pow(thisInfinity, 0.13), 500)));
     },
     cap: () => Effarig.eternityCap,
     formatEffect: value => `${formatX(value, 2, 2)}`
@@ -900,8 +900,8 @@ export const normalAchievements = [
   {
     id: 126,
     name: "Popular music",
-    get description() { return `Have ${formatInt(180)} times more Replicanti Galaxies than Antimatter Galaxies.`; },
-    checkRequirement: () => Replicanti.galaxies.total.gte(player.galaxies.times(180)) && player.galaxies.gt(0),
+    get description() { return `Have ${formatInt(80)} times more Replicanti Galaxies than Antimatter Galaxies.`; },
+    checkRequirement: () => Replicanti.galaxies.total.gte(player.galaxies.times(80)) && player.galaxies.gt(0),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() {
       return `Replicanti Galaxies divide your Replicanti by ${format(DC.NUMMAX, 1, 0)}
@@ -918,12 +918,12 @@ export const normalAchievements = [
   {
     id: 128,
     name: "What do I have to do to get rid of you",
-    get description() { return `Reach ${formatPostBreak("1e22000")} Infinity Points without any Time Studies.`; },
-    checkRequirement: () => Currency.infinityPoints.gte("1e22000") && player.timestudy.studies.length === 0,
+    get description() { return `Reach ${formatPostBreak("1e215000")} Infinity Points without any Time Studies.`; },
+    checkRequirement: () => Currency.infinityPoints.gte("1e15000") && player.timestudy.studies.length === 0,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
-    reward: "Time Dimensions are multiplied by the number of Time Studies you have.",
-    effect: () => Math.max(player.timestudy.studies.length, 1),
-    formatEffect: value => `${formatX(value)}`
+    reward: "Time Dimensions are Power based on the number of Time Studies you have.",
+    effect: () => Decimal.add(player.timestudy.studies.length ** 0.25 / 50, 1),
+    formatEffect: value => `${formatPow(value,2,2)}`
   },
   {
     id: 131,
@@ -932,25 +932,25 @@ export const normalAchievements = [
     checkRequirement: () => Currency.infinitiesBanked.gt(DC.D2E9),
     checkEvent: [GAME_EVENT.ETERNITY_RESET_AFTER, GAME_EVENT.SAVE_CONVERTED_FROM_PREVIOUS_VERSION],
     get reward() {
-      return `You gain ${formatX(2)} times more Infinities and
-      after Eternity you permanently keep ${formatPercents(0.05)} of your Infinities as Banked Infinities.`;
+      return `You gain ${formatX(10)} times more Infinities and
+      after Eternity you permanently keep ${formatPercents(0.9)} of your Infinities as Banked Infinities.`;
     },
     effects: {
-      infinitiesGain: 2,
-      bankedInfinitiesGain: () => Currency.infinities.value.times(0.05).floor()
+      infinitiesGain: 10,
+      bankedInfinitiesGain: () => Currency.infinities.value.times(0.9).floor()
     }
   },
   {
     id: 132,
     name: "Unique snowflakes",
     get description() {
-      return `Have ${formatInt(569)} Antimatter Galaxies without gaining any
+      return `Have ${formatInt(670)} Antimatter Galaxies without gaining any
         Replicanti Galaxies in your current Eternity.`;
     },
-    checkRequirement: () => player.galaxies.gte(569) && player.requirementChecks.eternity.noRG,
+    checkRequirement: () => player.galaxies.gte(670) && player.requirementChecks.eternity.noRG,
     checkEvent: GAME_EVENT.GALAXY_RESET_AFTER,
     reward: "Gain a multiplier to Tachyon Particle and Dilated Time gain based on Antimatter Galaxies.",
-    effect: () => Decimal.max(Decimal.pow(player.galaxies, 0.04), 1).times(1.22),
+    effect: () => Decimal.max(Decimal.pow(player.galaxies, 0.06), 1).times(1.25),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {
@@ -970,8 +970,8 @@ export const normalAchievements = [
   {
     id: 134,
     name: "When will it be enough?",
-    get description() { return `Reach ${formatPostBreak(DC.E18000)} Replicanti.`; },
-    checkRequirement: () => Replicanti.amount.gte(DC.E18000),
+    get description() { return `Reach ${formatPostBreak(DC.E17000)} Replicanti.`; },
+    checkRequirement: () => Replicanti.amount.gte(DC.E17000),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() {
       return `You gain Replicanti ${formatInt(2)} times faster under ${format(replicantiCap(), 1)} Replicanti.`;
@@ -1026,7 +1026,7 @@ export const normalAchievements = [
     checkEvent: GAME_EVENT.REALITY_RESET_BEFORE,
     get reward() {
       return `${formatX(4)} Infinity Point gain, and increase the multiplier for buying ${formatInt(10)}
-      Antimatter Dimensions by +${format(0.1, 0, 1)}.`;
+      Antimatter Dimensions by ${formatAdd(0.1, 0, 1)}.`;
     },
     effects: {
       ipGain: 4,

@@ -96,18 +96,18 @@ export const dilationUpgrades = {
     description: () => {
       const rep10 = replicantiMult().pLog10();
       let multiplier = "0.1";
-      if (rep10.gt(9000)) {
+      if (rep10.gt(20000)) {
         const ratio = DilationUpgrade.tdMultReplicanti.effectValue.pLog10().div(rep10);
         if (ratio.lt(0.095)) {
           multiplier = ratio.toFixed(2);
         }
       }
       return `Time Dimensions are affected by Replicanti multiplier ${formatPow(multiplier, 1, 3)}, reduced
-        effect above ${formatX(DC.E9000)}`;
+        effect above ${formatX(DC.E20000)}`;
     },
     effect: () => {
-      let rep10 = replicantiMult().pLog10().div(10);
-      rep10 = rep10.gt(9000) ? new Decimal(9000).add((rep10.sub(9e3)).div(2)) : rep10;
+      let rep10 = replicantiMult().pLog10().div(5);
+      rep10 = rep10.gt(20000) ? new Decimal(20000).add((rep10.sub(2e4)).div(2)) : rep10;
       return Decimal.pow10(rep10);
     },
     formatEffect: value => formatX(value, 2, 1)
@@ -116,27 +116,27 @@ export const dilationUpgrades = {
     id: 6,
     cost: 5e7,
     description: "Antimatter Dimension multiplier based on Dilated Time, unaffected by Time Dilation",
-    effect: () => Currency.dilatedTime.value.pow(308).clampMin(1),
+    effect: () => Currency.dilatedTime.value.pow(1000).clampMin(1),
     formatEffect: value => formatX(value, 2, 1)
   },
   ipMultDT: {
     id: 7,
     cost: 2e12,
     description: "Gain a multiplier to Infinity Points based on Dilated Time",
-    effect: () => Currency.dilatedTime.value.pow(1000).clampMin(1),
+    effect: () => Currency.dilatedTime.value.pow(5000).clampMin(1),
     formatEffect: value => formatX(value, 2, 1),
     cap: () => Effarig.eternityCap
   },
   timeStudySplit: {
     id: 8,
     cost: 1e10,
-    description: "You can buy all three Time Study paths from the Dimension Split"
+    description: "You can buy a Third Time Study path from the Dimension Split"
   },
   dilationPenalty: {
     id: 9,
     cost: 1e11,
-    description: () => `Reduce the Dilation penalty (${formatPow(1.05, 2, 2)} after reduction)`,
-    effect: 1.05,
+    description: () => `Reduce the Dilation penalty (${formatPow(1.1, 2, 2)} after reduction)`,
+    effect: 1.1,
   },
   ttGenerator: {
     id: 10,

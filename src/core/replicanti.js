@@ -143,6 +143,7 @@ export function totalReplicantiSpeedMult(overCap) {
     RealityUpgrade(2),
     RealityUpgrade(6),
     RealityUpgrade(23),
+    Light.Replicanti
   );
   totalMult = totalMult.times(preCelestialEffects);
   if (TimeStudy(132).isBought) {
@@ -163,12 +164,12 @@ export function totalReplicantiSpeedMult(overCap) {
 }
 
 export function replicantiCap() {
-  return EffarigUnlock.infinity.canBeApplied
+  return (EffarigUnlock.infinity.canBeApplied
     ? Currency.infinitiesTotal.value
-      .pow(TimeStudy(31).isBought ? 120 : 30)
+      .pow(TimeStudy(31).isBought ? 240 : 30)
       .clampMin(1)
       .times(DC.NUMMAX)
-    : DC.NUMMAX;
+    : DC.NUMMAX).mul(Decimal.pow10(Light.Replicanti.effectOrDefault(DC.D0)));
 }
 
 // eslint-disable-next-line complexity
@@ -265,8 +266,8 @@ export function replicantiLoop(diff) {
 
 export function replicantiMult() {
   return Decimal.pow(Decimal.log2(Replicanti.amount.clampMin(1)), player.replicanti.galaxies.add(5))
-    .plusEffectOf(TimeStudy(21))
-    .timesEffectOf(TimeStudy(102))
+    .timesEffectOf(TimeStudy(21))
+    .timesEffectOf(TimeStudy(103))
     .clampMin(1)
     .pow(getAdjustedGlyphEffect("replicationpow"));
 }
@@ -311,7 +312,7 @@ class ReplicantiUpgradeState {
     Currency.infinityPoints.subtract(this.cost);
     this.baseCost = Decimal.times(this.baseCost, this.costIncrease);
     this.value = this.nextValue;
-    if (EternityChallenge(8).isRunning) player.eterc8repl--;
+    if (EternityChallenge(9).isRunning) player.eterc8repl--;
     GameUI.update();
   }
 
@@ -436,8 +437,8 @@ export const ReplicantiUpgrade = {
 
     get costIncrease() {
       const galaxies = this.value;
-      let increase = EternityChallenge(6).isRunning
-        ? DC.E2.pow(galaxies).times(DC.E2)
+      let increase = EternityChallenge(7).isRunning
+        ? DC.E10.pow(galaxies).times(DC.E100)
         : DC.E5.pow(galaxies).times(DC.E25);
       if (galaxies.gte(this.distantRGStart)) {
         increase = increase.times(DC.E50.pow(galaxies.sub(this.distantRGStart).add(5)));
@@ -459,8 +460,8 @@ export const ReplicantiUpgrade = {
     bulkPurchaseCalc() {
       // Copypasted constants
       const logBase = new Decimal(170);
-      const logBaseIncrease = EternityChallenge(6).isRunning ? DC.D2 : new Decimal(25);
-      const logCostScaling = EternityChallenge(6).isRunning ? DC.D2 : DC.D5;
+      const logBaseIncrease = EternityChallenge(7).isRunning ? DC.E2 : new Decimal(25);
+      const logCostScaling = EternityChallenge(7).isRunning ? DC.E1 : DC.D5;
       const distantReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(100);
       const remoteReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(1000);
       const logDistantScaling = new Decimal(50);
@@ -517,8 +518,8 @@ export const ReplicantiUpgrade = {
 
     baseCostAfterCount(count) {
       const logBase = new Decimal(170);
-      const logBaseIncrease = EternityChallenge(6).isRunning ? 2 : 25;
-      const logCostScaling = EternityChallenge(6).isRunning ? 2 : 5;
+      const logBaseIncrease = EternityChallenge(7).isRunning ? 100 : 25;
+      const logCostScaling = EternityChallenge(7).isRunning ? 10 : 5;
       const distantReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(100);
       const remoteReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(1000);
       let logCost = logBase.add(count.times(logBaseIncrease))

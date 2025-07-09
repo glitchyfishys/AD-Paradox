@@ -8,7 +8,11 @@ export class PlayerProgress {
   }
 
   get isEternityUnlocked() {
-    return new Decimal(this._player.eternities).gt(0) || this.isRealityUnlocked;
+    return new Decimal(this._player.eternities).gt(0) || this.isAbsurdityUnlocked;
+  }
+
+  get isAbsurdityUnlocked() {
+    return new Decimal(this._player.absurdity.absurdities).gt(0) || this.isRealityUnlocked;
   }
 
   get isRealityUnlocked() {
@@ -43,8 +47,16 @@ export class PlayerProgress {
     return PlayerProgress.current.isEternityUnlocked;
   }
 
+  static absurdityUnlocked() {
+    return PlayerProgress.current.isAbsurdityUnlocked;
+  }
+
   static dilationUnlocked() {
     return TimeStudy.dilation.isBought;
+  }
+
+  static quasmaUnlocked() {
+    return TimeStudy(201).isBought || player.absurdity.quasma.active;
   }
 
   static realityUnlocked() {
@@ -52,8 +64,8 @@ export class PlayerProgress {
   }
 
   static seenAlteredSpeed() {
-    const ec12 = EternityChallenge(12);
-    return this.realityUnlocked() || ec12.completions > 0 || ec12.isRunning;
+    const ec13 = EternityChallenge(13);
+    return this.realityUnlocked() || ec13.completions > 0 || ec13.isRunning;
   }
 
   static challengeCompleted() {

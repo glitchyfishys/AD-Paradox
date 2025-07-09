@@ -19,7 +19,7 @@ export default {
   methods: {
     update() {
       this.canParadox = Player.canParadox;
-      this.PPAmount.copyFrom(Currency.paradoxPower)
+      this.PPAmount.copyFrom(Currency.paradoxPower);
       if (!this.canParadox) {
         return;
       }
@@ -37,6 +37,7 @@ export default {
 <template>
   <div
   class="c-prestige-button-container"
+  style="height: 6rem;"
   >
       <button
         class="o-prestige-button o-paradox-button"

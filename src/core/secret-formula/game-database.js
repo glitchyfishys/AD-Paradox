@@ -1,5 +1,3 @@
-import { multiplierTabTree, multiplierTabValues } from "./multiplier-tab";
-
 import { achievements } from "./achievements";
 import { awayProgressTypes } from "./away-progress-types";
 import { catchupResources } from "./catchup-resources";
@@ -20,6 +18,7 @@ import { speedrunMilestones } from "./speedrun-milestones";
 import { tabNotifications } from "./tab-notifications";
 import { tabs } from "./tabs";
 import { paradox } from "./paradox";
+import { absurdity } from "./absurdity";
 
 export const GameDatabase = {
   achievements,
@@ -34,8 +33,6 @@ export const GameDatabase = {
   eternity,
   h2p,
   infinity,
-  multiplierTabTree,
-  multiplierTabValues,
   news,
   progressStages,
   reality,
@@ -43,7 +40,8 @@ export const GameDatabase = {
   speedrunMilestones,
   tabNotifications,
   tabs,
-  paradox
+  paradox,
+  absurdity
 };
 
 window.GameDatabase = GameDatabase;

@@ -36,9 +36,17 @@ export const confirmationTypes = [
     option: "eternity",
     isUnlocked: () => PlayerProgress.eternityUnlocked(),
   }, {
+    name: "Absurdity",
+    option: "absurdity",
+    isUnlocked: () => PlayerProgress.eternityUnlocked(),
+  }, {
     name: "Dilation",
     option: "dilation",
     isUnlocked: () => PlayerProgress.realityUnlocked() || !Currency.tachyonParticles.eq(0),
+  }, {
+    name: "Quasma",
+    option: "quasma",
+    isUnlocked: () => PlayerProgress.realityUnlocked() || !Currency.nitronicEnergy.eq(0),
   }, {
     name: "Reset Reality",
     option: "resetReality",

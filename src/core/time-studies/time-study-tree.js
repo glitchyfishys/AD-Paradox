@@ -99,8 +99,9 @@ export class TimeStudyTree {
     // Grouping of studies. The key followed by an array of the studies the key is a shorthand for.
     return new Map([
       ["antimatter", [71, 81, 91, 101]],
-      ["infinity", [72, 82, 92, 102]],
-      ["time", [73, 83, 93, 103]],
+      ["prism", [72, 82, 92, 102]],
+      ["infinity", [73, 83, 93, 103]],
+      ["time", [74, 84, 94, 104]],
       ["active", [121, 131, 141]],
       ["passive", [122, 132, 142]],
       ["idle", [123, 133, 143]],
@@ -273,18 +274,18 @@ export class TimeStudyTree {
   }
 
   get currDimPathCount() {
-    return [71, 72, 73].countWhere(x => this.purchasedStudies.includes(TimeStudy(x)));
+    return [71, 72, 73, 74].countWhere(x => this.purchasedStudies.includes(TimeStudy(x)));
   }
 
   get allowedDimPathCount() {
     if (DilationUpgrade.timeStudySplit.isBought) return 3;
-    if (this.purchasedStudies.includes(TimeStudy(201))) return 2;
+    if (InfinityChallenge(9).isCompleted) return 2;
     return 1;
   }
 
   get dimensionPaths() {
     const pathSet = new Set();
-    const validPaths = [TIME_STUDY_PATH.ANTIMATTER_DIM, TIME_STUDY_PATH.INFINITY_DIM, TIME_STUDY_PATH.TIME_DIM];
+    const validPaths = [TIME_STUDY_PATH.ANTIMATTER_DIM, TIME_STUDY_PATH.PRISM_DIM, TIME_STUDY_PATH.INFINITY_DIM, TIME_STUDY_PATH.TIME_DIM];
     for (const path of validPaths) {
       const pathEntry = NormalTimeStudies.pathList.find(p => p.path === path);
       for (const study of this.purchasedStudies) {

@@ -30,19 +30,19 @@ export default {
       return { color: `rgb(${rgb.join(",")})` };
     },
     text() {
-      if (this.currentEternityChallengeId === 4) {
+      if (this.currentEternityChallengeId === 5) {
         return `${formatInt(this.currentResource)} / ${formatInt(this.maximumResource)} Infinities used`;
       }
-      // We're always either in EC4 or EC12 when displaying this text.
+      // We're always either in EC5 or EC13 when displaying this text.
       return `${TimeSpan.fromSeconds(this.currentResource).toString()} /
         ${TimeSpan.fromSeconds(this.maximumResource).toString()} time spent`;
     }
   },
   methods: {
     update() {
-      if (EternityChallenge.current && [4, 12].includes(EternityChallenge.current.id)) {
+      if (EternityChallenge.current && [5, 13].includes(EternityChallenge.current.id)) {
         this.currentEternityChallengeId = EternityChallenge.current.id;
-        if (this.currentEternityChallengeId === 4) {
+        if (this.currentEternityChallengeId === 5) {
           this.currentResource.copyFrom(Currency.infinities);
         } else {
           this.currentResource = new Decimal(Time.thisEternity.totalSeconds);

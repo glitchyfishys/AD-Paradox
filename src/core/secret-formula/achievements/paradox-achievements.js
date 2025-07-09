@@ -61,7 +61,7 @@ export const paradoxAchievements = [
   },
   {
     id: 21,
-    name: "Infinitly upgraded",
+    name: "Infinitely upgraded",
     get description() { return "Buy an Infinity upgrade."; },
     checkRequirement: () => true,
     checkEvent: GAME_EVENT.INFINITY_UPGRADE_BOUGHT,
@@ -80,7 +80,7 @@ export const paradoxAchievements = [
     get description() { return "Complete a Normal challenge."; },
     checkRequirement: () => {let x = 0; NormalChallenges.all.forEach(c => c.isCompleted ? x++ : false); return x > 1},
     checkEvent: GAME_EVENT.BIG_CRUNCH_AFTER,
-    reward: "Keep the first row of paradox upgrades on Infinity"
+    reward: "Keep the first row of paradox upgrades on All Resets"
   },
   {
     id: 24,
@@ -112,9 +112,78 @@ export const paradoxAchievements = [
   },
   {
     id: 28,
-    name: "THIS WAS MADE BY THE VIS DEV?!?",
-    get description() { return "Vis reference here (No, you can't get this. and there is NO Eternity)"; },
+    name: "Green Light",
+    description: 'Unlock Red Light',
+    checkRequirement: () => Light.ADMul.isUnlocked,
+    checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
+  },
+  {
+    id: 31,
+    name: "The Best Milestone",
+    get description() {return `Reach the Eternity Milestone for ${format(9)} Eternites.`},
+    checkRequirement: () => EternityMilestone.autobuyMaxGalaxies.isReached,
+    checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
+  },
+  {
+    id: 32,
+    name: "That's Absured",
+    description: 'Absudity once.',
+    checkRequirement: () => true,
+    checkEvent: GAME_EVENT.ABSURDITY_RESET_AFTER,
+  },
+  {
+    id: 33,
+    name: "Almost half way",
+    get description() {return `Complete ${format(25)} Eternity Challenges.`},
+    description: 'Complete 25 Eternity Challenges.',
+    checkRequirement: () => EternityChallenges.completions >= 25,
+    checkEvent: GAME_EVENT.ETERNITY_RESET_AFTER,
+    get reward() {return `Slightly reduce the ${format('e4000')} IP softcap.`},
+  },
+  {
+    id: 34,
+    name: "Did you mean Quasar?",
+    description: 'Enter an Absurd Quasma.',
+    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+  },
+  {
+    id: 35,
+    name: "I love timewalls",
+    get description() {return `Have a total of ${format(1000)} nitronic Energy.`},
+    checkRequirement: () => Currency.nitronicEnergy.gte(1e3),
+    checkEvent: GAME_EVENT.ABSURDITY_RESET_AFTER,
+    reward: 'Gain a slight multiplier to Chromatic Energy gain based on antimatter.',
+    effect: () => {
+      let x = quasmaValueOf(Currency.antimatter.value).log10().div(100).max(1);
+      if (x.gt(250)) x = x.mul(x.div(250).pow(1.5));
+      return x.min(5e3);
+    },
+    formatEffect: value => `${formatX(value, 2, 2)}`
+  },
+  {
+    id: 36,
+    name: "I hate timewalls",
+    description: 'Complete EC 12 and 13 Each Once.',
+    checkRequirement: () => EternityChallenge(12).completions > 0 && EternityChallenge(13).completions > 0,
+    checkEvent: GAME_EVENT.ETERNITY_RESET_AFTER,
+    reward: 'Gain a multiplier to Nitric Energy gain based on EC12 and 13 Completions.',
+    effect: () => Decimal.mul(EternityChallenge(12).completions, EternityChallenge(13).completions).add(1).max(1),
+    formatEffect: value => `${formatX(value, 2, 2)}`
+  },
+  {
+    id: 37,
+    name: "That took an Eternity",
+    description: 'Complete all Eternity Challenges five times.',
+    checkRequirement: () => EternityChallenges.completions >= 65,
+    checkEvent: GAME_EVENT.ETERNITY_RESET_AFTER,
+    get reward() { return `Rebuyable Quasma upgrades scale ${formatPercents(0.15)} less and slightly lower the Quasma penalty.` },
+    effect: () => 0.85
+  },
+  {
+    id: 38,
+    name: "NYI",
+    description: 'Not yet implemented.',
     checkRequirement: () => false,
-    checkEvent: GAME_EVENT.PARADOX_AFTER,
+    checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
   },
 ];

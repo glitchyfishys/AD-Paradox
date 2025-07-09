@@ -5,7 +5,6 @@ import AutobuyersTab from "./autobuyers/AutobuyersTab";
 import AutomatorTab from "./automator/AutomatorTab";
 import BlackHoleTab from "./black-hole/BlackHoleTab";
 import BreakInfinityTab from "./break-infinity/BreakInfinityTab";
-import CelestialNavigationTab from "./celestial-navigation/CelestialNavigationTab";
 import ChallengeRecordsTab from "./challenge-records/ChallengeRecordsTab";
 import EffarigTab from "./celestial-effarig/EffarigTab";
 import EnslavedTab from "./celestial-enslaved/EnslavedTab";
@@ -19,7 +18,6 @@ import InfinityChallengesTab from "./infinity-challenges/InfinityChallengesTab";
 import InfinityDimensionsTab from "./infinity-dimensions/InfinityDimensionsTab";
 import InfinityUpgradesTab from "./infinity-upgrades/InfinityUpgradesTab";
 import LaitelaTab from "./celestial-laitela/LaitelaTab";
-import MultiplierBreakdownTab from "./statistics/MultiplierBreakdownTab";
 import NormalAchievementsTab from "./normal-achievements/NormalAchievementsTab";
 import NormalChallengesTab from "./normal-challenges/NormalChallengesTab";
 import OptionsGameplayTab from "./options-gameplay/OptionsGameplayTab";
@@ -42,10 +40,15 @@ import TimeDimensionsTab from "./time-dimensions/TimeDimensionsTab";
 import TimeStudiesTab from "./time-studies/TimeStudiesTab";
 import VTab from "./celestial-v/VTab";
 
-import ParadoxUpgradesTab from "./paradox-upgrades/ParadoxUpgradesTab.vue";
-import PrismUpgradesTab from "./prism-upgrades/PrismUpgradesTab.vue";
-import ParadoxAchievementTab from "./paradox-achievements/ParadoxAchievementTab.vue";
-import PrismDimensionsTab from "./prism-dimensions/PrismDimensionsTab.vue";
+import ParadoxUpgradesTab from "./paradox-upgrades/ParadoxUpgradesTab";
+import PrismUpgradesTab from "./prism-upgrades/PrismUpgradesTab";
+import ParadoxAchievementTab from "./paradox-achievements/ParadoxAchievementTab";
+import ContextTab from "./paradox-achievements/ContextTab";
+import PrismDimensionsTab from "./prism-dimensions/PrismDimensionsTab";
+import LightTab from "./light/LightTab";
+
+import AbsurdityUpgradesTab from "./absurdity-upgrades/AbsurdityUpgradesTab";
+import QuasmaTab from "./quasma/QuasmaTab.vue";
 
 
 const TabComponents = {
@@ -88,13 +91,15 @@ const TabComponents = {
   PerksTab,
   BlackHoleTab,
   AlchemyTab,
-  CelestialNavigationTab,
   ShopTab,
-  MultiplierBreakdownTab,
   ParadoxUpgradesTab,
   ParadoxAchievementTab,
   PrismUpgradesTab,
   PrismDimensionsTab,
+  LightTab,
+  AbsurdityUpgradesTab,
+  QuasmaTab,
+  ContextTab,
 };
 
 export default TabComponents;

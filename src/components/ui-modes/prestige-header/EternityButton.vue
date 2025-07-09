@@ -209,16 +209,7 @@ const EP_BUTTON_DISPLAY_TYPE = {
     <template v-else-if="type === 1">
       Eternity for
       <span :style="amountStyle">{{ format(gainedEP, 2) }}</span>
-      <span v-if="showEPRate"> EP</span>
-      <span v-else> Eternity {{ pluralize("Point", gainedEP) }}</span>
-      <br>
-      <template v-if="showEPRate">
-        Current: {{ format(currentEPRate, 2, 2) }} EP/min
-        <br>
-        Peak: {{ format(peakEPRate, 2, 2) }} EP/min
-        <br>
-        at {{ format(peakEPRateVal, 2, 2) }} EP
-      </template>
+      Eternity {{ pluralize("Point", gainedEP) }}
     </template>
 
     <!-- Challenge -->

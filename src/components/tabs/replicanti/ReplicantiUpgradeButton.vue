@@ -22,7 +22,7 @@ export default {
       isCapped: false,
       isAutoUnlocked: false,
       isAutobuyerOn: false,
-      isEC8Running: false
+      isEC9Running: false
     };
   },
   computed: {
@@ -48,7 +48,7 @@ export default {
       const autobuyer = Autobuyer.replicantiUpgrade(upgrade.id);
       this.isAutoUnlocked = autobuyer.isUnlocked;
       this.isAutobuyerOn = autobuyer.isActive;
-      this.isEC8Running = EternityChallenge(8).isRunning;
+      this.isEC9Running = EternityChallenge(9).isRunning;
     }
   }
 };
@@ -76,7 +76,7 @@ export class ReplicantiUpgradeButtonSetup {
       </template>
     </PrimaryButton>
     <PrimaryToggleButton
-      v-if="isAutoUnlocked && !isEC8Running"
+      v-if="isAutoUnlocked && !isEC9Running"
       v-model="isAutobuyerOn"
       label="Auto:"
       class="l--spoon-btn-group__little-spoon o-primary-btn--replicanti-upgrade-toggle"

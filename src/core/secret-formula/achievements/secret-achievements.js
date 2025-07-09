@@ -119,8 +119,8 @@ export const secretAchievements = [
   },
   {
     id: 33,
-    name: "A sound financial decision",
-    description: "Import \"Shop\" (temporary req)"
+    name: "A buggy mess",
+    description: "Click on the news meassage that takes to the AD:Vis"
   },
   {
     id: 34,

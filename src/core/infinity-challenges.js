@@ -2,7 +2,7 @@ import { GameMechanicState } from "./game-mechanics";
 
 export function tryCompleteInfinityChallenges() {
   if (EternityMilestone.autoIC.isReached) {
-    const toComplete = InfinityChallenges.all.filter(x => x.isUnlocked && !x.isCompleted);
+    const toComplete = InfinityChallenges.all.filter(x => x.isUnlocked && !x.isCompleted && x.id < 9);
     for (const challenge of toComplete) challenge.complete();
   }
 }
@@ -130,7 +130,7 @@ export const InfinityChallenges = {
     for (const challenge of InfinityChallenges.all) challenge.complete();
   },
   clearCompletions() {
-    player.challenge.infinity.completedBits = 0;
+    player.challenge.infinity.completedBits &= 512; // keep IC9 on reset
   },
   get nextIC() {
     return InfinityChallenges.all.find(x => !x.isUnlocked);

@@ -310,7 +310,7 @@ Currency.eternities = new class extends DecimalCurrency {
   get startingValue() {
     if (Pelle.isDoomed) return new Decimal(0);
     return Effects.max(
-      0,
+      Currency.absurdities.value,
       RealityUpgrade(10)
     );
   }
@@ -490,3 +490,60 @@ Currency.prismEnergy = new class extends DecimalCurrency {
   get value() { return player.paradox.prismEnergy; }
   set value(value) { player.paradox.prismEnergy = value; }
 }();
+
+Currency.light = new class extends DecimalCurrency {
+  get value() { return player.paradox.prism.whiteLight; }   // don't use this
+  set value(value) { player.paradox.prism.whiteLight = value; }
+
+  get white() { return player.paradox.prism.whiteLight; }
+  set white(value) { player.paradox.prism.whiteLight = value; }
+  
+  get red() { return player.paradox.prism.redLight; }
+  set red(value) { player.paradox.prism.redLight = value; }
+
+  get green() { return player.paradox.prism.greenLight; }
+  set green(value) { player.paradox.prism.greenLight = value; }
+
+  get blue() { return player.paradox.prism.blueLight; }
+  set blue(value) { player.paradox.prism.blueLight = value; }
+
+  get yellow() { return player.paradox.prism.yellowLight; }
+  set yellow(value) { player.paradox.prism.yellowLight = value; }
+
+  get purple() { return player.paradox.prism.purpleLight; }
+  set purple(value) { player.paradox.prism.purpleLight = value; }
+
+  get cyan() { return player.paradox.prism.cyanLight; }
+  set cyan(value) { player.paradox.prism.cyanLight = value; }
+
+  reset(){
+    this.white = DC.D0;
+    this.red = DC.D0;
+    this.green = DC.D0;
+    this.blue = DC.D0;
+    this.yellow = DC.D0;
+    this.purple = DC.D0;
+    this.cyan = DC.D0;
+  }
+}();
+
+Currency.absurdityEnergy = new class extends DecimalCurrency {
+  get value() { return player.absurdity.absurdityEnergy; }
+  set value(value) { player.absurdity.absurdityEnergy = value; }
+}();
+
+Currency.absurdities = new class extends DecimalCurrency {
+  get value() { return player.absurdity.absurdities; }
+  set value(value) { player.absurdity.absurdities = value; }
+}();
+
+Currency.nitronicEnergy = new class extends DecimalCurrency {
+  get value() { return player.absurdity.quasma.nitronicEnergy; }
+  set value(value) { player.absurdity.quasma.nitronicEnergy = value; }
+}();
+
+Currency.chromaticEnergy = new class extends DecimalCurrency {
+  get value() { return player.absurdity.quasma.chromaticEnergy; }
+  set value(value) { player.absurdity.quasma.chromaticEnergy = value; }
+}();
+

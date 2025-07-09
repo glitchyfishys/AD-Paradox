@@ -55,7 +55,7 @@ window.player = {
     },
     infinity: {
       current: 0,
-      bestTimes: Array.repeat(DC.BEMAX, 8),
+      bestTimes: Array.repeat(DC.BEMAX, 10),
       completedBits: 0,
     },
     eternity: {
@@ -82,6 +82,14 @@ window.player = {
       time: 1,
       xHighest: DC.D1,
       isActive: false
+    },
+    paradox: {
+      mode: 0,
+      amount: DC.D1,
+      increaseWithMult: true,
+      xHighest: DC.D1,
+      isActive: true,
+      lastTick: 0
     },
     bigCrunch: {
       cost: 1,
@@ -321,6 +329,7 @@ window.player = {
       trueTime: 0,
       maxAM: DC.D0,
       maxIP: DC.D0,
+      maxPP: DC.D0,
       bestIPMsWithoutMaxAll: DC.D0,
       bestEPmin: DC.D0,
       bestEPminVal: DC.D0,
@@ -392,6 +401,7 @@ window.player = {
   timeShards: DC.D0,
   totalTickGained: DC.D0,
   totalTickBought: DC.D0,
+  totalTickBonus: DC.D0,
   replicanti: {
     unl: false,
     amount: DC.D0,
@@ -875,6 +885,7 @@ window.player = {
       exitChallenge: true,
       eternity: true,
       dilation: true,
+      quasma: true,
       resetReality: true,
       glyphReplace: true,
       glyphSacrifice: true,
@@ -891,6 +902,7 @@ window.player = {
       switchAutomatorMode: true,
       respecIAP: true,
       paradox: true,
+      absurdity: true,
     },
     awayProgress: {
       antimatter: true,
@@ -947,6 +959,37 @@ window.player = {
     paradoxPower: DC.D0,
     prismEnergy: DC.D0,
     achievementBits: Array.repeat(0, 17),
+    prism: {
+      unlockBits: 0,
+      redLight: DC.D0,
+      greenLight: DC.D0,
+      blueLight: DC.D0,
+      yellowLight: DC.D0,
+      cyanLight: DC.D0,
+      purpleLight: DC.D0,
+      whiteLight: DC.D0,
+    }
+  },
+  absurdity: {
+    absurdityEnergy: DC.D0,
+    absurdities: DC.D0,
+    upgrades: new Set(),
+    quasma: {
+      active: false,
+      nitronicEnergy: DC.D0,
+      chromaticEnergy: DC.D0,
+      recordAM: DC.D0,
+      upgrades: new Set(),
+      rebuyables: {
+        1: new Decimal(),
+        2: new Decimal(),
+        3: new Decimal(),
+        4: new Decimal(),
+        5: new Decimal(),
+        6: new Decimal(),
+      },
+      lastEP: DC.DM1,
+    },
   }
 };
 
@@ -979,6 +1022,10 @@ export const Player = {
 
   get canEternity() {
     return player.records.thisEternity.maxIP.gte(Player.eternityGoal);
+  },
+
+  get canAbsurdity() {
+    return TimeDimension(1).amount.gte(1e9) && gainedAbsurdityEnergy().gte(1);
   },
   
   get canCrunch() {

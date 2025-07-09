@@ -1533,8 +1533,15 @@ export const devMigrations = {
     player => {
       player.options.lightGlyphs = !player.options.forceDarkGlyphs;
       delete player.options.forceDarkGlyphs;
+    },
+    player => {
+    player.challenge.infinity.bestTimes[8] = new Decimal('ee984398');
+    player.challenge.infinity.bestTimes[9] = new Decimal('ee984398');
     }
   ],
+
+ 
+
 
   patch(player) {
     player.options.testVersion = player.options.testVersion || 0;

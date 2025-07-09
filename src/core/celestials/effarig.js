@@ -102,6 +102,7 @@ export const Effarig = {
   },
   get bonusRG() {
     // Will return 0 if Effarig Infinity is uncompleted
+    if(Effarig.currentStage < 2) return DC.D0;
     return Decimal.floor(replicantiCap().max(1).log10().div(LOG10_MAX_VALUE).sub(1));
   },
   quotes: Quotes.effarig,

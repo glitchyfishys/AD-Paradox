@@ -4,7 +4,7 @@ export const dilationTimeStudies = [
   {
     id: 1,
     description: "Unlock Time Dilation",
-    cost: new Decimal(5000),
+    cost: new Decimal(900),
     requirement: () => {
       const ttRequirement = Currency.timeTheorems.max.gte(TimeStudy.dilation.totalTimeTheoremRequirement);
       if (Ra.unlocks.autoUnlockDilation.canBeApplied &&
@@ -15,7 +15,7 @@ export const dilationTimeStudies = [
       }
       const tsRequirement = [231, 232, 233, 234].some(id => TimeStudy(id).isBought);
       if (Perk.bypassECDilation.canBeApplied) return tsRequirement;
-      const ecRequirement = EternityChallenge(11).isFullyCompleted && EternityChallenge(12).isFullyCompleted;
+      const ecRequirement = EternityChallenge(12).isFullyCompleted && EternityChallenge(13).isFullyCompleted;
       return tsRequirement && ecRequirement && ttRequirement;
     }
   },
@@ -34,13 +34,13 @@ export const dilationTimeStudies = [
   {
     id: 4,
     description: "Unlock the 7th Time Dimension",
-    cost: DC.E8,
+    cost: DC.E10,
     requirement: () => TimeStudy.timeDimension(6).isBought
   },
   {
     id: 5,
     description: "Unlock the 8th Time Dimension",
-    cost: DC.E9,
+    cost: DC.E13,
     requirement: () => TimeStudy.timeDimension(7).isBought
   },
   {
@@ -49,8 +49,8 @@ export const dilationTimeStudies = [
       ? "You cannot escape a Doomed Reality"
       : "Unlock Reality"),
     cost: DC.D1,
-    requirement: () => TimeStudy.timeDimension(8).isBought &&
-      player.records.thisReality.maxEP.add(1).log10().gte(4000) &&
+    requirement: () => false && TimeStudy.timeDimension(8).isBought && // wait for the next update
+      player.records.thisReality.maxEP.gte('e4000') &&
       (Perk.firstPerk.isBought || Achievements.preReality.every(a => a.isUnlocked)) &&
       !Pelle.isDoomed
   }

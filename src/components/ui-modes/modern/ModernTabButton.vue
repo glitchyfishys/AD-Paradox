@@ -140,6 +140,10 @@ export default {
   background-color: var(--color-paradox);
 }
 
+.o-tab-btn--absurdity::before {
+  background-color: var(--color-absurdity);
+}
+
 .o-subtab-btn--active {
   border-bottom-width: 0.5rem;
 }

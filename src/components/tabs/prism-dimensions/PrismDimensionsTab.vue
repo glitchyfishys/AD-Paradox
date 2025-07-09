@@ -20,6 +20,7 @@ export default {
       totalDimCap: new Decimal(0),
       creditsClosed: false,
       showLockedDimCostNote: true,
+      isEC12: false,
     };
   },
   methods: {
@@ -27,12 +28,13 @@ export default {
       this.prismEnergy.copyFrom(Currency.prismEnergy);
       this.conversionRate.copyFrom(PrismDimensions.conversionRate);
       this.powerPerSecond.copyFrom(PrismDimension(1).productionPerSecond);
-      this.incomeType = EternityChallenge(7).isRunning ? "Seventh Dimensions" : "Prism Energy";
+      this.incomeType = EternityChallenge(8).isRunning ? "Seventh Dimensions" : "Prism Energy";
       this.dimMultiplier.copyFrom(this.prismEnergy.pow(this.conversionRate).max(1));
       this.isEnslavedRunning = Enslaved.isRunning;
       this.isAnyAutobuyerUnlocked = Autobuyer.infinityDimension(1).isUnlocked;
       this.totalDimCap.copyFrom(InfinityDimensions.totalDimCap);
       this.creditsClosed = GameEnd.creditsEverClosed;
+      this.isEC12 = EternityChallenge(12).isRunning;
     },
     maxAll() {
       PrismDimensions.buyMax();
@@ -71,7 +73,7 @@ export default {
         <span class="c-prism-dim-description__accent">{{ formatPow(conversionRate, 2, 3) }}</span>
         making a
         <span class="c-prism-dim-description__accent">{{ formatX(dimMultiplier, 2, 1) }}</span>
-        unnerfed multiplier to Paradox Power and all Antimatter Dimensions.
+        multiplier to all {{ isEC12 ? 'other Dimensions' : 'Antimatter Dimensions'}} (unnerfed) and Paradox Power.
       </p>
     </div>
     

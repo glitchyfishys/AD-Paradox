@@ -21,7 +21,7 @@ export default {
     return {
       isUnlocked: false,
       isUnlockAffordable: false,
-      isInEC8: false,
+      isInEC9: false,
       ec8Purchases: 0,
       amount: new Decimal(),
       mult: new Decimal(),
@@ -136,8 +136,8 @@ export default {
         this.isUnlockAffordable = Currency.infinityPoints.gte(this.unlockCost);
         return;
       }
-      this.isInEC8 = EternityChallenge(8).isRunning;
-      if (this.isInEC8) {
+      this.isInEC9 = EternityChallenge(9).isRunning;
+      if (this.isInEC9) {
         this.ec8Purchases = player.eterc8repl;
       }
       this.amount.copyFrom(Replicanti.amount);
@@ -238,7 +238,7 @@ export default {
         >{{ format(maxReplicanti, 2) }}</span>.
       </div>
       <br>
-      <div v-if="isInEC8">
+      <div v-if="isInEC9">
         You have {{ quantifyInt("purchase", ec8Purchases) }} left within Eternity Challenge 8.
       </div>
       <div class="l-replicanti-upgrade-row">

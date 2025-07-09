@@ -122,4 +122,16 @@ export const infinityChallenges = [
     },
     unlockAM: DC.E26000,
   },
+  {
+    id: 9,
+    description: () =>
+      `Only the 1st Animatter dimensions produce anything.`,
+    goal: DC.E85000,
+    isQuickResettable: false,
+    reward: {
+      description: "You can pick another path from the Time Study Dimension Split. This does not reset on Eternity",
+      effect: () => 1,
+    },
+    unlockAM: DC.E1E6,
+  },
 ];

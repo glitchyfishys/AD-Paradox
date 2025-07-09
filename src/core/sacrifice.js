@@ -8,14 +8,14 @@ export class Sacrifice {
   }
 
   static get canSacrifice() {
-    return DimBoost.purchasedBoosts.gt(4) && !EternityChallenge(3).isRunning && this.nextBoost.gt(1) &&
+    return DimBoost.purchasedBoosts.gt(4) && !EternityChallenge(4).isRunning && this.nextBoost.gt(1) &&
       AntimatterDimension(8).totalAmount.gt(0) && Currency.antimatter.lt(Player.infinityLimit) &&
       !Enslaved.isRunning;
   }
 
   static get disabledCondition() {
     if (NormalChallenge(10).isRunning) return "8th Dimensions are disabled";
-    if (EternityChallenge(3).isRunning) return "Eternity Challenge 3";
+    if (EternityChallenge(4).isRunning) return "Eternity Challenge 4";
     if (DimBoost.purchasedBoosts.lt(5)) return `Requires ${formatInt(5)} Dimension Boosts`;
     if (AntimatterDimension(8).totalAmount.eq(0)) return "No 8th Antimatter Dimensions";
     if (this.nextBoost.lte(1)) return `${formatX(1)} multiplier`;
@@ -66,7 +66,7 @@ export class Sacrifice {
     const postIC2 = Effects.sum(Achievement(88), TimeStudy(228)).add(1);
     const triad = TimeStudy(304).effectOrDefault(1);
 
-    return base.mul(preIC2).mul(postIC2).mul(triad);
+    return base.mul(preIC2).mul(postIC2).mul(triad).mul(AbsurdityUpgrade.SacGain.effectOrDefault(1));
   }
 
   static get nextBoost() {

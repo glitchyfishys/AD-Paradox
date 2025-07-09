@@ -65,6 +65,8 @@ export function bigCrunchReset(
 function bigCrunchGiveRewards() {
   bigCrunchUpdateStatistics();
 
+  Currency.paradoxPower.add(gainedParadoxPower());
+  
   const infinityPoints = gainedInfinityPoints();
   Currency.infinityPoints.add(infinityPoints);
   Currency.infinities.add(gainedInfinities().round());
@@ -146,7 +148,7 @@ export function bigCrunchResetValues(enteringAntimatterChallenge) {
 }
 
 function bigCrunchCheckUnlocks() {
-  if (EternityChallenge(4).tryFail()) return;
+  if (EternityChallenge(5).tryFail()) return;
 
   if (Effarig.isRunning && !EffarigUnlock.infinity.isUnlocked) {
     EffarigUnlock.infinity.unlock();

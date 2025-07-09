@@ -152,7 +152,7 @@ export class Galaxy {
   }
 
   static get canBeBought() {
-    if (EternityChallenge(6).isRunning && !Enslaved.isRunning) return false;
+    if (EternityChallenge(7).isRunning && !Enslaved.isRunning) return false;
     if (NormalChallenge(8).isRunning || InfinityChallenge(7).isRunning) return false;
     if (player.records.thisInfinity.maxAM.gt(Player.infinityGoal) &&
        (!player.break || Player.isInAntimatterChallenge)) return false;
@@ -161,7 +161,7 @@ export class Galaxy {
 
   static get lockText() {
     if (this.canBeBought) return null;
-    if (EternityChallenge(6).isRunning) return "Locked (Eternity Challenge 6)";
+    if (EternityChallenge(7).isRunning) return "Locked (Eternity Challenge 7)";
     if (InfinityChallenge(7).isRunning) return "Locked (Infinity Challenge 7)";
     if (InfinityChallenge(1).isRunning) return "Locked (Infinity Challenge 1)";
     if (NormalChallenge(8).isRunning) return "Locked (8th Antimatter Dimension Autobuyer Challenge)";
@@ -169,12 +169,12 @@ export class Galaxy {
   }
 
   static get costScalingStart() {
-    if (EternityChallenge(5).isRunning) return DC.D0;
+    if (EternityChallenge(6).isRunning) return DC.D0;
     return DC.E2.plusEffectsOf(
       TimeStudy(223),
       TimeStudy(224),
       TimeStudy(302),
-      EternityChallenge(5).reward,
+      EternityChallenge(6).reward,
     ).add(GlyphInfo.power.sacrificeInfo.effect()).add(InfinityChallenge(7).isCompleted ? 10 : 0);
   }
 

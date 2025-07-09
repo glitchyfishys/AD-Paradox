@@ -164,6 +164,7 @@ export function getDilationGainPerSecond() {
   let dtRate = new Decimal(Currency.tachyonParticles.value)
     .timesEffectsOf(
       DilationUpgrade.dtGain,
+      Light.DTMul,
       Achievement(132),
       Achievement(137),
       RealityUpgrade(1),
@@ -229,7 +230,6 @@ export function getTachyonReq() {
     effectiveTP
       .times(Math.pow(400, 1.5))
       .pow(2 / 3)
-      .toNumber()
   );
 }
 

@@ -69,12 +69,12 @@ export const GameCache = {
 
   tickSpeedMultDecrease: new Lazy(() => new Decimal(10).sub(Effects.sum(
     BreakInfinityUpgrade.tickspeedCostMult,
-    EternityChallenge(11).reward
+    EternityChallenge(12).reward
   ))),
 
   dimensionMultDecrease: new Lazy(() => new Decimal(10).sub(Effects.sum(
     BreakInfinityUpgrade.dimCostMult,
-    EternityChallenge(6).reward
+    EternityChallenge(7).reward
   ))),
 
   timeStudies: new Lazy(() => NormalTimeStudyState.studies

@@ -98,9 +98,9 @@ export const speedrunMilestones = [
   {
     id: 13,
     key: "completeEC10",
-    name: "Eternity Challenge 10",
-    description: "Complete Eternity Challenge 10 for the first time",
-    checkRequirement: () => EternityChallenge(10).completions > 0,
+    name: "Eternity Challenge 11",
+    description: "Complete Eternity Challenge 11 for the first time",
+    checkRequirement: () => EternityChallenge(11).completions > 0,
     checkEvent: GAME_EVENT.ETERNITY_RESET_AFTER,
   },
   {

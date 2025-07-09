@@ -105,6 +105,7 @@ export function gainedInfinityPoints() {
 
   ip = ip.timesEffectsOf(
     PrismUpgrade.PPBoostIP_1,
+    QuasmaUpgrade.ipMultCE,
   )
 
   if (Teresa.isRunning) {
@@ -118,7 +119,13 @@ export function gainedInfinityPoints() {
     ip = ip.pow(getSecondaryGlyphEffect("infinityIP"));
   }
 
-  return ip.pow(0.25).floor();
+  if(ip.gte('e16000')) ip = ip.div(ip.div('e16000').pow(ParadoxAchievement(33).isEffectActive ? 0.7 : 0.95));
+
+  ip = ip.timesEffectsOf(// post softcap boost
+    EternityChallenge(3).reward,
+  )
+
+  return ip.pow(AbsurdityUpgrade.IPNerf.isBought ? 0.27 : 0.25).floor();
 }
 
 function totalEPMult() {
@@ -127,6 +134,7 @@ function totalEPMult() {
     : getAdjustedGlyphEffect("cursedEP")
       .timesEffectsOf(
         EternityUpgrade.epMult,
+        Light.EPMul,
         TimeStudy(61),
         TimeStudy(122),
         TimeStudy(121),
@@ -138,7 +146,7 @@ function totalEPMult() {
 
 export function gainedEternityPoints() {
   let ep = DC.D5.pow(player.records.thisEternity.maxIP.plus(
-    gainedInfinityPoints()).max(1).log10().div(new Decimal(308).sub(PelleRifts.recursion.effectValue)).sub(0.7))
+    gainedInfinityPoints()).max(1).log10().div(new Decimal(1024).sub(PelleRifts.recursion.effectValue)))
     .times(totalEPMult());
 
   if (Teresa.isRunning) {
@@ -156,8 +164,8 @@ export function gainedEternityPoints() {
 }
 
 export function requiredIPForEP(epAmount) {
-  return Decimal.pow10((Decimal.log(Decimal.divide(epAmount, totalEPMult()), 5).times(1000).plus(0.7)))
-    .clampMin('ee3');
+  return Decimal.pow10((Decimal.log10(Decimal.divide(epAmount, totalEPMult())).times(1024)))
+    .clampMin('e1024');
 }
 
 export function gainedGlyphLevel() {
@@ -267,8 +275,8 @@ export function addRealityTime(trueTime, time, realTime, rm, level, realities, a
 }
 
 export function gainedInfinities() {
-  if (EternityChallenge(4).isRunning || Pelle.isDisabled("InfinitiedMults")) return DC.D1;
-  let infGain = Decimal.max(1, Achievement(87));
+  if (EternityChallenge(5).isRunning || Pelle.isDisabled("InfinitiedMults")) return DC.D1;
+  let infGain = Decimal.max(1, Achievement(87).effectOrDefault(1));
 
   infGain = infGain.timesEffectsOf(
     TimeStudy(32),
@@ -313,7 +321,7 @@ export function getGameSpeedupFactor(effectsToConsider, blackHolesActiveOverride
   }
 
   if (effects.includes(GAME_SPEED_EFFECT.FIXED_SPEED)) {
-    if (EternityChallenge(12).isRunning) {
+    if (EternityChallenge(13).isRunning) {
       return Decimal.mul(1 / 1000, dev.speedUp);
     }
   }
@@ -380,7 +388,7 @@ export function getGameSpeedupForDisplay() {
   return speedFactor;
 }
 
-// Seperated for organisation - Very few things should need this
+// Separated for organisation - Very few things should need this
 export function trueTimeMechanics(trueDiff) {
   // Ra-Nameless auto-release stored time (once every 5 ticks)
   if (Enslaved.isAutoReleasing) {
@@ -408,6 +416,9 @@ export function realTimeMechanics(realDiff) {
   // Ra memory generation bypasses stored real time, but memory chunk generation is disabled when storing real time.
   // This is in order to prevent players from using time inside of Ra's reality for amplification as well
   Ra.memoryTick(realDiff, !Enslaved.isStoringRealTime);
+  
+  Light.all.forEach(l => l.unlock());
+
   if (AlchemyResource.momentum.isUnlocked) {
     player.celestials.ra.momentumTime = player.celestials.ra.momentumTime.add(
       realDiff.times(Achievement(175).effectOrDefault(1)));
@@ -493,7 +504,13 @@ export function gameLoop(passedDiff, options = {}) {
   GameCache.timeDimensionCommonMultiplier.invalidate();
   GameCache.totalIPMult.invalidate();
 
-  const fixedSpeedActive = EternityChallenge(12).isRunning;
+  if (QuasmaUpgrade.autoRGP.isEffectActive) {
+    if (Light.Replicanti.isUnlocked) Currency.light.blue = Currency.light.blue.add(Light.Replicanti.gain);
+    if (Light.ADMul.isUnlocked) Currency.light.red = Currency.light.red.add(Light.ADMul.gain);
+    if (Light.EPMul.isUnlocked) Currency.light.purple = Currency.light.purple.add(Light.EPMul.gain);
+  }
+
+  const fixedSpeedActive = EternityChallenge(13).isRunning;
   if (!Enslaved.isReleaseTick && !fixedSpeedActive) {
     let speedFactor;
     if (options.blackHoleSpeedup === undefined) {
@@ -535,7 +552,7 @@ export function gameLoop(passedDiff, options = {}) {
     player.records.thisInfinity.realTime = player.records.thisInfinity.realTime.add(realDiff);
     player.records.thisInfinity.time = player.records.thisInfinity.time.add(diff);
     player.records.thisEternity.realTime = player.records.thisEternity.realTime.add(realDiff);
-    if (Enslaved.isRunning && Enslaved.feltEternity && !EternityChallenge(12).isRunning) {
+    if (Enslaved.isRunning && Enslaved.feltEternity && !EternityChallenge(13).isRunning) {
       player.records.thisEternity.time = player.records.thisEternity.time.add(
         diff.times(1 + Currency.eternities.value.min(1e66).toNumber()));
     } else {
@@ -573,7 +590,7 @@ export function gameLoop(passedDiff, options = {}) {
 
   if (Perk.autocompleteEC1.canBeApplied) player.reality.lastAutoEC = player.reality.lastAutoEC.add(realDiff);
 
-  EternityChallenge(12).tryFail();
+  EternityChallenge(13).tryFail();
   Achievements._power.invalidate();
 
   TimeDimensions.tick(diff);
@@ -581,8 +598,8 @@ export function gameLoop(passedDiff, options = {}) {
   PrismDimensions.tick(diff);
   AntimatterDimensions.tick(diff);
 
-  const gain = Decimal.clampMin(FreeTickspeed.fromShards(Currency.timeShards.value).newAmount, 0);
-  player.totalTickGained = Decimal.add(gain, ParadoxUpgrade.TickspeedFree_1.effectOrDefault(0));
+  player.totalTickGained = Decimal.clampMin(FreeTickspeed.fromShards(Currency.timeShards.value).newAmount, 0);
+  player.totalTickBonus = new Decimal(ParadoxUpgrade.TickspeedFree_1.effectOrDefault(0));
 
   updatePrestigeRates();
   tryCompleteInfinityChallenges();
@@ -590,6 +607,8 @@ export function gameLoop(passedDiff, options = {}) {
   EternityChallenges.autoComplete.tick();
 
   replicantiLoop(diff);
+
+  Currency.chromaticEnergy.add(getChromaticEnergyGainPerSecond().times(diff.div(1000)));
 
   if (PlayerProgress.dilationUnlocked()) {
     Currency.dilatedTime.add(getDilationGainPerSecond().times(diff.div(1000)));
@@ -695,7 +714,7 @@ function passivePrestigeGen() {
     player.reality.partEternitied = player.reality.partEternitied.sub(player.reality.partEternitied.floor());
   }
 
-  if (!EternityChallenge(4).isRunning) {
+  if (!EternityChallenge(5).isRunning) {
     let infGen = DC.D0;
     if (BreakInfinityUpgrade.infinitiedGen.isBought) {
       // Multipliers are done this way to explicitly exclude ach87 and TS32
@@ -806,6 +825,7 @@ function laitelaBeatText(disabledDim) {
 // This gives IP/EP/RM from the respective upgrades that reward the prestige currencies continuously
 function applyAutoprestige(diff) {
   Currency.infinityPoints.add(TimeStudy(181).effectOrDefault(0));
+  Currency.paradoxPower.add(TimeStudy(112).effectOrDefault(0));
 
   if (TeresaUnlocks.epGen.canBeApplied) {
     Currency.eternityPoints.add(player.records.thisEternity.bestEPmin.times(DC.D0_01)
@@ -929,7 +949,7 @@ export function simulateTime(seconds, real, fast) {
   } else if (infinitiedMilestone.gt(0)) {
     Currency.infinities.add(infinitiedMilestone);
   } else {
-    Currency.eternityPoints.add(getOfflineEPGain(seconds * 1000));
+    Currency.eternityPoints.add(getOfflineEPGain(seconds / 60)); // this seems more acurate
   }
 
   if (InfinityUpgrade.ipOffline.isBought && player.options.offlineProgress) {

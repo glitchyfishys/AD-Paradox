@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     update() {
-      this.isLocked = player.eternities.eq(0);
+      this.isLocked = player.eternities.eq(0) && player.absurdity.absurdities.eq(0);
     }
   }
 };

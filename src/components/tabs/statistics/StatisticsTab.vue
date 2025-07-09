@@ -41,6 +41,10 @@ export default {
         thisReal: TimeSpan.zero,
         bestRate: new Decimal(),
       },
+      absurdity: {
+        isUnlocked: false,
+        count: new Decimal(),
+      },
       reality: {
         isUnlocked: false,
         count: new Decimal(),
@@ -72,6 +76,12 @@ export default {
       return num.gt(0)
         ? `${this.formatDecimalAmount(num)} ${pluralize("Eternity", num.floor())}`
         : "no Eternities";
+    },
+    absurdityCountString() {
+      const num = this.absurdity.count;
+      return num.gt(0)
+        ? `${this.formatDecimalAmount(num)} ${pluralize("Absurdity", num.floor())}`
+        : "no Absurdities";
     },
     fullGameCompletions() {
       return player.records.fullGameCompletions;
@@ -124,6 +134,14 @@ export default {
         eternity.best.setFrom(bestEternity.time);
         eternity.this.setFrom(records.thisEternity.time);
         eternity.bestRate.copyFrom(bestEternity.bestEPminReality);
+      }
+
+      const isAbsurdityUnlocked = progress.isAbsurdityUnlocked;
+      const absurdity = this.absurdity;
+      absurdity.isUnlocked = isAbsurdityUnlocked;
+
+      if(isAbsurdityUnlocked){
+        absurdity.count.copyFrom(Currency.absurdities);
       }
 
       const isRealityUnlocked = progress.isRealityUnlocked;
@@ -299,6 +317,17 @@ export default {
       <br>
     </div>
     <div
+      v-if="absurdity.isUnlocked"
+      class="c-stats-tab-subheader c-stats-tab-general"
+    >
+      <div class="c-stats-tab-title c-stats-tab-absurdity">
+        Absurdity
+      </div>
+      <div>
+        You have {{ absurdityCountString }}<span v-if="reality.isUnlocked"> this Reality</span>.
+      </div>
+    </div>
+    <div
       v-if="reality.isUnlocked"
       class="c-stats-tab-subheader c-stats-tab-general"
     >
@@ -356,6 +385,10 @@ export default {
 
 .c-stats-tab-reality {
   color: var(--color-reality);
+}
+
+.c-stats-tab-absurdity {
+  color: var(--color-absurdity);
 }
 
 .c-stats-tab-doomed {

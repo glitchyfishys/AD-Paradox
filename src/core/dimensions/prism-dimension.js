@@ -67,7 +67,7 @@ class PrismDimensionState extends DimensionState {
     const tier = this.tier;
     let toGain = DC.D0;
     if (tier === 8) {
-      if (EternityChallenge(7).isRunning) EternityChallenge(7).applyEffect(v => toGain = v.times(10));
+      if (EternityChallenge(8).isRunning) toGain = InfinityDimension(1).multiplier.mul(InfinityDimension(1).amount);
     } else {
       toGain = PrismDimension(tier + 1).productionPerSecond;
     }
@@ -76,35 +76,46 @@ class PrismDimensionState extends DimensionState {
   }
 
   get productionPerSecond() {
-    if (EternityChallenge(4).isRunning || EternityChallenge(10).isRunning ||
+    if (EternityChallenge(2).isRunning || EternityChallenge(11).isRunning ||
       (Laitela.isRunning && this.tier > Laitela.maxAllowedDimension)) {
       return DC.D0;
     }
     let production = this.amount;
-    if (EternityChallenge(11).isRunning) {
+    if (EternityChallenge(12).isRunning) {
       return production;
     }
-    if (EternityChallenge(7).isRunning) {
+    if (EternityChallenge(8).isRunning) {
       production = production.times(Tickspeed.perSecond);
     }
+
     return production.times(this.multiplier);
   }
 
   get multiplier() {
     const tier = this.tier;
-    if (EternityChallenge(11).isRunning) return DC.D1;
+    if (EternityChallenge(12).isRunning) return DC.D1;
     let mult = GameCache.prismDimensionCommonMultiplier.value
-    mult = mult.times(Decimal.pow(this.powerMultiplier, Decimal.floor(this.bought)));
+    mult = mult.times(Decimal.pow(Decimal.mul(this.powerMultiplier, QuasmaUpgrade.buy10Dim.effectOrDefault(1)), Decimal.floor(this.bought)));
 
     mult = mult.timesEffectsOf(
       PrismUpgrade.IPBoostPD,
+      TimeStudy(82),
+      TimeStudy(92),
+      TimeStudy(102),
+      TimeStudy(162),
     )
 
-    if(tier == 1) mult = mult.mul(PrismUpgrade.PPBoostPD_1.effectOrDefault(1));
+    if(tier == 1) {
+      mult = mult.mul(PrismUpgrade.PPBoostPD_1.effectOrDefault(1));
+      mult = mult.mul(EternityChallenge(2).reward.effectOrDefault(1));
+    }
+    if(tier == 2) mult = mult.mul(TimeStudy(72).effectOrDefault(1));
 
     if (player.dilation.active || PelleStrikes.dilation.hasStrike) {
       mult = dilatedValueOf(mult);
     }
+
+    if (player.absurdity.quasma.active) mult = quasmaValueOf(mult);
 
     if (Effarig.isRunning) {
       mult = Effarig.multiplier(mult);
@@ -112,15 +123,15 @@ class PrismDimensionState extends DimensionState {
       mult = mult.pow(0.5);
     }
 
-    mult = mult.pow(0.2);
+    mult = mult.pow([0.2, AbsurdityUpgrade.PDNerf.isBought ? 0.01 : 0, QuasmaUpgrade.dimNerf.isBought ? 0.01 : 0].sum());
 
     return mult;
   }
 
   get isProducing() {
     const tier = this.tier;
-    if (EternityChallenge(4).isRunning ||
-      EternityChallenge(10).isRunning ||
+    if (EternityChallenge(2).isRunning ||
+      EternityChallenge(11).isRunning ||
       (Laitela.isRunning && tier > Laitela.maxAllowedDimension)) {
       return false;
     }
@@ -170,7 +181,7 @@ class PrismDimensionState extends DimensionState {
     const costScaling = this.costScale.getMaxBought(this.bought, Currency.paradoxPower.value, DC.D1);
     if (costScaling.quantity == null) return false;
 
-    Currency.paradoxPower.purchase(Decimal.pow10(costScaling.logPrice).div(10));
+    Currency.paradoxPower.purchase(Decimal.pow10(costScaling.logPrice).div(this._baseCostMultiplier));
     this.bought = this.bought.plus(costScaling.quantity);
     this.amount = this.amount.plus(costScaling.quantity.times(10));
 
@@ -205,8 +216,8 @@ export const PrismDimensions = {
   },
 
   canBuy() {
-    return !EternityChallenge(4).isRunning &&
-      !EternityChallenge(10).isRunning;
+    return !EternityChallenge(2).isRunning &&
+      !EternityChallenge(11).isRunning;
   },
 
   canAutobuy() {
@@ -218,7 +229,7 @@ export const PrismDimensions = {
       PrismDimension(tier).produceDimensions(PrismDimension(tier - 1), diff.div(10));
     }
 
-    if (EternityChallenge(7).isRunning) {
+    if (EternityChallenge(8).isRunning) {
       if (!NormalChallenge(10).isRunning) {
         PrismDimension(1).produceDimensions(AntimatterDimension(7), diff);
       }
@@ -233,6 +244,6 @@ export const PrismDimensions = {
   },
 
   get conversionRate() {
-    return new Decimal(0.05);
+    return new Decimal(0.05).add(EternityChallenge(12).isRunning ? (EternityChallenge(12).completions * 0.25) : 0);
   }
 };

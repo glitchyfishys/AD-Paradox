@@ -9,6 +9,7 @@ import OpenModalHotkeysButton from "@/components/OpenModalHotkeysButton";
 import RealityAutobuyerBox from "./RealityAutobuyerBox";
 import SimpleAutobuyersMultiBox from "./SimpleAutobuyersMultiBox";
 import TickspeedAutobuyerBox from "./TickspeedAutobuyerBox";
+import ParadoxAutobuyerBox from "./ParadoxAutobuyerBox";
 
 export default {
   name: "AutobuyersTab",
@@ -18,6 +19,7 @@ export default {
     RealityAutobuyerBox,
     EternityAutobuyerBox,
     BigCrunchAutobuyerBox,
+    ParadoxAutobuyerBox,
     GalaxyAutobuyerBox,
     DimensionBoostAutobuyerBox,
     TickspeedAutobuyerBox,
@@ -86,6 +88,7 @@ export default {
     <RealityAutobuyerBox class="c-reality-pos" />
     <EternityAutobuyerBox class="c-eternity-pos" />
     <BigCrunchAutobuyerBox class="c-infinity-pos" />
+    <ParadoxAutobuyerBox class="c-paradox-pos" />
     <GalaxyAutobuyerBox />
     <DimensionBoostAutobuyerBox />
     <TickspeedAutobuyerBox v-if="!hasContinuum" />
@@ -106,14 +109,18 @@ when they're open. It looks slightly hacky but actually can't be done any other 
 its own stacking context, which means that all z-indices specified within are essentially scoped and the
 AutobuyerBox components will always render in page order regardless of internal z-indices without these. */
 .c-reality-pos {
-  z-index: 3;
+  z-index: 4;
 }
 
 .c-eternity-pos {
-  z-index: 2;
+  z-index: 3;
 }
 
 .c-infinity-pos {
+  z-index: 2;
+}
+
+.c-paradox-pos {
   z-index: 1;
 }
 </style>

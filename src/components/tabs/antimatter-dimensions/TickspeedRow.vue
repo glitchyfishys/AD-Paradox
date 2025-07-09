@@ -5,6 +5,7 @@ export default {
     return {
       purchasedTickspeed: new Decimal(0),
       freeTickspeed: new Decimal(0),
+      bonusTickspeed: new Decimal(0),
       isVisible: false,
       mult: new Decimal(0),
       cost: new Decimal(0),
@@ -16,7 +17,7 @@ export default {
       continuumValue: 0,
       hasTutorial: false,
       hasRealityButton: false,
-      isEC9: false,
+      isEC10: false,
     };
   },
   computed: {
@@ -40,9 +41,13 @@ export default {
     },
     upgradeCount() {
       const purchased = this.purchasedTickspeed;
-      if (!this.freeTickspeed) return quantifyInt("Purchased Upgrade", purchased);
-      if (purchased.eq(0) || this.isContinuumActive) return `${formatInt(this.freeTickspeed, 3)} Free Upgrades`;
-      return `${formatInt(purchased, 3)} Purchased + ${formatInt(this.freeTickspeed, 3)} Free`;
+      const bonus = this.bonusTickspeed;
+
+      if (this.freeTickspeed.eq(0) && bonus.eq(0)) return quantifyInt("Purchased Upgrade", purchased);
+
+      if (this.freeTickspeed.eq(0)) return ` ${formatInt(purchased, 3)} Purchased + ${formatInt(this.bonusTickspeed, 3)} Bonus Upgrades`;
+      
+      return `${formatInt(purchased, 3)} Purchased + ${formatInt(this.bonusTickspeed, 3)} Bonus + ${formatInt(this.freeTickspeed, 3)} Free`;
     }
   },
   methods: {
@@ -50,8 +55,9 @@ export default {
       this.hasRealityButton = PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought;
       this.purchasedTickspeed.copyFrom(player.totalTickBought);
       this.freeTickspeed.copyFrom(FreeTickspeed.amount);
-      this.isEC9 = EternityChallenge(9).isRunning;
-      this.isVisible = Tickspeed.isUnlocked || this.isEC9;
+      this.bonusTickspeed.copyFrom(Tickspeed.bonusUpgrades);
+      this.isEC10 = EternityChallenge(10).isRunning;
+      this.isVisible = Tickspeed.isUnlocked || this.isEC10;
       if (!this.isVisible) return;
       this.mult.copyFrom(Tickspeed.multiplier);
       this.cost.copyFrom(Tickspeed.cost);
@@ -87,8 +93,8 @@ export default {
         <span v-if="isContinuumActive">
           Tickspeed Continuum: {{ continuumString }}
         </span>
-        <span v-else-if="isEC9">
-          Tickspeed Unpurchasable (EC 9)
+        <span v-else-if="isEC10">
+          Tickspeed Unpurchasable (EC 10)
         </span>
         <span v-else>
           Tickspeed Cost: {{ format(cost) }}

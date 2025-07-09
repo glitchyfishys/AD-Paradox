@@ -23,6 +23,7 @@ import { TimeDimensionAutobuyerState } from "./time-dimension-autobuyer";
 import { TimeTheoremAutobuyerState } from "./time-theorem-autobuyer";
 
 import { PrismDimensionAutobuyerState } from "./prism-dimension-autobuyer";
+import { ParadoxAutobuyerState } from "./paradox-autobuyer";
 
 export const Autobuyer = {
   annihilation: new AnnihilationAutobuyerState(),
@@ -48,19 +49,21 @@ export const Autobuyer = {
   tickspeed: new TickspeedAutobuyerState(),
   timeDimension: TimeDimensionAutobuyerState.createAccessor(),
   timeTheorem: new TimeTheoremAutobuyerState(),
-  prismDimension: PrismDimensionAutobuyerState.createAccessor()
+  prismDimension: PrismDimensionAutobuyerState.createAccessor(),
+  paradox: new ParadoxAutobuyerState(),
 };
 
 export const Autobuyers = (function() {
   const antimatterDimensions = Autobuyer.antimatterDimension.zeroIndexed;
+  const prismDimension = Autobuyer.prismDimension.zeroIndexed;
   const infinityDimensions = Autobuyer.infinityDimension.zeroIndexed;
   const timeDimensions = Autobuyer.timeDimension.zeroIndexed;
-  const prismDimension = Autobuyer.prismDimension.zeroIndexed;
 
-  const dimensions = [antimatterDimensions, infinityDimensions, timeDimensions, prismDimension];
+  const dimensions = [antimatterDimensions, prismDimension, infinityDimensions, timeDimensions];
 
   const prestige = [
     Autobuyer.bigCrunch,
+    Autobuyer.paradox,
     Autobuyer.eternity,
     Autobuyer.reality,
   ];
@@ -93,9 +96,9 @@ export const Autobuyers = (function() {
   const all = dimensions.concat(prestige, singleComplex, arrays);
   const multiple = [
     Autobuyer.antimatterDimension,
+    Autobuyer.prismDimension,
     Autobuyer.infinityDimension,
     Autobuyer.timeDimension,
-    Autobuyer.prismDimension,
     Autobuyer.replicantiUpgrade,
     Autobuyer.dilationUpgrade,
     Autobuyer.blackHolePower,
@@ -121,6 +124,7 @@ export const Autobuyers = (function() {
       return [Autobuyer.dimboost,
         Autobuyer.galaxy,
         Autobuyer.bigCrunch,
+        Autobuyer.paradox,
         Autobuyer.eternity,
         Autobuyer.reality].some(autobuyer => autobuyer.isUnlocked);
     },
@@ -164,4 +168,5 @@ EventHub.logic.on(GAME_EVENT.DIMBOOST_AFTER, () => Autobuyers.resetTick(PRESTIGE
 EventHub.logic.on(GAME_EVENT.GALAXY_RESET_AFTER, () => Autobuyers.resetTick(PRESTIGE_EVENT.ANTIMATTER_GALAXY));
 EventHub.logic.on(GAME_EVENT.BIG_CRUNCH_AFTER, () => Autobuyers.resetTick(PRESTIGE_EVENT.INFINITY));
 EventHub.logic.on(GAME_EVENT.ETERNITY_RESET_AFTER, () => Autobuyers.resetTick(PRESTIGE_EVENT.ETERNITY));
+EventHub.logic.on(GAME_EVENT.ABSURDITY_RESET_AFTER, () => Autobuyers.resetTick(PRESTIGE_EVENT.ABSURDITY));
 EventHub.logic.on(GAME_EVENT.REALITY_RESET_AFTER, () => Autobuyers.resetTick(PRESTIGE_EVENT.REALITY));

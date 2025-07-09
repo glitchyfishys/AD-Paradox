@@ -14,11 +14,6 @@ export default {
 
 <template>
   <div class="l-achievements-tab">
-    <div class="c-achievements-tab__header">
-      <span>
-        There is a {{ formatPow(0.2,1,1) }} Nerf to most things
-      </span>
-    </div>
     <div class="l-achievement-grid">
       <paradox-achievement-row
         v-for="(row, i) in rows"

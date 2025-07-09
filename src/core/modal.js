@@ -23,6 +23,10 @@ import ReplicantiGalaxyModal from "@/components/modals/prestige/ReplicantiGalaxy
 import ResetRealityModal from "@/components/modals/prestige/ResetRealityModal";
 
 import ParadoxModal from "@/components/modals/prestige/ParadoxModal";
+import AbsurdityModal from "@/components/modals/prestige/AbsurdityModal";
+
+import EnterQuasmaModal from "@/components/modals/prestige/EnterQuasmaModal";
+import ExitQuasmaModal from "@/components/modals/prestige/ExitQuasmaModal";
 
 
 import AnimationOptionsModal from "@/components/modals/options/AnimationOptionsModal";
@@ -221,6 +225,9 @@ Modal.changeName = new Modal(ChangeNameModal);
 Modal.armageddon = new Modal(ArmageddonModal, 1);
 
 Modal.paradox = new Modal(ParadoxModal, 1, GAME_EVENT.PARADOX_AFTER);
+Modal.absurdity = new Modal(AbsurdityModal, 1, GAME_EVENT.ABSURDITY_AFTER);
+Modal.enterQuasma = new Modal(EnterQuasmaModal, 1, GAME_EVENT.ABSURDITY_RESET_AFTER);
+Modal.exitQuasma = new Modal(ExitQuasmaModal, 1, GAME_EVENT.ABSURDITY_RESET_AFTER);
 
 Modal.confirmationOptions = new Modal(ConfirmationOptionsModal);
 Modal.infoDisplayOptions = new Modal(InfoDisplayOptionsModal);

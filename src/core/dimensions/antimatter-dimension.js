@@ -9,13 +9,14 @@ export function antimatterDimensionCommonMultiplier() {
 
   multiplier = multiplier.times(Achievements.power);
 
-  if (!EternityChallenge(9).isRunning) {
+  if (!EternityChallenge(10).isRunning) {
     multiplier = multiplier.times(Currency.infinityPower.value.pow(InfinityDimensions.powerConversionRate).max(1));
   }
   multiplier = multiplier.timesEffectsOf(
     ParadoxUpgrade.BaseAD_1,
     ParadoxUpgrade.BaseAD_2,
     PrismUpgrade.PPBoostAD_1,
+    Light.ADMul,
     BreakInfinityUpgrade.totalAMMult,
     BreakInfinityUpgrade.currentAMMult,
     BreakInfinityUpgrade.achievementMult,
@@ -32,6 +33,7 @@ export function antimatterDimensionCommonMultiplier() {
     Achievement(84),
     Achievement(91),
     Achievement(92),
+    TimeStudy(71),
     TimeStudy(91),
     TimeStudy(101),
     TimeStudy(161),
@@ -39,9 +41,9 @@ export function antimatterDimensionCommonMultiplier() {
     InfinityChallenge(3),
     InfinityChallenge(3).reward,
     InfinityChallenge(8),
-    EternityChallenge(10),
+    EternityChallenge(11),
     AlchemyResource.dimensionality,
-    PelleUpgrade.antimatterDimensionMult
+    PelleUpgrade.antimatterDimensionMult,
   );
 
   multiplier = multiplier.dividedByEffectOf(InfinityChallenge(6));
@@ -56,10 +58,10 @@ export function antimatterDimensionCommonMultiplier() {
 export function getDimensionFinalMultiplierUncached(tier) {
   if (tier < 1 || tier > 8) throw new Error(`Invalid Antimatter Dimension tier ${tier}`);
   if (NormalChallenge(10).isRunning && tier > 6) return DC.D1;
-  if (EternityChallenge(11).isRunning) {
+  if (EternityChallenge(12).isRunning) {
     return Currency.infinityPower.value.pow(
       InfinityDimensions.powerConversionRate
-    ).max(1).times(DimBoost.multiplierToNDTier(tier));
+    ).max(1).mul(Currency.prismEnergy.value.pow(PrismDimensions.conversionRate).max(1)).times(DimBoost.multiplierToNDTier(tier));
   }
 
   let multiplier = DC.D1;
@@ -75,6 +77,18 @@ export function getDimensionFinalMultiplierUncached(tier) {
   }
   multiplier = multiplier.timesEffectOf(DilationUpgrade.ndMultDT);
 
+  if (player.dilation.active || PelleStrikes.dilation.hasStrike) {
+    multiplier = dilatedValueOf(multiplier.pow(glyphDilationPowMultiplier));
+  } else if (Enslaved.isRunning) {
+    multiplier = dilatedValueOf(multiplier);
+  }
+
+  if (player.absurdity.quasma.active) {
+    multiplier = quasmaValueOf(multiplier);
+    multiplier = multiplier.mul(QuasmaUpgrade.ADMultCE.effectOrDefault(1));
+  }
+  
+
   if (Effarig.isRunning) {
     multiplier = Effarig.multiplier(multiplier);
   } else if (V.isRunning) {
@@ -88,7 +102,9 @@ export function getDimensionFinalMultiplierUncached(tier) {
 
   if(multiplier.gt(1e50)) multiplier = multiplier.div(multiplier.div(1e50).pow(0.15));
 
-  multiplier = multiplier.pow(0.2) // paradox power
+
+
+  multiplier = multiplier.pow([0.2, AbsurdityUpgrade.ADNerf.isBought ? 0.01 : 0, QuasmaUpgrade.dimNerf.isBought ? 0.01 : 0].sum());
 
   multiplier = multiplier.mul(Currency.prismEnergy.value.pow(PrismDimensions.conversionRate).max(1));
 
@@ -123,21 +139,21 @@ function applyNDMultipliers(mult, tier) {
         Achievement(28),
         Achievement(31),
         Achievement(68),
-        Achievement(71),
-        TimeStudy(234)
+        Achievement(71)
       );
   }
+
   if (ParadoxUpgrade.DimSacAllADs_1.isEffectActive || tier === 8) {
     multiplier = multiplier.mul(Sacrifice.totalBoost);
   }
 
   multiplier = multiplier.timesEffectsOf(
-    tier === 8 ? Achievement(23) : null,
+    tier == 8 ? Achievement(23) : null,
     tier < 8 ? Achievement(34) : null,
     tier <= 4 ? Achievement(64) : null,
-    tier < 8 ? TimeStudy(71) : null,
-    tier === 8 ? TimeStudy(214) : null,
-    tier > 1 && tier < 8 ? InfinityChallenge(8).reward : null
+    tier == 8 ? TimeStudy(214) : null,
+    tier > 1 && tier < 8 ? InfinityChallenge(8).reward : null,
+    QuasmaUpgrade.ADMul
   );
   if (Achievement(43).isUnlocked) {
     multiplier = multiplier.times(1 + tier / 100);
@@ -431,13 +447,13 @@ class AntimatterDimensionState extends DimensionState {
   get rateOfChange() {
     const tier = this.tier;
     if (tier === 8 ||
-      (tier > 3 && EternityChallenge(3).isRunning) ||
+      (tier > 3 && EternityChallenge(4).isRunning) ||
       (tier > 6 && NormalChallenge(12).isRunning)) {
       return DC.D0;
     }
 
     let toGain;
-    if (tier === 7 && EternityChallenge(7).isRunning) {
+    if (tier === 7 && EternityChallenge(8).isRunning) {
       toGain = InfinityDimension(1).productionPerSecond.times(10);
     } else if (NormalChallenge(12).isRunning) {
       toGain = AntimatterDimension(tier + 2).productionPerSecond;
@@ -452,7 +468,7 @@ class AntimatterDimensionState extends DimensionState {
    */
   get isProducing() {
     const tier = this.tier;
-    if ((EternityChallenge(3).isRunning && tier > 4) ||
+    if ((EternityChallenge(4).isRunning && tier > 4) ||
       (NormalChallenge(10).isRunning && tier > 6) ||
       (Laitela.isRunning && tier > Laitela.maxAllowedDimension)) {
       return false;
@@ -611,6 +627,8 @@ class AntimatterDimensionState extends DimensionState {
         production = Decimal.pow10(Decimal.pow(log10, getAdjustedGlyphEffect("effarigantimatter")));
       }
       if(production.gt(1e200)) production = production.div(production.div(1e200).pow(0.1));
+      if(EternityChallenge(8).isRunning && production.gt('e2e6')) production = production.div(production.div('e2e6').pow(0.96));
+      if(production.gt('e5e6')) production = production.div(production.div('e5e6').pow(0.66));
     }
 
     production = production.min(this.cappedProductionInNormalChallenges);
@@ -649,12 +667,13 @@ export const AntimatterDimensions = {
 
     let mult = DC.D1.plusEffectsOf(
       Achievement(141).effects.buyTenMult,
-      EternityChallenge(3).reward
+      EternityChallenge(4).reward
     );
 
     mult = mult.timesEffectsOf(
       ParadoxUpgrade.ADbuy10_1,
       InfinityUpgrade.buy10Mult,
+      QuasmaUpgrade.buy10Dim,
       Achievement(58)
     ).times(getAdjustedGlyphEffect("powerbuy10"));
 
@@ -670,7 +689,9 @@ export const AntimatterDimensions = {
     const hasBigCrunchGoal = !player.break || Player.isInAntimatterChallenge;
     if (hasBigCrunchGoal && Currency.antimatter.gte(Player.infinityGoal)) return;
 
-    let maxTierProduced = EternityChallenge(3).isRunning ? 3 : 7;
+    let maxTierProduced = EternityChallenge(4).isRunning ? 3 : 7;
+    if (InfinityChallenge(9).isRunning) maxTierProduced = 0;
+
     let nextTierOffset = 1;
     if (NormalChallenge(12).isRunning) {
       maxTierProduced--;

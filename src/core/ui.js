@@ -57,6 +57,7 @@ Vue.mixin({
     formatPercents,
     formatRarity,
     formatX,
+    formatAdd,
     formatPow,
     formatPostBreak,
     pluralize,

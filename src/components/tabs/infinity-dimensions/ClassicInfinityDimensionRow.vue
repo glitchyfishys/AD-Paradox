@@ -32,7 +32,7 @@ export default {
       isCapped: false,
       capIP: new Decimal(0),
       isAutobuyerOn: false,
-      isEC8Running: false,
+      isEC9Running: false,
       hardcap: new Decimal(0),
       eternityReached: false,
       enslavedRunning: false,
@@ -102,7 +102,7 @@ export default {
         this.capIP.copyFrom(dimension.hardcapIPAmount);
         this.hardcap.copyFrom(dimension.purchaseCap);
       }
-      this.isEC8Running = EternityChallenge(8).isRunning;
+      this.isEC9Running = EternityChallenge(9).isRunning;
       this.isAutobuyerOn = autobuyer.isActive;
       this.eternityReached = PlayerProgress.eternityUnlocked();
       this.enslavedRunning = Enslaved.isRunning;
@@ -143,7 +143,7 @@ export default {
         </div>
       </PrimaryButton>
       <PrimaryToggleButton
-        v-if="isAutobuyerUnlocked && !isEC8Running"
+        v-if="isAutobuyerUnlocked && !isEC9Running"
         v-model="isAutobuyerOn"
         class="o-primary-btn--id-auto"
         label="Auto:"

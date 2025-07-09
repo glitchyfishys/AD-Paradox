@@ -47,7 +47,7 @@ export const pelleUpgrades = {
     description: "Increase Infinity Power conversion rate",
     cost: [40, 1e3, 20, 1e18],
     effect: x => x.mul(3.5).pow(0.37),
-    formatEffect: x => `+${format(x, 2, 2)}`,
+    formatEffect: x => `${formatAdd(x, 2, 2)}`,
     cap: 21
   }),
   galaxyPower: rebuyable({

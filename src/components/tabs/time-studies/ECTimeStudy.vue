@@ -48,7 +48,7 @@ export default {
       return this.study.id === 7;
     },
     needsSecondLinebreak() {
-      return [3, 4, 7].includes(this.study.id);
+      return [4, 5, 8].includes(this.study.id);
     }
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
       this.showTotalCompletions = !Enslaved.isRunning || id !== 1;
       this.isRunning = EternityChallenge.current?.id === id;
       this.isUnlocked = ec.isUnlocked;
-      if (!this.hasRequirement || id > 10) return;
+      if (!this.hasRequirement || id > 11) return;
       const requirement = this.requirement;
       if (this.hasNumberRequirement) {
         requirement.total = study.requirementTotal;

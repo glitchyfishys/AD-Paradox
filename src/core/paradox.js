@@ -30,9 +30,7 @@ export function paradoxReset( forced = false) {
 }
 
 function paradoxGiveRewards() {
-
-  const PP = gainedParadoxPower();
-  Currency.paradoxPower.add(PP);
+  Currency.paradoxPower.add(gainedParadoxPower());
 }
 
 function paradox() {
@@ -55,6 +53,9 @@ export function gainedParadoxPower(){
     PrismUpgrade.AD8BoostPP_1,
   )
 
+  PP = PP.pow(AbsurdityUpgrade.PPGain.effectOrDefault(1));
+
+  if(PP.gt('e2000')) PP = PP.div(PP.div('e2000').pow(0.94));
 
   return PP;
 }

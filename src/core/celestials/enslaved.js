@@ -42,6 +42,7 @@ export const Enslaved = {
   glyphLevelMin: 5000,
   currentBlackHoleStoreAmountPerMs: DC.D0,
   tachyonNerf: 0.3,
+  nitronicNerf: 0.1,
   toggleStoreBlackHole() {
     if (!this.canModifyGameTimeStorage) return;
     player.celestials.enslaved.isStoring = !player.celestials.enslaved.isStoring;
@@ -57,7 +58,7 @@ export const Enslaved = {
     player.celestials.enslaved.autoStoreReal = !player.celestials.enslaved.autoStoreReal;
   },
   get canModifyGameTimeStorage() {
-    return Enslaved.isUnlocked && !Pelle.isDoomed && !BlackHoles.arePaused && !EternityChallenge(12).isRunning &&
+    return Enslaved.isUnlocked && !Pelle.isDoomed && !BlackHoles.arePaused && !EternityChallenge(13).isRunning &&
       !Enslaved.isRunning && !Laitela.isRunning;
   },
   get canModifyRealTimeStorage() {
@@ -108,7 +109,7 @@ export const Enslaved = {
     return diffMs - used;
   },
   canRelease(auto) {
-    return !Enslaved.isStoringRealTime && !EternityChallenge(12).isRunning && !Laitela.isRunning &&
+    return !Enslaved.isStoringRealTime && !EternityChallenge(13).isRunning && !Laitela.isRunning &&
       !(Enslaved.isRunning && auto) && !Pelle.isDoomed;
   },
   // "autoRelease" should only be true when called with the Ra upgrade

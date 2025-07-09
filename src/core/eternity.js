@@ -141,6 +141,21 @@ export function eternity(force, auto, specialConditions = {}) {
   Currency.antimatter.reset();
   ECTimeStudyState.invalidateCachedRequirements();
 
+  PrismDimensions.fullReset();
+  Currency.prismEnergy.reset();
+  Currency.paradoxPower.reset();
+  
+  Currency.light.red = DC.D0;
+  Currency.light.blue = DC.D0;
+  Currency.light.purple = DC.D0;
+
+  if(!EternityMilestone.unlockReplicanti.isReached) player.paradox.prismUpgrades.clear();
+
+  if (!PrismUpgrade.KeepRow2_1.isEffectActive) {
+    player.paradox.upgrades.clear();
+    if (ParadoxAchievement(23).isEffectActive) player.paradox.upgrades = new Set(["ADbuy10_1", "BaseAD_1", "Dimboost_1", "Tickspeed_1", "Ach_1"]);
+  }
+
   PelleStrikes.eternity.trigger();
 
   EventHub.dispatch(GAME_EVENT.ETERNITY_RESET_AFTER);
@@ -275,7 +290,7 @@ class EPMultiplierState extends GameMechanicState {
   constructor() {
     super({});
     this.cachedCost = new Lazy(() => this.costAfterCount(player.epmultUpgrades));
-    this.cachedEffectValue = new Lazy(() => DC.D5.pow(player.epmultUpgrades));
+    this.cachedEffectValue = new Lazy(() => DC.D15.pow(player.epmultUpgrades));
   }
 
   get isAffordable() {

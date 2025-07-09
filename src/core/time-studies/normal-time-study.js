@@ -4,8 +4,9 @@ export const NormalTimeStudies = {};
 
 NormalTimeStudies.pathList = [
   { path: TIME_STUDY_PATH.ANTIMATTER_DIM, studies: [71, 81, 91, 101], name: "Antimatter Dims" },
-  { path: TIME_STUDY_PATH.INFINITY_DIM, studies: [72, 82, 92, 102], name: "Infinity Dims" },
-  { path: TIME_STUDY_PATH.TIME_DIM, studies: [73, 83, 93, 103], name: "Time Dims" },
+  { path: TIME_STUDY_PATH.PRISM_DIM, studies: [72, 82, 92, 102], name: "Prism Dims" },
+  { path: TIME_STUDY_PATH.INFINITY_DIM, studies: [73, 83, 93, 103], name: "Infinity Dims" },
+  { path: TIME_STUDY_PATH.TIME_DIM, studies: [74, 84, 94, 104], name: "Time Dims" },
   { path: TIME_STUDY_PATH.ACTIVE, studies: [121, 131, 141], name: "Active" },
   { path: TIME_STUDY_PATH.PASSIVE, studies: [122, 132, 142], name: "Passive" },
   { path: TIME_STUDY_PATH.IDLE, studies: [123, 133, 143], name: "Idle" },
@@ -77,6 +78,7 @@ export class NormalTimeStudyState extends TimeStudyState {
 
   purchase(auto = false) {
     if (this.isBought || !this.isAffordable || !this.canBeBought) return false;
+    if (this.id == 201 && player.absurdity.quasma.active) return false; // don't buy 201 while in Quasma
     if (GameEnd.creditsEverClosed) return false;
     if (ImaginaryUpgrade(19).isLockingMechanics && player.timestudy.studies.length === 8) {
       if (!auto) ImaginaryUpgrade(19).tryShowWarningModal();
@@ -130,7 +132,7 @@ TimeStudy.preferredPaths = {
       return player.timestudy.preferredPaths[0];
     },
     set path(value) {
-      const options = [1, 2, 3];
+      const options = [1, 2, 3, 4];
       player.timestudy.preferredPaths[0] = value.filter(id => options.includes(id));
     },
     get studies() {
@@ -138,7 +140,7 @@ TimeStudy.preferredPaths = {
     },
     get usePriority() {
       return this.path.length > 1 ||
-        TimeStudy(201).isBought ||
+        InfinityChallenge(9).isCompleted ||
         DilationUpgrade.timeStudySplit.isBought ||
         PlayerProgress.realityUnlocked();
     }
@@ -148,7 +150,7 @@ TimeStudy.preferredPaths = {
       return player.timestudy.preferredPaths[1];
     },
     set path(value) {
-      const options = [4, 5, 6];
+      const options = [5, 6, 7];
       player.timestudy.preferredPaths[1] = options.includes(value) ? value : 0;
     },
     get studies() {
