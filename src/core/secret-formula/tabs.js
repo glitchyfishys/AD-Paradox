@@ -556,6 +556,7 @@ export const tabs = [
     UIClass: "o-tab-btn--absurdity",
     hideAt: 2.3,
     id: 12,
+    condition: () => PlayerProgress.realityUnlocked() || PlayerProgress.absurdityUnlocked(),
     hidable: true,
     subtabs: [
       {
