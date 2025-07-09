@@ -918,7 +918,7 @@ export const normalAchievements = [
   {
     id: 128,
     name: "What do I have to do to get rid of you",
-    get description() { return `Reach ${formatPostBreak("1e215000")} Infinity Points without any Time Studies.`; },
+    get description() { return `Reach ${formatPostBreak("1e15000")} Infinity Points without any Time Studies.`; },
     checkRequirement: () => Currency.infinityPoints.gte("1e15000") && player.timestudy.studies.length === 0,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "Time Dimensions are Power based on the number of Time Studies you have.",
