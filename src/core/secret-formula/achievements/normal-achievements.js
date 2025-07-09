@@ -957,13 +957,13 @@ export const normalAchievements = [
     id: 133,
     name: "I never liked this infinity stuff anyway",
     get description() {
-      return `Reach ${formatPostBreak(DC.E200000)} Infinity Points without
+      return `Reach ${formatPostBreak(DC.E100000)} Infinity Points without
       buying any Infinity Dimensions or the ${formatX(2)} Infinity Point multiplier.`;
     },
     checkRequirement: () =>
       Array.dimensionTiers.map(InfinityDimension).every(dim => dim.baseAmount.eq(0)) &&
-      player.IPMultPurchases === DC.D0 &&
-      Currency.infinityPoints.gte(DC.E200000),
+      player.IPMultPurchases.eq(DC.D0) &&
+      Currency.infinityPoints.gte(DC.E100000),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "You start Eternities with all Infinity Challenges unlocked and completed."
   },
@@ -1009,12 +1009,12 @@ export const normalAchievements = [
     id: 138,
     name: "This is what I have to do to get rid of you.",
     get description() {
-      return `Reach ${formatPostBreak("1e26000")} Infinity Points without any Time Studies while Dilated.`;
+      return `Reach ${formatPostBreak("1e18000")} Infinity Points without any Time Studies while Dilated.`;
     },
     checkRequirement: () =>
       player.timestudy.studies.length === 0 &&
       player.dilation.active &&
-      Currency.infinityPoints.gte("1e26000"),
+      Currency.infinityPoints.gte("1e18000"),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "Removes the downsides from Time Study 131 and 133 in the Active and Idle Time Study paths."
   },

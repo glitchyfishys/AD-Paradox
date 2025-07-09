@@ -34,7 +34,7 @@ export const lightEffects = {
       let v = Currency.light.green.pow(0.1).mul(3).max(1);
       if (v.gt(100)) v = v.div(v.div(100).pow(0.85));
       if (v.gt(5e3)) v = v.div(v.div(5e3).pow(0.95));
-      return v;
+      return v.min(1e4);
     },
     formatEffect: value => formatX(value, 2, 2),
     get gain() {
