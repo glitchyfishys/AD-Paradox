@@ -25,7 +25,7 @@ export default {
         ],
         [
           AbsurdityUpgrade.IPNerf,
-          AbsurdityUpgrade.EPNerf,
+          AbsurdityUpgrade.EPFromAE,
           AbsurdityUpgrade.RGCap,
         ],
         [

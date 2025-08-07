@@ -1,6 +1,5 @@
 import { AbsurdityUpgrade } from "./absurdity-upgrades";
 import { DC } from "./constants";
-import { absurdityUpgrades } from "./secret-formula/absurdity/absurdity-upgrades";
 
 export function manualAbsurdityResetRequest() {
   if (!Player.canAbsurdity) return;
@@ -64,7 +63,7 @@ function absurdity() {
     if (ParadoxAchievement(23).isEffectActive) player.paradox.upgrades = new Set(["ADbuy10_1", "BaseAD_1", "Dimboost_1", "Tickspeed_1", "Ach_1"]);
   }
 
-  initializeChallengeCompletions(true);
+  initializeChallengeCompletions(false);
 
   Currency.infinities.reset();
   Currency.infinitiesBanked.reset();

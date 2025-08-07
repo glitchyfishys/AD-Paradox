@@ -9,6 +9,8 @@ export default {
       PDNerf: 0.2,
       IDNerf: 0.2,
       TDNerf: 0.2,
+      IPNerf: 0.2,
+      EPNerf: 0.2,
     };
   },
   methods: {
@@ -17,6 +19,9 @@ export default {
       this.PDNerf = [0.2, AbsurdityUpgrade.PDNerf.isBought ? 0.01 : 0, QuasmaUpgrade.dimNerf.isBought ? 0.01 : 0].sum();
       this.IDNerf = [0.2, AbsurdityUpgrade.IDNerf.isBought ? 0.01 : 0, QuasmaUpgrade.dimNerf.isBought ? 0.01 : 0].sum();
       this.TDNerf = [0.2, QuasmaUpgrade.dimNerf.isBought ? 0.01 : 0].sum();
+      this.IPNerf = AbsurdityUpgrade.IPNerf.isBought ? 0.27 : 0.25;
+      this.EPNerf = 0.25;
+
     }
   }
 };
@@ -45,11 +50,11 @@ export default {
         There is a {{ formatPow(0.2, 2, 2) }} Nerf to Tickspeed
       </div><br>
       <div>
-        There is a {{ formatPow(0.2, 2, 2) }} Nerf to Infinity Points <br>
+        There is a {{ formatPow(IPNerf, 2, 2) }} Nerf to Infinity Points <br>
         Softcap at {{format('1e4000')}}
       </div>
       <div>
-        There is a {{ formatPow(0.2, 2, 2) }} Nerf to Eternity Points
+        There is a {{ formatPow(EPNerf, 2, 2) }} Nerf to Eternity Points
       </div>
     </div>
   </div>

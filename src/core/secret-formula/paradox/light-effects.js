@@ -29,7 +29,7 @@ export const lightEffects = {
     slotID: 1,
     unlocked: () => Currency.timeTheorems.value.gte(1e6),
     description: () => "Dilated Time multiplier based on green light",
-    lockedDescription: () => `Have a total of ${format(1e6)} Time Therom`,
+    lockedDescription: () => `Have a total of ${format(1e6)} Time Theorem`,
     effect: () => {
       let v = Currency.light.green.pow(0.1).mul(3).max(1);
       if (v.gt(100)) v = v.div(v.div(100).pow(0.85));

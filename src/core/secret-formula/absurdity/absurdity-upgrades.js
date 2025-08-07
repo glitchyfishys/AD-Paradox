@@ -26,17 +26,17 @@ export const absurdityUpgrades = {
     description: () => `Reduce the Infinity Point nerf by ${formatAdd(0.02,0,2)}.`,
     effect: () => 1,
   },
-  EPNerf: {
-    id: "EPNerf",
+  EPFromAE: {
+    id: "EPFromAE",
     cost: 250,
     checkRequirement: () => AbsurdityUpgrade.IPNerf.isBought,
-    description: () => `Reduce the Eternity Point nerf by ${formatAdd(0.03,0,2)}.`,
-    effect: () => 1,
+    description: () => `Absurdity Energy multiplies Eternity Points.`,
+    effect: () => Currency.absurdityEnergy.value,
   },
   RGCap: {
     id: "RGCap",
     cost: 500,
-    checkRequirement: () => AbsurdityUpgrade.EPNerf.isBought,
+    checkRequirement: () => AbsurdityUpgrade.EPFromAE.isBought,
     description: () => `Time Study 131, 132, 133 gains +${formatPercents(0.1)} to thier Replicanti Galaxies effect.`,
     effect: () => 1.1,
   },

@@ -7328,7 +7328,44 @@ export const news = [
   },
   {
     id: "px1",
-    get text() {return `Nothing happend`},
+    text: `Nothing happend.`,
     get unlocked() { return PlayerProgress.eternityUnlocked(); }
-  }
+  },
+  {
+    id: "px2",
+    text: `You cant get this before the Reality unlock.`,
+    get unlocked() { return PlayerProgress.realityUnlocked(); }
+  },
+  {
+    id: "px3",
+    text: `This statement is false.`,
+  },
+  {
+    id: "px4",
+    text: `Hey it's me, Glitchyfishys. Telling you to stop reading this news measage and play the game`,
+  },
+  {
+    id: "px5",
+    text: `What is a "Loss"?`,
+  },
+  {
+    id: "px6",
+    text: `Did you know Expeditious is a mod too?`,
+  },
+  {
+    id: "px7",
+    text: `There is no Update in 5 hours.`,
+  },
+  {
+    id: "px8",
+    text: `"No you can't add your own quotes" - Glitchyfishys`,
+  },
+  {
+    id: "px9",
+    text: `This is a Paradox.`,
+  },
+  {
+    id: "px10",
+    text: `I have plans for you "Destroyer".`,
+  },
 ];
