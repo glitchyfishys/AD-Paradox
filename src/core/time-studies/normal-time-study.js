@@ -93,6 +93,7 @@ export class NormalTimeStudyState extends TimeStudyState {
     GameCache.timeStudies.invalidate();
     TimeStudyTree.commitToGameState([TimeStudy(this.id)]);
     if (this.id === 181 && Pelle.isDoomed) Achievement(186).unlock();
+    if (this.id === 201 && Perk.startTP.isEffectActive) Currency.nitronicEnergy.bumpTo(10);
     return true;
   }
 

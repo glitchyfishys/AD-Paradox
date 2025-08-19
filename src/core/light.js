@@ -11,7 +11,7 @@ class LightState extends GameMechanicState {
   }
 
   get gain() {
-    return this.config.gain;
+    return this.config.gain.pow(getAdjustedGlyphEffect('prismlightpow'));
   }
 
    get lockedDescription() {

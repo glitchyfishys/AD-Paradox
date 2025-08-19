@@ -181,7 +181,7 @@ export const GlyphGenerator = {
   companionGlyph(eternityPoints) {
     // Store the pre-Reality EP value in the glyph's rarity
     const str = rarityToStrength(eternityPoints.max(1).log10().div(1e6));
-    const effects = GlyphInfo.companion.effects();
+    const effects = GlyphInfo.companion.effects().map(n => n.id);
     return {
       id: undefined,
       idx: null,
@@ -280,8 +280,8 @@ export const GlyphGenerator = {
       const unincluded = effectValues[20] < effectValues[21] ? 20 : 21;
       effectValues[unincluded] = -1;
     }
-    // This is timepow/infinitypow/powerpow
-    for (const i of [0, 12, 16]) {
+    // This is timepow/infinitypow/powerpow/prismpow
+    for (const i of [0, 12, 16, 38]) {
       if (i in effectValues) {
         effectValues[i] = 2;
       }

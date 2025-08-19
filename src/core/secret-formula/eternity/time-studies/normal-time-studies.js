@@ -387,7 +387,7 @@ export const normalTimeStudies = [
     requiresST: [131, 132],
     description: () => (Achievement(138).isUnlocked
       ? `Replicanti Galaxies are ${formatPercents(AbsurdityUpgrade.RGCap.isBought ? 0.6 : 0.5)} stronger`
-      : `Replicanti are ${formatX(10)} slower until ${format(Number.MAX_VALUE, 2)} and blue light is disabled` +
+      : `Replicanti are ${formatX(10)} slower until ${format(Number.MAX_VALUE, 2)} and Blue Light's first is disabled` +
     `, but Replicanti Galaxies are ${formatPercents(AbsurdityUpgrade.RGCap.isBought ? 0.6 : 0.5)} stronger`),
     effect: () => AbsurdityUpgrade.RGCap.isBought ? 0.6 : 0.5
   },
@@ -399,7 +399,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     requiresST: [142, 143],
     description: () => (Perk.studyActiveEP.isBought
-      ? `You gain ${formatX(DC.E45)} more Infinity Points`
+      ? `You gain ${formatX(DC.E200)} more Infinity Points`
       : "Multiplier to Infinity Points, which decays over this Infinity"),
     effect: () => (Perk.studyActiveEP.isBought
       ? DC.E200

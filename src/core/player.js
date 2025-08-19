@@ -183,6 +183,13 @@ window.player = {
     timeTheorems: {
       isActive: false,
     },
+    quasmaUpgrades: {
+      all: Array.range(0, 6).map(() => ({
+        isActive: false,
+        lastTick: 0,
+      })),
+      isActive: true,
+    },
     dilationUpgrades: {
       all: Array.range(0, 3).map(() => ({
         isActive: false,
@@ -462,6 +469,7 @@ window.player = {
       inventory: [],
       sac: {
         power: DC.D0,
+        prism: DC.D0,
         infinity: DC.D0,
         time: DC.D0,
         replication: DC.D0,
@@ -672,7 +680,7 @@ window.player = {
           chunkUpgrades: 0
         }
       },
-      alchemy: Array.repeat(0, 21)
+      alchemy: Array.repeat(0, 22)
         .map(() => ({
           amount: DC.D0,
           reaction: false
@@ -791,7 +799,10 @@ window.player = {
         galaxies: false
       },
       showBought: false,
-    }
+    },
+    marlis: {
+      quoteBits: 0,
+    },
   },
   isGameEnd: false,
   tabNotifications: new Set(),
@@ -981,12 +992,12 @@ window.player = {
       recordAM: DC.D0,
       upgrades: new Set(),
       rebuyables: {
-        1: new Decimal(),
-        2: new Decimal(),
-        3: new Decimal(),
-        4: new Decimal(),
-        5: new Decimal(),
-        6: new Decimal(),
+        1: DC.D0,
+        2: DC.D0,
+        3: DC.D0,
+        4: DC.D0,
+        5: DC.D0,
+        6: DC.D0,
       },
       lastEP: DC.DM1,
     },

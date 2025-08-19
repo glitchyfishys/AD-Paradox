@@ -49,8 +49,8 @@ export const dilationTimeStudies = [
       ? "You cannot escape a Doomed Reality"
       : "Unlock Reality"),
     cost: DC.D1,
-    requirement: () => false && TimeStudy.timeDimension(8).isBought && // wait for the next update
-      player.records.thisReality.maxEP.gte('e4000') &&
+    requirement: () => TimeStudy.timeDimension(8).isBought &&
+      player.records.thisReality.maxEP.gte('e5000') &&
       (Perk.firstPerk.isBought || Achievements.preReality.every(a => a.isUnlocked)) &&
       !Pelle.isDoomed
   }

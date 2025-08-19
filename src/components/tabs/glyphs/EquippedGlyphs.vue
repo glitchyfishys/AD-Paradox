@@ -22,7 +22,7 @@ export default {
     // Empty slots are bigger due to the enlarged drop zone
     GLYPH_SIZE: () => 5,
     slotCount() {
-      return this.glyphs.length;
+      return Glyphs.activeSlotCount;
     },
     arrangementRadius() {
       if (this.slotCount === 0) return 0;
@@ -86,6 +86,14 @@ export default {
       this.cosmeticGlow = player.reality.glyphs.cosmetics.glowNotification;
     },
     glyphPositionStyle(idx) {
+      if (idx == this.slotCount) {
+        return {
+          position: "absolute",
+          left: `-30px`,
+          top: `-20px`,
+          "z-index": 1,
+        };
+      }
       const angle = 2 * Math.PI * idx / this.slotCount;
       const dx = -this.GLYPH_SIZE / 2 + this.arrangementRadius * Math.sin(angle);
       const dy = -this.GLYPH_SIZE / 2 + this.arrangementRadius * Math.cos(angle);

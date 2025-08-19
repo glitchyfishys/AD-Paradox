@@ -120,6 +120,23 @@ dev.resetDilation = function() {
   player.dilation.totalTachyonGalaxies = 0;
 };
 
+
+dev.ECs = function() {
+  player.eternityChalls.eterc1 = 5;
+  player.eternityChalls.eterc2 = 5;
+  player.eternityChalls.eterc3 = 5;
+  player.eternityChalls.eterc4 = 5;
+  player.eternityChalls.eterc5 = 5;
+  player.eternityChalls.eterc6 = 5;
+  player.eternityChalls.eterc7 = 5;
+  player.eternityChalls.eterc8 = 5;
+  player.eternityChalls.eterc9 = 5;
+  player.eternityChalls.eterc10 = 5;
+  player.eternityChalls.eterc11 = 5;
+  player.eternityChalls.eterc12 = 5;
+  player.eternityChalls.eterc13 = 5;
+}
+
 // We want to give a large degree of options
 // when making a special glyph, so no max-params
 // eslint-disable-next-line max-params

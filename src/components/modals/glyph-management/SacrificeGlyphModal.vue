@@ -14,8 +14,8 @@ export default {
   },
   data() {
     return {
-      currentGlyphSacrifice: 0,
-      gain: 0,
+      currentGlyphSacrifice: new Decimal(),
+      gain: new Decimal(),
       confirmedSacrifice: false
     };
   },
@@ -26,12 +26,12 @@ export default {
     message() {
       return `Do you really want to sacrifice this Glyph? Your total power of sacrificed ${this.glyph.type}
       Glyphs will increase from ${format(this.currentGlyphSacrifice, 2, 2)} to
-      ${format(this.currentGlyphSacrifice + this.gain, 2, 2)}.`;
+      ${format( Decimal.add(this.currentGlyphSacrifice, this.gain), 2, 2)}.`;
     }
   },
   methods: {
     update() {
-      this.currentGlyphSacrifice = player.reality.glyphs.sac[this.glyph.type];
+      this.currentGlyphSacrifice.copyFrom(player.reality.glyphs.sac[this.glyph.type]);
       this.gain = GlyphSacrificeHandler.glyphSacrificeGain(this.glyph);
 
       const newGlyph = Glyphs.findByInventoryIndex(this.idx);

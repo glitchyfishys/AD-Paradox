@@ -1,7 +1,7 @@
 import { DC } from "./constants";
 
 export const MachineHandler = {
-  get baseRMCap() { return DC.E1000; },
+  get baseRMCap() { return DC.E10000; },
 
   get hardcapRM() {
     return this.baseRMCap.times(ImaginaryUpgrade(6).effectOrDefault(1));
@@ -12,21 +12,21 @@ export const MachineHandler = {
   },
 
   get realityMachineMultiplier() {
-    return Teresa.rmMultiplier.times(PerkShopUpgrade.rmMult.effectOrDefault(DC.D1))
+    return Teresa.rmMultiplier.times(PerkShopUpgrade.rmMult.effectOrDefault(DC.D1)).mul(Light.RMMul.effectOrDefault(DC.D1))
       .times(getAdjustedGlyphEffect("effarigrm")).times(Achievement(167).effectOrDefault(1));
   },
 
   get uncappedRM() {
     let log10FinalEP = player.records.thisReality.maxEP.plus(gainedEternityPoints()).max(1).log10();
     if (!PlayerProgress.realityUnlocked()) {
-      if (log10FinalEP.gt(8000)) log10FinalEP = new Decimal(8000);
-      if (log10FinalEP.gt(6000)) log10FinalEP = log10FinalEP.sub((log10FinalEP.sub(6000)).times(0.75));
+      if (log10FinalEP.gt(10000)) log10FinalEP = new Decimal(10000);
+      if (log10FinalEP.gt(8000)) log10FinalEP = log10FinalEP.sub((log10FinalEP.sub(8000)).times(0.75));
     }
-    let rmGain = DC.E3.pow(log10FinalEP.div(4000).sub(1));
+    let rmGain = DC.E3.pow(log10FinalEP.div(5000).sub(1));
     // Increase base RM gain if <10 RM
-    if (rmGain.gte(1) && rmGain.lt(10)) rmGain = (log10FinalEP).minus(26).mul(27).div(4000);
+    if (rmGain.gte(1) && rmGain.lt(10)) rmGain = (log10FinalEP).minus(26).mul(27).div(5000);
     rmGain = rmGain.times(this.realityMachineMultiplier);
-    return rmGain.floor();
+    return rmGain.pow(0.5).floor();
   },
 
   get gainedRealityMachines() {
@@ -38,8 +38,8 @@ export const MachineHandler = {
   },
 
   get baseIMCap() {
-    return (Decimal.pow(Decimal.clampMin(this.uncappedRM.max(1).log10().sub(1000), 0), 2))
-      .times((Decimal.pow(Decimal.clampMin(this.uncappedRM.max(1).log10().sub(100000), 1), 0.2)));
+    return (Decimal.pow(Decimal.clampMin(this.uncappedRM.max(1).log10().sub(10000), 0), 2))
+      .times((Decimal.pow(Decimal.clampMin(this.uncappedRM.max(1).log10().sub(1000000), 1), 0.2)));
   },
 
   get currentIMCap() {
@@ -68,7 +68,7 @@ export const MachineHandler = {
 
   gainedImaginaryMachines(diff) {
     return (this.currentIMCap.sub(Currency.imaginaryMachines.value)).times(DC.D1
-      .sub(Decimal.pow(2, (new Decimal(0).sub(diff).div(1000).div(this.scaleTimeForIM)))));
+      .sub(Decimal.pow(2, (new Decimal(0).sub(diff).div(10000).div(this.scaleTimeForIM)))));
   },
 
   estimateIMTimer(cost) {

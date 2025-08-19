@@ -39,10 +39,10 @@ export default {
       </div><br>
       <div>
         There is a {{ formatPow(PDNerf, 2, 2) }} Nerf to Prism Dimensions
-      </div>
+      </div><br>
       <div>
         There is a {{ formatPow(IDNerf, 2, 2) }} Nerf to Infinity Dimensions
-      </div>
+      </div><br>
       <div>
         There is a {{ formatPow(TDNerf, 2, 2) }} Nerf to Time Dimensions
       </div><br>
@@ -52,9 +52,15 @@ export default {
       <div>
         There is a {{ formatPow(IPNerf, 2, 2) }} Nerf to Infinity Points <br>
         Softcap at {{format('1e4000')}}
-      </div>
+      </div><br>
       <div>
         There is a {{ formatPow(EPNerf, 2, 2) }} Nerf to Eternity Points
+      </div><br>
+      <div>
+        There is a {{ formatPow(0.5, 2, 2) }} Nerf to Reality Machines
+      </div><br>
+      <div>
+        Glyph Levels are {{ formatX(2.5, 2, 2) }} Harder to reach
       </div>
     </div>
   </div>

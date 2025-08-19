@@ -59,7 +59,7 @@ export const GameCache = {
 
   bestRunIPPM: new Lazy(() =>
     player.records.recentInfinities
-      .map(run => run[3].div(run[1].times(60000)))
+      .map(run => run[3].div(run[1].div(60000)))
       .reduce(Decimal.maxReducer)
   ),
 
@@ -126,7 +126,7 @@ export const GameCache = {
 
   challengeTimeSum: new Lazy(() => player.challenge.normal.bestTimes.reduce(Decimal.sumReducer)),
 
-  infinityChallengeTimeSum: new Lazy(() => player.challenge.infinity.bestTimes.reduce(Decimal.sumReducer)),
+  infinityChallengeTimeSum: new Lazy(() => player.challenge.infinity.bestTimes.filter((i,x) => x < 9).reduce(Decimal.sumReducer)),
 };
 
 EventHub.logic.on(GAME_EVENT.GLYPHS_CHANGED, () => {

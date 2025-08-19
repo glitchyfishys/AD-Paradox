@@ -44,6 +44,7 @@ export const GlyphInfo = {
     "reality",
     "effarig",
     "power",
+    "prism",
     "infinity",
     "replication",
     "time",
@@ -53,6 +54,7 @@ export const GlyphInfo = {
 
   basicGlyphTypes: [
     "power",
+    "prism",
     "infinity",
     "replication",
     "time",
@@ -61,6 +63,7 @@ export const GlyphInfo = {
 
   alchemyGlyphTypes: [
     "power",
+    "prism",
     "infinity",
     "replication",
     "time",
@@ -70,6 +73,7 @@ export const GlyphInfo = {
 
   sacrificeGlyphTypes: [
     "power",
+    "prism",
     "infinity",
     "replication",
     "time",
@@ -80,6 +84,7 @@ export const GlyphInfo = {
 
   generatedGlyphTypes: [
     "power",
+    "prism",
     "infinity",
     "replication",
     "time",
@@ -238,7 +243,7 @@ export const GlyphInfo = {
     noun: "Companion",
     isBasic: false,
     regularGlyphSymbol: "♥",
-    cancerGlyphSymbol: "³",
+    cancerGlyphSymbol: ":3",
     hasSacrifice: false,
     hasAlchemyResource: false,
     pelleUniqueEffect: true,
@@ -419,7 +424,41 @@ export const GlyphInfo = {
     color: "#64dd17",
     alchemyResource: ALCHEMY_RESOURCE.DILATION,
     hasRarity: true
-  }
+  },
+
+  prism: { // this is ... gonna be used way too much
+    id: "prism",
+    effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "prism")),
+    adjective: { high: "Paradoxed", mid: "Prism", low: "Fractured" },
+    effectIDs: ["prismpow", "prismlightpow", "prismconvert", "prismchrome"],
+    noun: "Prism",
+    isBasic: true,
+    regularGlyphSymbol: "∫",
+    cancerGlyphSymbol: "🔰",
+    hasSacrifice: true,
+    sacrificeInfo: {
+      id: "prism",
+      effect: added => {
+        if (Pelle.isDisabled("glyphsac")) return DC.D1;
+        const sac = player.reality.glyphs.sac.prism.add(added ?? 0);
+        const capped = Decimal.min(sac, GlyphSacrificeHandler.maxSacrificeForEffects);
+        return Decimal.pow(Decimal.pow(capped, 0.15).div(25).add(1), 2);
+      },
+      description: amount => {;
+        return `${formatX(amount, 2, 2)} bigger multiplier when buying 1st Prism Dimension`;
+      },
+      cap: () => GlyphSacrificeHandler.maxSacrificeForEffects
+    },
+    hasAlchemyResource: true,
+    pelleUniqueEffect: true,
+    isGenerated: true,
+    adjNounImportance: 1,
+    color: "#ba32bcff",
+    primaryEffect: "prismpow",
+    alchemyResource: ALCHEMY_RESOURCE.POWER,
+    hasRarity: true
+  },
+  
 };
 
 // No point having a seperate file for this, so we'll extract it and place it here since these are purely cosmetic

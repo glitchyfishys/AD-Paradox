@@ -34,7 +34,7 @@ export const lightEffects = {
       let v = Currency.light.green.pow(0.1).mul(3).max(1);
       if (v.gt(100)) v = v.div(v.div(100).pow(0.85));
       if (v.gt(5e3)) v = v.div(v.div(5e3).pow(0.95));
-      return v.min(1e4);
+      return v;
     },
     formatEffect: value => formatX(value, 2, 2),
     get gain() {
@@ -48,9 +48,21 @@ export const lightEffects = {
     unlocked: () => Currency.prismEnergy.gte(DC.E111),
     description: () => "Multiply Replicanti Speed and it's cap based on blue light",
     lockedDescription: () => `Reach ${format('e111')} Prism Energy`,
-    effect() {if(TimeStudy(133).isBought && !Achievement(138).isUnlocked) return DC.D1; else return Currency.light.blue.pow(0.05).clamp(1, '10000')},
+    effect() {
+      if(TimeStudy(133).isBought && !Achievement(138).isUnlocked) return DC.D1;
+      else {
+        let V = Currency.light.blue.pow(0.05).max(1);
+        if(V.gt(25)) return V.div(V.div(25).pow(0.85)).min(10000);
+        return V;
+      };
+      },
+    secondEffect() {
+      let V = Decimal.pow10(Currency.light.blue.pow(0.033).max(0));
+      if(V.gt(100)) return V.div(V.div(100).pow(0.85)).min(10000);
+      return V;
+    },
     cap: 1e5,
-    formatEffect: value => {if(TimeStudy(133).isBought && !Achievement(138).isUnlocked) return 'Disabled by Time Study 133'; else return `${formatX(value, 2, 2)}, ${formatX(Decimal.pow10(value), 2, 2)}`},
+    formatEffect: value => {return `${TimeStudy(133).isBought && !Achievement(138).isUnlocked ? "Disabled by Time Study 133" : formatX(value, 2, 2)}, ${formatX(Decimal.pow10(Light.Replicanti.config.secondEffect()), 2, 2)} `;},
     get gain() {
       return Currency.prismEnergy.value.pow(0.05);
     }
@@ -89,17 +101,17 @@ export const lightEffects = {
       return v;
     }
   },
-  Eternities: {
-    id: "Eternities",
+  RMMul: {
+    id: "RM",
     slotID: 5,
     color: "cyan",
-    unlocked: () => false,
-    description: () => "Eternity multiplier based on cyan light",
-    lockedDescription: () => `NYI`,
-    effect: () => Currency.light.cyan.pow(0.15).max(1),
+    unlocked: () => Currency.realityMachines.gte(20),
+    description: () => "Reality Machines multiplier based on cyan light",
+    lockedDescription: () => `Reach 20 Reality Machines`,
+    effect: () => Currency.light.cyan.pow(0.5).max(1),
     formatEffect: value => formatX(value, 2, 2),
     get gain() {
-      return Currency.light.blue.mul(Currency.light.green).pow(1e-6);
+      return Currency.light.blue.mul(Currency.light.green).pow(1e-4);
     }
   },
   TachyonParticles: {

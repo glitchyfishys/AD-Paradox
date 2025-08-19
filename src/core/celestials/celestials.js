@@ -5,6 +5,7 @@ import { Pelle } from "./pelle/pelle";
 import { Ra } from "./ra/ra";
 import { Teresa } from "./teresa";
 import { V } from "./V";
+import { Marlis } from "./marlis";
 
 export const Celestials = {
   teresa: Teresa,
@@ -13,7 +14,8 @@ export const Celestials = {
   v: V,
   ra: Ra,
   laitela: Laitela,
-  pelle: Pelle
+  pelle: Pelle,
+  marlis: Marlis
 };
 
 GameDatabase.celestials.descriptions = [
@@ -21,7 +23,8 @@ GameDatabase.celestials.descriptions = [
     name: "Teresa",
     effects() {
       return `Glyph Time Theorem generation is disabled.
-      You gain less Infinity Points and Eternity Points (x^${format(0.55, 2, 2)}).`;
+      You gain less Infinity Points and Eternity Points (x^${format(0.55, 2, 2)}).
+      Prism Glyphs are Usless in Celestial Realities`;
     },
   },
   {

@@ -66,7 +66,6 @@ function absurdity() {
   initializeChallengeCompletions(false);
 
   Currency.infinities.reset();
-  Currency.infinitiesBanked.reset();
   player.records.bestInfinity.time = DC.BEMAX;
   player.records.bestInfinity.realTime = DC.BEMAX;
   player.records.thisInfinity.time = DC.D0;
@@ -80,7 +79,7 @@ function absurdity() {
   player.IPMultPurchases = DC.D0;
   Currency.infinityPower.reset();
   Currency.timeShards.reset();
-  Replicanti.reset(true);
+  Replicanti.reset(false);
 
   Currency.eternityPoints.reset();
 
@@ -95,7 +94,6 @@ function absurdity() {
   player.totalTickGained = DC.D0;
   player.challenge.eternity.current = 0;
   if (!PelleUpgrade.timeStudiesNoReset.canBeApplied) player.challenge.eternity.unlocked = 0;
-  player.challenge.eternity.requirementBits = 0;
   player.respec = false;
   player.eterc8ids = 50;
   player.eterc8repl = 40;
@@ -108,7 +106,6 @@ function absurdity() {
 
   player.records.thisInfinity.maxAM = DC.D0;
   player.records.thisEternity.maxAM = DC.D0;
-  player.dilation.lastEP = DC.DM1;
   Currency.antimatter.reset();
   Enslaved.autoReleaseTick = 0;
   player.celestials.enslaved.hasSecretStudy = false;

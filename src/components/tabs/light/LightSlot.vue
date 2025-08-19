@@ -91,7 +91,7 @@ you have
 .light {
   border: 2px white solid;
   border-radius: 0.4rem;
-  background-color: #787878;
+  background-color: #464646;
   height: 17rem;
   width: 30rem;
   align-content: center;

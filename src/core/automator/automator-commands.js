@@ -511,6 +511,30 @@ export const AutomatorCommands = [
     blockify: () => ({ singleSelectionInput: "DILATION", ...automatorBlocksMap.START })
   },
   {
+    id: "startQuasma",
+    rule: $ => () => {
+      $.CONSUME(T.Start);
+      $.CONSUME(T.Quasma);
+    },
+    validate: ctx => {
+      ctx.startLine = ctx.Start[0].startLine;
+      return true;
+    },
+    compile: ctx => () => {
+      if (player.absurdity.quasma.active) {
+        AutomatorData.logCommandEvent(`Start Quasma encountered but ignored due to already being in Quasma`,
+          ctx.startLine);
+        return AUTOMATOR_COMMAND_STATUS.NEXT_INSTRUCTION;
+      }
+      if (startQuasmaAbsurdity(true)) {
+        AutomatorData.logCommandEvent(`Quasma entered`, ctx.startLine);
+        return AUTOMATOR_COMMAND_STATUS.NEXT_TICK_NEXT_INSTRUCTION;
+      }
+      return AUTOMATOR_COMMAND_STATUS.NEXT_TICK_SAME_INSTRUCTION;
+    },
+    blockify: () => ({ singleSelectionInput: "QUASMA", ...automatorBlocksMap.START })
+  },
+  {
     id: "startEC",
     rule: $ => () => {
       $.CONSUME(T.Start);

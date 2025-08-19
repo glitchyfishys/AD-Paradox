@@ -87,7 +87,7 @@ export function calcHighestPurchaseableTD(tier, currency) {
   throw new Error("calcHighestPurchasableTD reached too far in code");
 }
 
-export function buyMaxTimeDimension(tier, portionToSpend = 1, isMaxAll = false) {
+export function buyMaxTimeDimension(tier, portionToSpend = 0.99, isMaxAll = false) {
   const canSpend = Currency.eternityPoints.value.times(portionToSpend);
   const dim = TimeDimension(tier);
   if (canSpend.lt(dim.cost)) return false;
@@ -183,7 +183,7 @@ class TimeDimensionState extends DimensionState {
     const COST_MULTS = [null, 3, 9, 27, 81, 24300, 72900, 218700, 656100].map(e => (e ? new Decimal(e) : null));
     this._costMultiplier = COST_MULTS[tier];
     // eslint-disable-next-line max-len
-    const E6000_SCALING_AMOUNTS = [null, 7322, 4627, 3382, 2665, 833, 689, 562, 456].map(e => (e ? new Decimal(e) : null));
+    const E6000_SCALING_AMOUNTS = [null, 7322, 4627, 3382, 2665, 1120, 928, 562, 456].map(e => (e ? new Decimal(e) : null));
     this._e6000ScalingAmount = E6000_SCALING_AMOUNTS[tier];
     const COST_THRESHOLDS = [DC.NUMMAX, DC.E1300, DC.E6000];
     this._costIncreaseThresholds = COST_THRESHOLDS;

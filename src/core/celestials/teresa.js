@@ -7,7 +7,7 @@ import { Quotes } from "./quotes";
 export const Teresa = {
   timePoured: 0,
   lastUnlock: "effarig",
-  pouredAmountCap: 1e24,
+  pouredAmountCap: 1e30,
   displayName: "Teresa",
   possessiveName: "Teresa's",
   get isUnlocked() {
@@ -16,8 +16,8 @@ export const Teresa = {
   pourRM(diff) {
     if (this.pouredAmount >= Teresa.pouredAmountCap) return;
     this.timePoured += diff;
-    const rm = Currency.realityMachines.value.max(1e100);
-    const rmPoured = Math.min((this.pouredAmount + 1e6) * 0.01 * Math.pow(this.timePoured, 2), rm.toNumber());
+    const rm = Currency.realityMachines.value.min(1e100);
+    const rmPoured = Math.min((this.pouredAmount + 1e9) * 0.01 * Math.pow(this.timePoured, 2), rm.toNumber());
     this.pouredAmount += Math.min(rmPoured, Teresa.pouredAmountCap - this.pouredAmount);
     Currency.realityMachines.subtract(rmPoured);
     this.checkForUnlocks();
@@ -41,13 +41,13 @@ export const Teresa = {
     player.celestials.teresa.pouredAmount = amount;
   },
   get fill() {
-    return Math.min(Math.log10(this.pouredAmount) / 24, 1);
+    return Math.min(Math.log10(this.pouredAmount) / 30, 1);
   },
   get possibleFill() {
-    return Decimal.min(Currency.realityMachines.value.plus(this.pouredAmount).max(1).log10().div(24), 1).toNumber();
+    return Decimal.min(Currency.realityMachines.value.plus(this.pouredAmount).max(1).log10().div(30), 1).toNumber();
   },
   get rmMultiplier() {
-    return Decimal.max(250 * Math.pow(this.pouredAmount / 1e24, 0.1), 1);
+    return Decimal.max(2500 * Math.pow(this.pouredAmount / 1e30, 0.1), 1);
   },
   get runRewardMultiplier() {
     return this.rewardMultiplier(player.celestials.teresa.bestRunAM);

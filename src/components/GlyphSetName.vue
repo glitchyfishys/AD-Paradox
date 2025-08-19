@@ -140,7 +140,7 @@ export default {
       const perc = this.sortedGlyphs[0].perc;
       if (this.isDoomed) return `Doomed ${word}`;
       if (perc === 100) return `Full ${word}`;
-      if (perc >= 75) return `Strengthened ${word}`;
+      if (perc >= 60) return `Strengthened ${word}`;
       if (perc >= 40) return `Partial ${word}`;
       return `Weak ${word}`;
     },
@@ -228,7 +228,7 @@ export default {
       if (listEntry.type === "effarig") return GLYPH_NAMES.effarig.adjective[this.getEffarigProp()];
       const adjFn = val => {
         if (val >= 60) return "high";
-        if (val >= 40) return "mid";
+        if (val >= 20) return "mid";
         return "low";
       };
       const adj = GLYPH_NAMES[listEntry.type].adjective;

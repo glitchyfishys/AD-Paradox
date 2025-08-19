@@ -337,7 +337,7 @@ export const InfinityDimensions = {
    * @type {InfinityDimensionState[]}
    */
   all: InfinityDimension.index.compact(),
-  HARDCAP_PURCHASES: new Decimal(2000000),
+  HARDCAP_PURCHASES: new Decimal(200000),
 
   unlockNext() {
     if (InfinityDimension(8).isUnlocked) return;

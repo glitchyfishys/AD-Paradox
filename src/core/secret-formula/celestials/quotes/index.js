@@ -5,6 +5,7 @@ import { pelleQuotes } from "./pelle";
 import { raQuotes } from "./ra";
 import { teresaQuotes } from "./teresa";
 import { vQuotes } from "./v";
+import { marlisQuotes } from "./marlis";
 
 export const quotes = {
   teresa: teresaQuotes,
@@ -13,5 +14,6 @@ export const quotes = {
   v: vQuotes,
   ra: raQuotes,
   laitela: laitelaQuotes,
-  pelle: pelleQuotes
+  pelle: pelleQuotes,
+  marlis: marlisQuotes
 };

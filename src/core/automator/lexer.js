@@ -337,6 +337,7 @@ createKeyword("StoreGameTime", /stored?[ \t]+game[ \t]+time/i, {
 });
 
 createKeyword("Dilation", /dilation/i);
+createKeyword("Quasma", /quasma/i);
 createKeyword("EC", /ec/i);
 createKeyword("XHighest", /x[ \t]+highest/i, {
   $autocomplete: "x highest",

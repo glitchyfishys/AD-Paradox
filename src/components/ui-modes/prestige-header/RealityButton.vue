@@ -27,7 +27,7 @@ export default {
       return "No Machines gained";
     },
     formatMachineStats() {
-      if (!PlayerProgress.realityUnlocked() && this.nextMachineEP.gt("1e8000")) {
+      if (!PlayerProgress.realityUnlocked() && this.nextMachineEP.gt("1e10000")) {
         return `(Capped this Reality!)`;
       }
       if (this.machinesGained.gt(0) && this.machinesGained.lt(100)) {
@@ -80,13 +80,13 @@ export default {
       }
       function EPforRM(rm) {
         const adjusted = Decimal.divide(rm, MachineHandler.realityMachineMultiplier);
-        if (adjusted.lte(1)) return Decimal.pow10(4000);
-        if (adjusted.lte(10)) return Decimal.pow10(adjusted.add(26).mul(4000).div(27));
+        if (adjusted.lte(1)) return Decimal.pow10(5000);
+        if (adjusted.lte(10)) return Decimal.pow10(adjusted.add(26).mul(5000).div(27));
         let result = Decimal.pow10(adjusted.max(1).log10().div(3).add(1).mul(4e3));
-        if (!PlayerProgress.realityUnlocked() && result.gte("1e6000")) {
-          result = result.div("1e6000").pow(4).times("1e6000");
+        if (!PlayerProgress.realityUnlocked() && result.gte("1e8000")) {
+          result = result.div("1e8000").pow(4).times("1e8000");
         }
-        return result;
+        return result.pow(2);
       }
 
       const multiplier = simulatedRealityCount(false).add(1);
@@ -132,7 +132,7 @@ export default {
       if (Teresa.isRunning && Teresa.rewardMultiplier(Currency.antimatter.value).gt(Teresa.runRewardMultiplier)) {
         return true;
       }
-      return Currency.eternityPoints.value.max(1).log10().gte(4000) &&
+      return Currency.eternityPoints.value.max(1).log10().gte(5000) &&
         ((Effarig.isRunning && !EffarigUnlock.reality.isUnlocked) || (Enslaved.isRunning && !Enslaved.isCompleted));
     }
   }
@@ -155,7 +155,7 @@ export default {
           <div>{{ formatGlyphLevel }}</div>
         </template>
         <template v-else-if="hasRealityStudy">
-          <div>Get {{ format("1e4000") }} Eternity Points to unlock a new Reality</div>
+          <div>Get {{ format("1e5000") }} Eternity Points to unlock a new Reality</div>
         </template>
         <template v-else>
           <div>Purchase the study in the Eternity tab to unlock a new Reality</div>

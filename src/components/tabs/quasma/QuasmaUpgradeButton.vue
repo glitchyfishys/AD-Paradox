@@ -71,7 +71,7 @@ export default {
   },
   watch: {
     isAutobuyerOn(newValue) {
-      Autobuyer.dilationUpgrade(this.upgrade.id).isActive = newValue;
+      Autobuyer.quasma(this.upgrade.id).isActive = newValue;
     }
   },
   methods: {
@@ -84,7 +84,7 @@ export default {
       if (this.isRebuyable) {
         this.isAffordable = upgrade.isAffordable;
         this.isCapped = upgrade.isCapped;
-        const autobuyer = Autobuyer.dilationUpgrade(upgrade.id);
+        const autobuyer = Autobuyer.quasma(upgrade.id);
         this.boughtAmount.copyFrom(upgrade.boughtAmount);
         if (!autobuyer) return;
         this.isAutoUnlocked = autobuyer.isUnlocked;

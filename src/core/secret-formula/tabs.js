@@ -408,19 +408,11 @@ export const tabs = [
     hidable: true,
     subtabs: [
       {
-        key: "celestial-navigation",
-        name: "Celestial Navigation",
-        symbol: "<i class='fas fa-map-marked-alt'></i>",
-        component: "CelestialNavigationTab",
-        id: 0,
-        hidable: true,
-      },
-      {
         key: "teresa",
         name: "Teresa",
         symbol: "Ϟ",
         component: "TeresaTab",
-        id: 1,
+        id: 0,
         hidable: true,
       },
       {
@@ -429,7 +421,7 @@ export const tabs = [
         symbol: "Ϙ",
         component: "EffarigTab",
         condition: () => TeresaUnlocks.effarig.isUnlocked,
-        id: 2,
+        id: 1,
         hidable: true,
       },
       {
@@ -438,7 +430,7 @@ export const tabs = [
         symbol: "<div class='o-tab-btn--cel3'>\uf0c1</div>",
         component: "EnslavedTab",
         condition: () => EffarigUnlock.eternity.isUnlocked,
-        id: 3,
+        id: 2,
         hidable: true,
       },
       {
@@ -447,7 +439,7 @@ export const tabs = [
         symbol: "⌬",
         component: "VTab",
         condition: () => Achievement(151).isUnlocked,
-        id: 4,
+        id: 3,
         hidable: true,
       },
       {
@@ -456,7 +448,7 @@ export const tabs = [
         symbol: "<i class='fas fa-sun'></i>",
         component: "RaTab",
         condition: () => VUnlocks.raUnlock.isUnlocked,
-        id: 5,
+        id: 4,
         hidable: true,
       },
       {
@@ -465,7 +457,7 @@ export const tabs = [
         symbol: "ᛝ",
         component: "LaitelaTab",
         condition: () => Laitela.isUnlocked,
-        id: 6,
+        id: 5,
         hidable: true,
       },
       {
@@ -474,7 +466,7 @@ export const tabs = [
         symbol: "♅",
         component: "PelleTab",
         condition: () => Pelle.isUnlocked,
-        id: 7,
+        id: 6,
         hidable: true,
       }
     ]

@@ -41,7 +41,7 @@ export const quasmaUpgrades = {
     id: 2,
     initialCost: 2e5,
     increment: 15,
-    description: "Increase the stregnth of Galaxies",
+    description: "Increase the strength of Galaxies",
     // The 70th last purchase, make it a whole number
     effect: bought => (bought.lt(70) ? Decimal.pow(1.01, bought) : DC.D2),
     formatEffect: effect => formatPercents(Decimal.sub(effect, 1)),

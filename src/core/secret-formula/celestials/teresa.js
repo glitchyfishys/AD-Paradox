@@ -2,25 +2,25 @@ export const teresa = {
   unlocks: {
     run: {
       id: 0,
-      price: 1e14,
+      price: 1e13,
       description: "Unlock Teresa's Reality.",
       onUnlock: () => Teresa.quotes.unlockReality.show(),
     },
     epGen: {
       id: 1,
-      price: 1e18,
+      price: 1e16,
       description: "Unlock passive Eternity Point generation.",
       isDisabledInDoomed: true
     },
     effarig: {
       id: 3,
-      price: 1e24,
+      price: 1e30,
       description: "Unlock Effarig, Celestial of Ancient Relics.",
       onUnlock: () => Teresa.quotes.effarig.show(),
     },
     shop: {
       id: 2,
-      price: 1e21,
+      price: 1e26,
       description: "Unlock Teresa's Perk Point Shop.",
     },
     undo: {
@@ -37,6 +37,18 @@ export const teresa = {
       onUnlock: () => {
         for (const id of [1, 2, 3, 4, 5, 6]) player.eternityUpgrades.add(id);
       },
-    }
+    },
+    hard: {
+      id: 6,
+      price: 1e24,
+      description: "Unlock Teresa's Hard Reality. (NYI)",
+      onUnlock: () => Teresa.quotes.unlockHardReality.show(),
+    },
+    hard: {
+      id: 7,
+      price: 1e21,
+      description: "Unlock Purgatory. (NYI)",
+      onUnlock: () => Teresa.quotes.unlockPurgatory.show(),
+    },
   }
 };

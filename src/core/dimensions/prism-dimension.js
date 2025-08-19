@@ -115,6 +115,8 @@ class PrismDimensionState extends DimensionState {
       mult = dilatedValueOf(mult);
     }
 
+    mult = mult.pow(getAdjustedGlyphEffect('prismpow'));
+
     if (player.absurdity.quasma.active) mult = quasmaValueOf(mult);
 
     if (Effarig.isRunning) {
@@ -148,6 +150,7 @@ class PrismDimensionState extends DimensionState {
   }
 
   get powerMultiplier() {
+    if (this.tier == 1) return Decimal.mul(this._powerMultiplier, GlyphInfo.prism.sacrificeInfo.effect());
     return new Decimal(this._powerMultiplier);
   }
 
@@ -244,6 +247,6 @@ export const PrismDimensions = {
   },
 
   get conversionRate() {
-    return new Decimal(0.05).add(EternityChallenge(12).isRunning ? (EternityChallenge(12).completions * 0.25) : 0);
+    return new Decimal(0.05).add(EternityChallenge(12).isRunning ? (EternityChallenge(12).completions * 0.25) : 0).mul(getAdjustedGlyphEffect('prismconvert'));
   }
 };

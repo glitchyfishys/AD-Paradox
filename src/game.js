@@ -505,6 +505,8 @@ export function gameLoop(passedDiff, options = {}) {
   GameCache.timeDimensionCommonMultiplier.invalidate();
   GameCache.totalIPMult.invalidate();
 
+  if (Perk.autobuyerDilation.isEffectActive && Light.DTMul.isUnlocked) Currency.light.green = Currency.light.green.add(Light.DTMul.gain);
+
   if (QuasmaUpgrade.autoRGP.isEffectActive) {
     if (Light.Replicanti.isUnlocked) Currency.light.blue = Currency.light.blue.add(Light.Replicanti.gain);
     if (Light.ADMul.isUnlocked) Currency.light.red = Currency.light.red.add(Light.ADMul.gain);

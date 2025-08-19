@@ -321,6 +321,8 @@ export function getGlyphLevelInputs() {
   const singularityEffect = SingularityMilestone.glyphLevelFromSingularities.effectOrDefault(1);
   baseLevel = baseLevel.mul(singularityEffect);
 
+  baseLevel = baseLevel.div(2.5); // Paradox Nerf
+
   let scaledLevel = baseLevel;
   // The softcap starts at begin and rate determines how quickly level scales after the cap, turning a linear pre-cap
   // increase to a quadratic post-cap increase with twice the scaling. For example, with begin = 1000 and rate = 400:

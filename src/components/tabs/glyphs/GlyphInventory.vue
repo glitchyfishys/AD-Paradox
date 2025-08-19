@@ -67,7 +67,7 @@ export default {
         clearTimeout(this.doubleClickTimeOut);
         this.doubleClickTimeOut = null;
         const idx = Glyphs.active.indexOf(null);
-        if (idx !== -1) Glyphs.equip(glyph, idx);
+        if (idx !== -1 || glyph.type == 'companion') Glyphs.equip(glyph, idx);
       }
     },
     glyphsChanged() {

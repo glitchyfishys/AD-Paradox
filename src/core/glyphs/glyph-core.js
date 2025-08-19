@@ -6,6 +6,7 @@ export const orderedEffectList = ["powerpow", "infinitypow", "replicationpow", "
   "dilationTTgen", "infinityinfmult", "infinityIP", "timeEP",
   "dilationDT", "replicationdtgain", "replicationspeed",
   "timeetermult", "dilationgalaxyThreshold", "infinityrate", "replicationglyphlevel",
+  "prismpow", "prismlightpow", "prismconvert", "prismchrome",
   "timespeed",
   "effarigrm", "effarigglyph", "effarigblackhole", "effarigachievement",
   "effarigforgotten", "effarigdimensions", "effarigantimatter",
@@ -297,6 +298,20 @@ export const Glyphs = {
         return;
       }
     }
+    else {
+      if (this.active[this.activeSlotCount] === undefined){
+        this.removeFromInventory(glyph);
+        this.saveUndo(this.activeSlotCount);
+        player.reality.glyphs.active.push(glyph);
+        glyph.idx = this.activeSlotCount;
+        this.active[this.activeSlotCount] = glyph;
+        this.updateMaxGlyphCount();
+        EventHub.dispatch(GAME_EVENT.GLYPHS_EQUIPPED_CHANGED);
+        EventHub.dispatch(GAME_EVENT.GLYPHS_CHANGED);
+        this.validate();
+        return;
+      }
+    }
 
     this.validate();
     if (this.findByInventoryIndex(glyph.idx) !== glyph) {
@@ -329,6 +344,11 @@ export const Glyphs = {
           { closeEvent: GAME_EVENT.GLYPHS_CHANGED });
         return;
       }
+      else if (this.active[targetSlot].type == "companion") {
+        Modal.message.show(`no`);
+        return;
+      }
+      
       if (!player.options.confirmations.glyphReplace) {
         this.swapIntoActive(glyph, targetSlot);
         return;
@@ -491,8 +511,8 @@ export const Glyphs = {
   sort(sortFunction) {
     const glyphsToSort = player.reality.glyphs.inventory.filter(g => g.idx >= this.protectedSlots);
     const freeSpace = GameCache.glyphInventorySpace.value;
-    const sortOrder = ["power", "infinity", "replication", "time", "dilation", "effarig",
-      "reality", "cursed", "companion"];
+    const sortOrder = ["power", "infinity", "replication", "time", "dilation", "prism",
+      "effarig", "reality", "cursed", "companion"];
     const byType = sortOrder.mapToObject(g => g, () => ({ glyphs: [], padding: 0 }));
     for (const g of glyphsToSort) byType[g.type].glyphs.push(g);
     let totalDesiredPadding = 0;

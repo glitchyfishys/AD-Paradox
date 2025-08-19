@@ -105,4 +105,5 @@ export * from "./light";
 export * from "./absurdity";
 export * from "./absurdity-upgrades";
 export * from "./quasma";
+export * from "./celestials/marlis";
 

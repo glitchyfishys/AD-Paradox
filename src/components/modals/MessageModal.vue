@@ -59,7 +59,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="handleClick"
     >
-      Okay
+      {{message == 'no' ? 'no' : 'Okay'}}
     </PrimaryButton>
     <div
       v-if="isThemeS12"

@@ -648,6 +648,7 @@ export function finishProcessReality(realityProps) {
   Currency.eternityPoints.reset();
 
   // This has to be reset before Currency.eternities to make the bumpLimit logic work correctly
+  Currency.absurdities.reset();
   EternityUpgrade.epMult.reset();
   if (!PelleUpgrade.eternitiesNoReset.canBeApplied) Currency.eternities.reset();
   player.records.thisEternity.time = DC.D0;
@@ -707,6 +708,22 @@ export function finishProcessReality(realityProps) {
   player.celestials.enslaved.hasSecretStudy = false;
   player.celestials.laitela.entropy = DC.D0;
 
+  if (!Perk.absurdUpgrades.canBeApplied) player.absurdity.upgrades.clear();
+  Currency.absurdityEnergy.reset();
+  Currency.nitronicEnergy.reset();
+  Currency.chromaticEnergy.reset();
+  if (!Perk.quasmaUpgradeSingle.canBeApplied) player.absurdity.quasma.upgrades.clear();
+  player.absurdity.quasma.rebuyables = {1: DC.D0, 2: DC.D0, 3: DC.D0, 4: DC.D0, 5: DC.D0, 6: DC.D0};
+
+  PrismDimensions.fullReset();
+  Currency.prismEnergy.reset();
+  Currency.paradoxPower.reset();
+  player.paradox.prism.unlockBits = player.paradox.prism.unlockBits & 32;
+  Currency.light.red = DC.D0;
+  Currency.light.blue = DC.D0;
+  Currency.light.purple = DC.D0;
+  Currency.light.green = DC.D0;
+
   playerInfinityUpgradesOnReset();
   resetInfinityRuns();
   resetEternityRuns();
@@ -733,7 +750,16 @@ export function finishProcessReality(realityProps) {
   Currency.infinityPoints.reset();
 
   if (RealityUpgrade(10).isBought) applyRUPG10();
-  else Tab.dimensions.antimatter.show();
+  else {
+    if(!EternityMilestone.unlockReplicanti.isReached) player.paradox.prismUpgrades.clear();
+
+    if (!PrismUpgrade.KeepRow2_1.isEffectActive) {
+      player.paradox.upgrades.clear();
+      if (ParadoxAchievement(23).isEffectActive) player.paradox.upgrades = new Set(["ADbuy10_1", "BaseAD_1", "Dimboost_1", "Tickspeed_1", "Ach_1"]);
+    }
+
+    Tab.dimensions.antimatter.show();
+  }
 
   Lazy.invalidateAll();
   ECTimeStudyState.invalidateCachedRequirements();

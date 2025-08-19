@@ -25,7 +25,7 @@ export default {
         ],
         [
           Light.Replicanti,
-          Light.Eternities
+          Light.RMMul
         ],
       ];
     },

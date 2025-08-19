@@ -24,6 +24,7 @@ import { TimeTheoremAutobuyerState } from "./time-theorem-autobuyer";
 
 import { PrismDimensionAutobuyerState } from "./prism-dimension-autobuyer";
 import { ParadoxAutobuyerState } from "./paradox-autobuyer";
+import { QuasmaUpgradeAutobuyerState } from "./quasma-upgrade-autobuyer";
 
 export const Autobuyer = {
   annihilation: new AnnihilationAutobuyerState(),
@@ -51,6 +52,7 @@ export const Autobuyer = {
   timeTheorem: new TimeTheoremAutobuyerState(),
   prismDimension: PrismDimensionAutobuyerState.createAccessor(),
   paradox: new ParadoxAutobuyerState(),
+  quasma: QuasmaUpgradeAutobuyerState.createAccessor(),
 };
 
 export const Autobuyers = (function() {
@@ -89,6 +91,7 @@ export const Autobuyers = (function() {
   const arrays = [
     Autobuyer.replicantiUpgrade.zeroIndexed,
     Autobuyer.dilationUpgrade.zeroIndexed,
+    Autobuyer.quasma.zeroIndexed,
     Autobuyer.blackHolePower.zeroIndexed,
     Autobuyer.realityUpgrade.zeroIndexed,
     Autobuyer.imaginaryUpgrade.zeroIndexed,
@@ -101,6 +104,7 @@ export const Autobuyers = (function() {
     Autobuyer.timeDimension,
     Autobuyer.replicantiUpgrade,
     Autobuyer.dilationUpgrade,
+    Autobuyer.quasma,
     Autobuyer.blackHolePower,
     Autobuyer.realityUpgrade,
     Autobuyer.imaginaryUpgrade,

@@ -62,6 +62,18 @@ export const alchemyResources = {
     description: "increases Dilated Time production",
     formatEffect: value => `Dilated Time production is increased by ${formatX(value, 2, 2)}`
   },
+  "prism": {
+    id: ALCHEMY_RESOURCE.PRISM,
+    name: "prism",
+    symbol: "∬",
+    isBaseResource: true,
+    effect: amount => amount.div(200000).add(1),
+    tier: 1,
+    uiOrder: 1,
+    unlockedAt: 2,
+    description: "provides a power to Prism Dimensions",
+    formatEffect: value => `Prism Dimension multipliers ${formatPow(value, 4, 4)}`
+  },
 
   // T2 resources (combinations of pairs of T1 resources)
   "cardinality": {

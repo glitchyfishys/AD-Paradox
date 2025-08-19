@@ -27,7 +27,7 @@ export default {
     getInfinityChallengeTimes() {
       const timesi = [];
       let BBVi = new Decimal();
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 9; i++) {
         BBVi = new Decimal();
         BBVi.copyFrom(player.challenge.infinity.bestTimes[i]);
         timesi.push(BBVi);

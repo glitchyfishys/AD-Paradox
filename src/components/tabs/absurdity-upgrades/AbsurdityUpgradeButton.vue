@@ -2,6 +2,7 @@
 import CostDisplay from "@/components/CostDisplay";
 import DescriptionDisplay from "@/components/DescriptionDisplay";
 import EffectDisplay from "@/components/EffectDisplay";
+import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
   name: "AbsurdityUpgradeButton",
@@ -9,6 +10,7 @@ export default {
     DescriptionDisplay,
     EffectDisplay,
     CostDisplay,
+    PrimaryToggleButton
   },
   props: {
     upgrade: {
@@ -76,7 +78,6 @@ export default {
       :config="config"
       name="Absurdity Energy"
     />
-    <slot />
   </button>
 </template>
 

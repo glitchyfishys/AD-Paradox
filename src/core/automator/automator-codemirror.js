@@ -137,7 +137,7 @@ CodeMirror.defineSimpleMode("automato", {
     commentRule,
     { sol: true, next: "start" },
     {
-      regex: /ec\s?(1[0-2]|[1-9])|dilation/ui,
+      regex: /ec\s?(1[0-2]|[1-9])|dilation|quasma/ui,
       token: "variable-2",
       next: "commandDone",
     },

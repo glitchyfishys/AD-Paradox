@@ -49,6 +49,20 @@ export function buyQuasmaUpgrade(id, bulk = 1) {
     const cost = Decimal.sumGeometricSeries(buying, upgrade.config.initialCost, Decimal.mul(upgrade.config.increment, ParadoxAchievement(37).effectOrDefault(1)), upgAmount);
     Currency.chromaticEnergy.subtract(cost);
     player.absurdity.quasma.rebuyables[id] = player.absurdity.quasma.rebuyables[id].add(buying);
+    
+    if (id === 3 && !Pelle.isDisabled("tpMults")) {
+      let retroactiveTPFactor = Effects.max(
+        DC.D1,
+        Perk.retroactiveTP1,
+        Perk.retroactiveTP2,
+        Perk.retroactiveTP3,
+        Perk.retroactiveTP4
+      );
+      if (Enslaved.isRunning) {
+        retroactiveTPFactor = Decimal.pow(retroactiveTPFactor, Enslaved.nitronicNerf);
+      }
+      Currency.nitronicEnergy.multiply(Decimal.pow(retroactiveTPFactor, buying));
+    }
 
   }
   return true;
@@ -65,8 +79,10 @@ export function getChromaticEnergyGainPerSecond() {
     .timesEffectsOf(
       QuasmaUpgrade.chromaticGain,
       QuasmaUpgrade.nitronicBoostChromatic,
-      ParadoxAchievement(35)
+      ParadoxAchievement(35),
     );
+
+    CERate = CERate.mul(getAdjustedGlyphEffect('prismchrome'));
 
   if (Enslaved.isRunning && !CERate.eq(0)) CERate = Decimal.pow10(Decimal.pow(CERate.plus(1).log10(), 0.35).sub(1));
   if (V.isRunning) CERate = CERate.pow(0.5);
@@ -118,7 +134,7 @@ export function getNitronicReq() {
   if (Enslaved.isRunning) effectiveNE = effectiveNE.pow(1 / Enslaved.nitronicNerf);
   return Decimal.pow10(
     effectiveNE
-      .times(1250)
+      .times(250 ** 1.33)
       .pow(1 / 1.33)
   );
 }

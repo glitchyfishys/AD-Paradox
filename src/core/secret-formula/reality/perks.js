@@ -8,6 +8,7 @@ export const PERK_FAMILY = {
   REALITY: "REALITY",
   AUTOMATION: "AUTOMATION",
   ACHIEVEMENT: "ACHIEVEMENT",
+  ABSURD: "ABSURD",
 };
 
 // This function isn't used in-game, see note below for its intended usage
@@ -60,7 +61,7 @@ export const perks = {
       return `Start every Eternity and Reality with ${format(5e15)} Infinity Points.`;
     },
     bumpCurrency: () => Currency.infinityPoints.bumpTo(5e15),
-    effect: 5e15,
+    effect: 5e100,
     layoutPosList: [74523, 80599, 79798, 80599, 82594, 91322],
   },
   startIP2: {
@@ -71,7 +72,7 @@ export const perks = {
       return `Start every Eternity and Reality with ${format(5e130)} Infinity Points.`;
     },
     bumpCurrency: () => Currency.infinityPoints.bumpTo(5e130),
-    effect: 5e130,
+    effect: Number.MAX_VALUE,
     layoutPosList: [62111, 80598, 79797, 80998, 82597, 91690],
   },
   startEP1: {
@@ -114,13 +115,13 @@ export const perks = {
   startTP: {
     id: 17,
     label: "STP",
-    family: PERK_FAMILY.DILATION,
+    family: PERK_FAMILY.ABSURD,
     get description() {
-      return `After unlocking Dilation, gain ${formatInt(10)} Tachyon Particles.`;
+      return `After unlocking Dilation, gain ${formatInt(10)} Tachyon Particles and after buying TS 201 gain ${formatInt(10)} Nitronic Energy.`;
     },
     effect: () => (Enslaved.isRunning ? 1 : 10),
     automatorPoints: 5,
-    shortDescription: () => `Start with ${formatInt(10)} TP`,
+    shortDescription: () => `Start with ${formatInt(10)} TP and NE`,
     layoutPosList: [102120, 81399, 79399, 80197, 81800, 109376],
   },
   antimatterNoReset: {
@@ -196,7 +197,7 @@ export const perks = {
     label: "REAL",
     family: PERK_FAMILY.REALITY,
     get description() {
-      return `Auto-unlocks Reality once you have ${format(DC.E4000)} Eternity Points
+      return `Auto-unlocks Reality once you have ${format(DC.E5000)} Eternity Points
         and have unlocked Time Dimension 8.`;
     },
     automatorPoints: 10,
@@ -340,10 +341,10 @@ export const perks = {
   retroactiveTP1: {
     id: 80,
     label: "TP1",
-    family: PERK_FAMILY.DILATION,
+    family: PERK_FAMILY.ABSURD,
     get description() {
       return `When buying the 3rd rebuyable Dilation Upgrade,
-        multiply your current Tachyon Particle amount by ${formatFloat(1.5, 1)}.`;
+        multiply your current Tachyon Particle amount by ${formatFloat(1.5, 1)}. Same applies for Nitronic Energy.`;
     },
     effect: 1.5,
     layoutPosList: [111739, 81799, 79800, 79797, 81403, 115434],
@@ -351,10 +352,10 @@ export const perks = {
   retroactiveTP2: {
     id: 81,
     label: "TP2",
-    family: PERK_FAMILY.DILATION,
+    family: PERK_FAMILY.ABSURD,
     get description() {
       return `When buying the 3rd rebuyable Dilation Upgrade,
-        multiply your current Tachyon Particle amount by ${formatInt(2)}.`;
+        multiply your current Tachyon Particle amount by ${formatInt(2)}. Same applies for Nitronic Energy.`;
     },
     effect: 2,
     layoutPosList: [103757, 82199, 79401, 80196, 81406, 117382],
@@ -362,10 +363,10 @@ export const perks = {
   retroactiveTP3: {
     id: 82,
     label: "TP3",
-    family: PERK_FAMILY.DILATION,
+    family: PERK_FAMILY.ABSURD,
     get description() {
       return `When buying the 3rd rebuyable Dilation Upgrade,
-        multiply your current Tachyon Particle amount by ${formatFloat(2.5, 1)}.`;
+        multiply your current Tachyon Particle amount by ${formatFloat(2.5, 1)}. Same applies for Nitronic Energy.`;
     },
     effect: 2.5,
     layoutPosList: [96175, 82599, 79400, 80195, 81409, 116540],
@@ -373,10 +374,10 @@ export const perks = {
   retroactiveTP4: {
     id: 83,
     label: "TP4",
-    family: PERK_FAMILY.DILATION,
+    family: PERK_FAMILY.ABSURD,
     get description() {
       return `When buying the 3rd rebuyable Dilation Upgrade,
-        multiply your current Tachyon Particle amount by ${formatInt(3)}.`;
+        multiply your current Tachyon Particle amount by ${formatInt(3)}. Same applies for Nitronic Energy.`;
     },
     effect: 3,
     automatorPoints: 10,
@@ -387,9 +388,9 @@ export const perks = {
     id: 100,
     label: "DAU",
     family: PERK_FAMILY.AUTOMATION,
-    description: "Unlock autobuyers for the repeatable Dilation Upgrades.",
+    description: "Unlock autobuyers for the repeatable Dilation Upgrades and Automaticly produce Green Light.",
     automatorPoints: 5,
-    shortDescription: () => "Dilation Upgrade Autobuyers",
+    shortDescription: () => "Dilation Upgrade Autobuyers, Auto Green Light",
     layoutPosList: [117401, 81401, 79802, 79799, 80597, 96672],
   },
   autobuyerFasterID: {
@@ -526,7 +527,39 @@ export const perks = {
     automatorPoints: 10,
     shortDescription: () => "Keep Achievements on Reality",
     layoutPosList: [23353, 81402, 81403, 79404, 79803, 84639],
-  }
+  },
+  absurdUpgrades: {
+    id: 211,
+    label: "AUNR",
+    family: PERK_FAMILY.ABSURD,
+    get description() {
+      return `Immediately unlock Absurdity Upgrades
+        and Reality no longer resets them.`;
+    },
+    shortDescription: () => "Keep Absurdity Upgrades on Reality",
+    layoutPosList: [54704, 78599, 81798, 80605, 78203, 84639],
+  },
+  quasmaUpgradeAuto: {
+    id: 212,
+    label: "QUA",
+    family: PERK_FAMILY.ABSURD,
+    get description() {
+      return `Unlock Autobuyers for Rebuyable Quasma Upgrades.`;
+    },
+    shortDescription: () => "Autobuyers for Rebuyable Quasma Upgrades",
+    layoutPosList: [47516, 78199, 81797, 80205, 78206, 84639],
+  },
+  quasmaUpgradeSingle: {
+    id: 213,
+    label: "QUNR",
+    family: PERK_FAMILY.ABSURD,
+    get description() {
+      return `Immediately unlock Quasma Upgrades
+        and Reality no longer resets them.`;
+    },
+    shortDescription: () => "Keep Quasma Upgrades on Reality",
+    layoutPosList: [41936, 77799, 81796, 79805, 78209, 84639],
+  },
 };
 
 export const perkConnections = (function() {
@@ -571,6 +604,11 @@ export const perkConnections = (function() {
     [p.achievementGroup2, p.achievementGroup3],
     [p.achievementGroup3, p.achievementGroup4],
     [p.achievementGroup4, p.achievementGroup5],
+
+    [p.bypassEC4Lock, p.absurdUpgrades],
+    [p.absurdUpgrades, p.quasmaUpgradeAuto],
+    [p.quasmaUpgradeAuto, p.quasmaUpgradeSingle],
+
   ];
   const connections = {};
   for (const perk of Object.values(perks)) {

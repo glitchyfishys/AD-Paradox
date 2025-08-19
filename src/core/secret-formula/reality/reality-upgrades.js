@@ -86,14 +86,14 @@ export const realityUpgrades = [
     name: "Innumerably Construct",
     id: 7,
     cost: 15,
-    requirement: "Complete your first Infinity with at most 1 Antimatter Galaxy",
-    hasFailed: () => !(player.galaxies.lte(1) && player.requirementChecks.reality.noInfinities),
-    checkRequirement: () => player.galaxies.lte(1) && player.requirementChecks.reality.noInfinities,
+    requirement: "Complete your first Infinity with at most 5 Antimatter Galaxy",
+    hasFailed: () => !(player.galaxies.lte(5) && player.requirementChecks.reality.noInfinities),
+    checkRequirement: () => player.galaxies.lte(5) && player.requirementChecks.reality.noInfinities,
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
     canLock: true,
     lockEvent: "gain another Antimatter Galaxy",
     description: "Infinity gain is boosted from Antimatter Galaxy count",
-    effect: () => player.galaxies.div(30).add(1),
+    effect: () => player.galaxies.div(5).add(1),
     formatEffect: value => formatX(value, 2, 2)
   },
   {
@@ -114,7 +114,7 @@ export const realityUpgrades = [
     name: "Linguistically Expand",
     id: 9,
     cost: 15,
-    requirement: () => `Eternity for ${format("1e4000")} Eternity Points using
+    requirement: () => `Eternity for ${format("1e5000")} Eternity Points using
       only a single Glyph which must be level ${formatInt(3)}+.`,
     hasFailed: () => {
       const invalidEquippedGlyphs = Glyphs.activeWithoutCompanion.length > 1 ||
@@ -122,7 +122,7 @@ export const realityUpgrades = [
       const hasValidGlyphInInventory = Glyphs.inventory.countWhere(g => g && g.level.gte(3)) > 0;
       return invalidEquippedGlyphs || (Glyphs.activeWithoutCompanion.length === 0 && !hasValidGlyphInInventory);
     },
-    checkRequirement: () => Currency.eternityPoints.value.max(1).log10().gte(4000) &&
+    checkRequirement: () => Currency.eternityPoints.value.max(1).log10().gte(5000) &&
       Glyphs.activeWithoutCompanion.length === 1 && Glyphs.activeWithoutCompanion[0].level.gte(3),
     checkEvent: GAME_EVENT.ETERNITY_RESET_AFTER,
     canLock: true,
@@ -134,14 +134,14 @@ export const realityUpgrades = [
     name: "Existentially Prolong",
     id: 10,
     cost: 15,
-    requirement: () => `Complete your first manual Eternity with at least ${formatPostBreak(DC.E400)} Infinity Points`,
+    requirement: () => `Complete your first manual Eternity with at least ${formatPostBreak(DC.E1200)} Infinity Points`,
     hasFailed: () => !player.requirementChecks.reality.noEternities,
-    checkRequirement: () => Currency.infinityPoints.gte("1e400") &&
+    checkRequirement: () => Currency.infinityPoints.gte("1e1200") &&
       player.requirementChecks.reality.noEternities,
     checkEvent: GAME_EVENT.ETERNITY_RESET_BEFORE,
     canLock: true,
     lockEvent: "Eternity",
-    bypassLock: () => Currency.infinityPoints.value.gte("1e400"),
+    bypassLock: () => Currency.infinityPoints.value.gte("1e1200"),
     description: () => `Start every Reality with ${formatInt(100)} Eternities (also applies to current Reality)`,
     automatorPoints: 15,
     shortDescription: () => `Start with ${formatInt(100)} Eternities`,
@@ -164,9 +164,9 @@ export const realityUpgrades = [
     name: "The Knowing Existence",
     id: 12,
     cost: 50,
-    requirement: () => `Eternity for ${format(DC.E70)} Eternity Points without completing Eternity Challenge 1`,
+    requirement: () => `Eternity for ${format(DC.E100)} Eternity Points without completing Eternity Challenge 1`,
     hasFailed: () => EternityChallenge(1).completions !== 0,
-    checkRequirement: () => Currency.eternityPoints.gte(1e70) && EternityChallenge(1).completions === 0,
+    checkRequirement: () => Currency.eternityPoints.gte('e100') && EternityChallenge(1).completions === 0,
     checkEvent: GAME_EVENT.ETERNITY_RESET_AFTER,
     canLock: true,
     lockEvent: "complete Eternity Challenge 1",
@@ -180,9 +180,9 @@ export const realityUpgrades = [
     name: "The Telemechanical Process",
     id: 13,
     cost: 50,
-    requirement: () => `Eternity for ${format(DC.E4000)} Eternity Points without Time Dim. 5-8`,
+    requirement: () => `Eternity for ${format(DC.E5000)} Eternity Points without Time Dim. 5-8`,
     hasFailed: () => !Array.range(5, 4).every(i => TimeDimension(i).amount.equals(0)),
-    checkRequirement: () => Currency.eternityPoints.value.max(1).log10().gte(4000) &&
+    checkRequirement: () => Currency.eternityPoints.value.max(1).log10().gte(5000) &&
       Array.range(5, 4).every(i => TimeDimension(i).amount.equals(0)),
     checkEvent: GAME_EVENT.ETERNITY_RESET_AFTER,
     canLock: true,
@@ -208,10 +208,10 @@ export const realityUpgrades = [
     name: "The Paradoxical Forever",
     id: 15,
     cost: 50,
-    requirement: () => `Have ${format(DC.E10)} Eternity Points without purchasing
-      the ${formatX(5)} Eternity Point upgrade`,
-    hasFailed: () => player.epmultUpgrades.neq(0),
-    checkRequirement: () => Currency.eternityPoints.gte(1e10) && player.epmultUpgrades.eq(0),
+    requirement: () => `Have ${format(DC.E80)} Eternity Points without purchasing
+      the ${formatX(5)} Eternity Point upgrade and no Absurdities`,
+    hasFailed: () => player.epmultUpgrades.neq(0) && Currency.absurdities.gt(0),
+    checkRequirement: () => Currency.eternityPoints.gte(1e80) && player.epmultUpgrades.eq(0) && Currency.absurdities.eq(0),
     checkEvent: GAME_EVENT.ETERNITY_RESET_AFTER,
     canLock: true,
     lockEvent: () => `purchase a ${formatX(5)} EP upgrade`,
@@ -316,8 +316,8 @@ export const realityUpgrades = [
     name: "Temporal Transcendence",
     id: 22,
     cost: 100000,
-    requirement: () => `${format(Currency.timeShards.value, 1)}/${format(DC.E28000)} Time Shards`,
-    checkRequirement: () => Currency.timeShards.value.max(1).log10().gt(28000),
+    requirement: () => `${format(Currency.timeShards.value, 1)}/${format(DC.E24000)} Time Shards`,
+    checkRequirement: () => Currency.timeShards.value.max(1).log10().gt(24000),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: "Time Dimension multiplier based on days spent in this Reality",
     effect: () => Decimal.pow(Decimal.log10(Time.thisReality.totalDays.add(1)).mul(2).add(1), 1.6).pow10(),

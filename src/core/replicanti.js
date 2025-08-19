@@ -169,7 +169,7 @@ export function replicantiCap() {
       .pow(TimeStudy(31).isBought ? 240 : 30)
       .clampMin(1)
       .times(DC.NUMMAX)
-    : DC.NUMMAX).mul(Decimal.pow10(Light.Replicanti.effectOrDefault(DC.D0)));
+    : DC.NUMMAX).mul(Decimal.pow10(Light.Replicanti.config.secondEffect()));
 }
 
 // eslint-disable-next-line complexity

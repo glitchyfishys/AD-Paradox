@@ -31,7 +31,7 @@ export const absurdityUpgrades = {
     cost: 250,
     checkRequirement: () => AbsurdityUpgrade.IPNerf.isBought,
     description: () => `Absurdity Energy multiplies Eternity Points.`,
-    effect: () => Currency.absurdityEnergy.value,
+    effect: () => Currency.absurdityEnergy.value.add(1),
   },
   RGCap: {
     id: "RGCap",

@@ -723,8 +723,8 @@ export const normalAchievements = [
     get description() { return `Eternity in under ${formatInt(30)} seconds.`; },
     checkRequirement: () => Time.thisEternity.totalSeconds.lte(30),
     checkEvent: GAME_EVENT.ETERNITY_RESET_BEFORE,
-    get reward() { return `Start Eternities with ${format(Number.MAX_VALUE,2,2)} Infinity Points.`; },
-    effect: Number.MAX_VALUE
+    get reward() { return `Start Eternities with ${format(1e30,2,2)} Infinity Points.`; },
+    effect: 1e30
   },
   {
     id: 105,

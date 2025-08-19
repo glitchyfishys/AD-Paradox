@@ -1,4 +1,4 @@
-import { GameMechanicState, SetPurchasableMechanicState } from "./game-mechanics";
+import { SetPurchasableMechanicState } from "./game-mechanics";
 
 export class AbsurdityUpgradeState extends SetPurchasableMechanicState {
   constructor(config) {
